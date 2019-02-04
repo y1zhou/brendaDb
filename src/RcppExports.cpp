@@ -27,22 +27,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// read_brenda
-std::vector<std::vector<std::string>> read_brenda(const std::string& filepath);
-RcppExport SEXP _brendaDb_read_brenda(SEXP filepathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type filepath(filepathSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_brenda(filepath));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_brendaDb_read_brenda_file", (DL_FUNC) &_brendaDb_read_brenda_file, 1},
     {"_brendaDb_separate_entries", (DL_FUNC) &_brendaDb_separate_entries, 1},
-    {"_brendaDb_read_brenda", (DL_FUNC) &_brendaDb_read_brenda, 1},
     {NULL, NULL, 0}
 };
 

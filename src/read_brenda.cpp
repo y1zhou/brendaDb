@@ -27,7 +27,7 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
     stop("Cannot open file: %s\nPerhaps try using the absolute path?",
          filepath.c_str());
   }
-  Rcout << "Reading BRENDA text file..." << std::endl;
+
   std::string line;
   while (getline(buffer, line)) {
     if (!line.empty() && line[0] != '*') {
@@ -48,11 +48,10 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
 //'
 //' @param fin The output vector<string> from `read_brenda_file`.
 //'
-//' @return A vector<vector<string>> containing information about the EC entries.
+//' @return A vector<vector<string>> containing information about the EC entries. In R
+//' this is a list of lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> separate_entries(const std::vector<std::string> &lines) {
-  Rcout << "Converting text into matrix. "
-           "This might take a while..." << std::endl;
   std::regex field_regex("^[A-Z_]+$");
   std::vector<std::vector<std::string>> res;
   std::vector<std::string> row(3);
@@ -86,21 +85,5 @@ std::vector<std::vector<std::string>> separate_entries(const std::vector<std::st
       }
     }
   }
-  return res;
-}
-
-
-//' @title Read BRENDA text file into matrix of strings.
-//'
-//' @inherit separate_entries return description
-//'
-//' @inheritParams read_brenda_file
-//'
-//' @return A vector<vector<string>> containing information about the EC entries. In R
-//' this is a list of lists.
-// [[Rcpp::export]]
-std::vector<std::vector<std::string>> read_brenda(const std::string &filepath) {
-  std::vector<std::string> lines = read_brenda_file(filepath);
-  std::vector<std::vector<std::string>> res = separate_entries(lines);
   return res;
 }

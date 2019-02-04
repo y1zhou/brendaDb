@@ -2,7 +2,7 @@
 #'
 #' @inherit separate_entries return description
 #'
-#' @inheritParams read_brenda
+#' @inheritParams read_brenda_file
 #'
 #' @return A matrix containing information about the EC entries.
 #'
@@ -18,7 +18,12 @@
 #'
 #' @export
 read.brenda <- function(filepath) {
-  df <- read_brenda(filepath)  # src/read_brenda
+  # src/read_brenda
+  message("Reading BRENDA text file...")
+  df <- read_brenda_file(filepath)
+
+  message("Converting text into matrix. This might take a while...")
+  df <- separate_entries(df)
 
   # Convert list of lists to matrix
   df <- do.call(rbind, df)
