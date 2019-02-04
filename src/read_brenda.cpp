@@ -28,10 +28,21 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
          filepath.c_str());
   }
 
-  std::string line;
+  std::string line, line_need_fix = "";
   while (getline(buffer, line)) {
+    if (line_need_fix != "") {
+      line = line_need_fix + line;
+      line_need_fix = "";
+    }
     if (!line.empty() && line[0] != '*') {
-      res.push_back(line);
+      if (line[line.size() - 1] == '\r') {
+        // Some lines end with carriage returns, in this case strip it and
+        // append the next line
+        line.erase(line.size() - 1);
+        line_need_fix = line;
+      } else {
+        res.push_back(line);
+      }
     }
   }
   return res;
