@@ -7,15 +7,16 @@
 #' @return A matrix containing information about the EC entries.
 #'
 #' @examples
-#' df <- read.brenda("/path/to/brenda/textfile")
+#' df <- read.brenda("inst/extdata/brenda_download_test.txt")
 #' # Reading BRENDA text file...
 #' # Converting text into matrix...This might take a while...
 #' head(df)
-#' # ID        field             description
-#' # 1.1.1.1   PROTEIN           PR	#1# Gallus gallus <44> PR	#2# Cricetulus g...
-#' # 1.1.1.1   RECOMMENDED_NAME  RN	alcohol dehydrogenase
-#' # 1.1.1.1   SYSTEMATIC_NAME   SN	alcohol:NAD+ oxidoreductase
+#' # ID         field             description
+#' # 1.1.1.10   PROTEIN           PR	PR  #1# Cavia porcellus   (#1# SULT1A2...
+#' # 1.1.1.10   RECOMMENDED_NAME  RN  L-xylulose reductase
+#' # 1.1.1.10   SYSTEMATIC_NAME   SN  xylitol:NADP+ 4-oxidoreductase (L-xyl...
 #'
+#'@importFrom data.table as.data.table
 #' @export
 read.brenda <- function(filepath) {
   # src/read_brenda

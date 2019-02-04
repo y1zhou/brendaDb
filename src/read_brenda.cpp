@@ -57,7 +57,7 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
 //' - field: the content of the information, e.g. protein, localization
 //' - description: everything else
 //'
-//' @param fin The output vector<string> from `read_brenda_file`.
+//' @param lines The output vector<string> from `read_brenda_file`.
 //'
 //' @return A vector<vector<string>> containing information about the EC entries. In R
 //' this is a list of lists.

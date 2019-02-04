@@ -5,8 +5,8 @@ Version: 0.1.0
 Author: Yi Zhou
 Maintainer: Yi Zhou <yi.zhou@uga.edu>
 Description: The aims of brendaDb include:
-    1. Make it easier to import and analyze enzyme information in R
-    2. Generate enzyme activity profiles
+    1. Make it easier to import and analyze enzyme information in R.
+    2. Generate enzyme activity profiles.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

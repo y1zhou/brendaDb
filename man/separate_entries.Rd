@@ -7,7 +7,7 @@
 separate_entries(lines)
 }
 \arguments{
-\item{fin}{The output vector<string> from \code{read_brenda_file}.}
+\item{lines}{The output vector<string> from \code{read_brenda_file}.}
 }
 \value{
 A vector<vector<string>> containing information about the EC entries. In R
