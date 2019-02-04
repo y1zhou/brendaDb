@@ -26,7 +26,8 @@ read.brenda <- function(filepath) {
   df <- separate_entries(df)
 
   # Convert list of lists to matrix
-  df <- do.call(rbind, df)
+  df <- matrix(unlist(df, use.names = F), ncol = length(df[[1]]), byrow = T)
+  df <- data.table::as.data.table(df)
   colnames(df) <- c("ID", "field", "description")
   return(df)
 }
