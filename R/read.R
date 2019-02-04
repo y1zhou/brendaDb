@@ -1,6 +1,6 @@
 #' @title Read BRENDA text file into matrix.
 #'
-#' @inherit long_to_wide return description
+#' @inherit separate_entries return description
 #'
 #' @inheritParams read_brenda
 #'
@@ -19,6 +19,8 @@
 #' @export
 read.brenda <- function(filepath) {
   df <- read_brenda(filepath)  # src/read_brenda
+
+  # Convert list of lists to matrix
   df <- do.call(rbind, df)
   colnames(df) <- c("ID", "field", "description")
   return(df)

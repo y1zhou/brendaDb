@@ -16,14 +16,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// long_to_wide
-std::vector<std::vector<std::string>> long_to_wide(const std::vector<std::string>& lines);
-RcppExport SEXP _brendaDb_long_to_wide(SEXP linesSEXP) {
+// separate_entries
+std::vector<std::vector<std::string>> separate_entries(const std::vector<std::string>& lines);
+RcppExport SEXP _brendaDb_separate_entries(SEXP linesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<std::string>& >::type lines(linesSEXP);
-    rcpp_result_gen = Rcpp::wrap(long_to_wide(lines));
+    rcpp_result_gen = Rcpp::wrap(separate_entries(lines));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -41,7 +41,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_brendaDb_read_brenda_file", (DL_FUNC) &_brendaDb_read_brenda_file, 1},
-    {"_brendaDb_long_to_wide", (DL_FUNC) &_brendaDb_long_to_wide, 1},
+    {"_brendaDb_separate_entries", (DL_FUNC) &_brendaDb_separate_entries, 1},
     {"_brendaDb_read_brenda", (DL_FUNC) &_brendaDb_read_brenda, 1},
     {NULL, NULL, 0}
 };

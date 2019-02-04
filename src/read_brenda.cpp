@@ -50,14 +50,14 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
 //'
 //' @return A vector<vector<string>> containing information about the EC entries.
 // [[Rcpp::export]]
-std::vector<std::vector<std::string>> long_to_wide(const std::vector<std::string> &lines) {
+std::vector<std::vector<std::string>> separate_entries(const std::vector<std::string> &lines) {
   Rcout << "Converting text into matrix. "
            "This might take a while..." << std::endl;
   std::regex field_regex("^[A-Z_]+$");
   std::vector<std::vector<std::string>> res;
   std::vector<std::string> row(3);
-  std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x
-              current_field = lines[1],  // PROTEIN
+  std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x, remove ID\t
+              current_field = lines[1],  // PROTEIN, PH_OPTIMUM, etc.
               ec_info = "";
 
   for (auto i = 2; i < lines.size(); ++i) {
@@ -92,7 +92,7 @@ std::vector<std::vector<std::string>> long_to_wide(const std::vector<std::string
 
 //' @title Read BRENDA text file into matrix of strings.
 //'
-//' @inherit long_to_wide return description
+//' @inherit separate_entries return description
 //'
 //' @inheritParams read_brenda_file
 //'
@@ -101,6 +101,6 @@ std::vector<std::vector<std::string>> long_to_wide(const std::vector<std::string
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> read_brenda(const std::string &filepath) {
   std::vector<std::string> lines = read_brenda_file(filepath);
-  std::vector<std::vector<std::string>> res = long_to_wide(lines);
+  std::vector<std::vector<std::string>> res = separate_entries(lines);
   return res;
 }

@@ -26,13 +26,13 @@ read_brenda_file <- function(filepath) {
 #' @param fin The output vector<string> from `read_brenda_file`.
 #'
 #' @return A vector<vector<string>> containing information about the EC entries.
-long_to_wide <- function(lines) {
-    .Call('_brendaDb_long_to_wide', PACKAGE = 'brendaDb', lines)
+separate_entries <- function(lines) {
+    .Call('_brendaDb_separate_entries', PACKAGE = 'brendaDb', lines)
 }
 
 #' @title Read BRENDA text file into matrix of strings.
 #'
-#' @inherit long_to_wide return description
+#' @inherit separate_entries return description
 #'
 #' @inheritParams read_brenda_file
 #'
