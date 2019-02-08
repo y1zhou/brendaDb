@@ -1,7 +1,7 @@
 Package: brendaDb
 Type: Package
 Title: The BRENDA Enzyme Database
-Version: 0.1.0
+Version: 0.1.1
 Author: Yi Zhou
 Maintainer: Yi Zhou <yi.zhou@uga.edu>
 Description: The aims of brendaDb include:
@@ -15,7 +15,8 @@ Suggests:
 Imports: 
     dplyr,
     Rcpp,
-    data.table
+    data.table,
+    stringr
 LinkingTo: 
     Rcpp
 RoxygenNote: 6.1.1
