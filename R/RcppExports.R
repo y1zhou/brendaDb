@@ -11,8 +11,8 @@
 #' @param filepath A string indicating the path to the text file.
 #'
 #' @return A vector<string> with each element being a line in the file.
-read_brenda_file <- function(filepath) {
-    .Call('_brendaDb_read_brenda_file', PACKAGE = 'brendaDb', filepath)
+ReadBrendaFile <- function(filepath) {
+    .Call('_brendaDb_ReadBrendaFile', PACKAGE = 'brendaDb', filepath)
 }
 
 #' @title Convert vector of lines to matrix.
@@ -27,7 +27,7 @@ read_brenda_file <- function(filepath) {
 #'
 #' @return A vector<vector<string>> containing information about the EC entries. In R
 #' this is a list of lists.
-separate_entries <- function(lines) {
-    .Call('_brendaDb_separate_entries', PACKAGE = 'brendaDb', lines)
+SeparateEntries <- function(lines) {
+    .Call('_brendaDb_SeparateEntries', PACKAGE = 'brendaDb', lines)
 }
 

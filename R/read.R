@@ -1,8 +1,8 @@
 #' @title Read BRENDA text file into matrix.
 #'
-#' @inherit separate_entries return description
+#' @inherit SeparateEntries return description
 #'
-#' @inheritParams read_brenda_file
+#' @inheritParams ReadBrendaFile
 #'
 #' @return A matrix containing information about the EC entries.
 #'
@@ -18,13 +18,13 @@
 #'
 #'@importFrom data.table as.data.table
 #' @export
-read.brenda <- function(filepath) {
+ReadBrenda <- function(filepath) {
   # src/read_brenda
   message("Reading BRENDA text file...")
-  df <- read_brenda_file(filepath)
+  df <- ReadBrendaFile(filepath)
 
   message("Converting text into matrix. This might take a while...")
-  df <- separate_entries(df)
+  df <- SeparateEntries(df)
 
   # Convert list of lists to matrix
   df <- matrix(unlist(df, use.names = F), ncol = length(df[[1]]), byrow = T)

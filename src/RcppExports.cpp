@@ -5,32 +5,32 @@
 
 using namespace Rcpp;
 
-// read_brenda_file
-std::vector<std::string> read_brenda_file(const std::string& filepath);
-RcppExport SEXP _brendaDb_read_brenda_file(SEXP filepathSEXP) {
+// ReadBrendaFile
+std::vector<std::string> ReadBrendaFile(const std::string& filepath);
+RcppExport SEXP _brendaDb_ReadBrendaFile(SEXP filepathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type filepath(filepathSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_brenda_file(filepath));
+    rcpp_result_gen = Rcpp::wrap(ReadBrendaFile(filepath));
     return rcpp_result_gen;
 END_RCPP
 }
-// separate_entries
-std::vector<std::vector<std::string>> separate_entries(const std::vector<std::string>& lines);
-RcppExport SEXP _brendaDb_separate_entries(SEXP linesSEXP) {
+// SeparateEntries
+std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string>& lines);
+RcppExport SEXP _brendaDb_SeparateEntries(SEXP linesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<std::string>& >::type lines(linesSEXP);
-    rcpp_result_gen = Rcpp::wrap(separate_entries(lines));
+    rcpp_result_gen = Rcpp::wrap(SeparateEntries(lines));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_brendaDb_read_brenda_file", (DL_FUNC) &_brendaDb_read_brenda_file, 1},
-    {"_brendaDb_separate_entries", (DL_FUNC) &_brendaDb_separate_entries, 1},
+    {"_brendaDb_ReadBrendaFile", (DL_FUNC) &_brendaDb_ReadBrendaFile, 1},
+    {"_brendaDb_SeparateEntries", (DL_FUNC) &_brendaDb_SeparateEntries, 1},
     {NULL, NULL, 0}
 };
 

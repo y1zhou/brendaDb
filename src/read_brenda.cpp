@@ -16,7 +16,7 @@ using namespace Rcpp;
 //'
 //' @return A vector<string> with each element being a line in the file.
 // [[Rcpp::export]]
-std::vector<std::string> read_brenda_file(const std::string &filepath) {
+std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
   std::ifstream fin(filepath.c_str());
   std::stringstream buffer;
 
@@ -62,7 +62,7 @@ std::vector<std::string> read_brenda_file(const std::string &filepath) {
 //' @return A vector<vector<string>> containing information about the EC entries. In R
 //' this is a list of lists.
 // [[Rcpp::export]]
-std::vector<std::vector<std::string>> separate_entries(const std::vector<std::string> &lines) {
+std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
   std::regex field_regex("^[A-Z_]+$");
   std::vector<std::vector<std::string>> res;
   std::vector<std::string> row(3);

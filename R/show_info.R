@@ -5,11 +5,10 @@
 #' @return A data.frame with columns "field" and "acronym".
 #'
 #' @export
-show.fields <- function(df) {
+ShowFields <- function(df) {
   if (missing(df)) {
     stop("Missing parameter df. If you want all the fields, please use data(acronyms).")
-  }
-  else {
+  } else {
     df_field <- unique(df$field)
     acronyms <- df[!duplicated(df$field), ]
     acronyms$acronym <- sub("^([A-Z]+)\t.*$", "\\1", acronyms$description)
