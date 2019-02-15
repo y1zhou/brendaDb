@@ -1,0 +1,15 @@
+language: r
+sudo: false
+dist: xenial
+cache: packages
+
+r_packages:
+  - covr
+
+jobs:
+  include:
+    - r: bioc-devel
+      after_success:
+      - Rscript -e 'covr::codecov()'
+    - r: devel
+    - r: release
