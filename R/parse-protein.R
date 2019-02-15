@@ -14,6 +14,7 @@
 #' "PR\t#2# Mus musculus <11,18,19>\n")
 #' ParseProtein(x)
 #'
+#' @export
 ParseProtein <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
   x <- strsplit(description, "\nPR\t")[[1]]
@@ -23,14 +24,14 @@ ParseProtein <- function(description) {
   # Split protein numbers, organisms and references --------------------------
   protein.num <- sub("^(#\\d+#).*$", "\\1", x)
   protein.num <- sapply(protein.num, function(x)
-    brendaDb::ParseProteinNum(x, type = "protein"), USE.NAMES = F)
+    ParseProteinNum(x, type = "protein"), USE.NAMES = F)
   # TODO: protein.org string may still contain commentaries wrapped in ()
   protein.org <- trimws(sub("^#\\d+#(.*)<[0-9, ]+>$", "\\1", x))
 
   ref.num <- sub(".*(<[0-9, ]+>)$", "\\1", x)
   ref.num <- gsub("\\s+", ",", ref.num)
   ref.num <- sapply(ref.num, function(x)
-    brendaDb::ParseProteinNum(x, type = "reference"), USE.NAMES = F)
+    ParseProteinNum(x, type = "reference"), USE.NAMES = F)
 
   res <- Map(list, id = protein.num, organism = protein.org,
                     reference = ref.num)

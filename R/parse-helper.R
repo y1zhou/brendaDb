@@ -3,15 +3,15 @@
 #' @description Given a string like "#1,45,72#", parse into a character vector
 #' of c("1", "45", "72").
 #'
-#' @param ref A string in the format of "#1#" or "#1,2,3#" or "<1,3>".
+#' @param x A string in the format of "#1#" or "#1,2,3#" or "<1,3>".
 #' @param type Either "protein" or "reference".
 #'
 #' @return A string, or a vector of strings of protein numbers.
 #'
 #' @examples
-#' parse.protein.num("#1,2,3#")
+#' brendaDb:::ParseProteinNum("#1,2,3#", "protein")
 #' # [1] "1,2,3"
-#' parse.protein.num("<123>")
+#' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
 #'@importFrom stringr str_glue

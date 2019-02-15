@@ -21,7 +21,9 @@ For each EC entry, split the annotations into three columns:
 }
 }
 \examples{
-df <- read.brenda("inst/extdata/brenda_download_test.txt")
+brenda_txt <- system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb")
+df <- ReadBrenda(brenda_txt)
 # Reading BRENDA text file...
 # Converting text into matrix...This might take a while...
 head(df)
