@@ -13,3 +13,8 @@ jobs:
       - Rscript -e 'covr::codecov()'
     - r: devel
     - r: release
+env:
+  global:
+  - MAKEFLAGS="-j 2"
+  - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
+  - R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
