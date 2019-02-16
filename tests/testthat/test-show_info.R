@@ -1,6 +1,7 @@
 context("Show information about BRENDA")
 
 test_that("Show BRENDA fields and acronyms ", {
+  expect_error(ShowFields())
   brenda_txt <- system.file("extdata", "brenda_download_test.txt",
                             package = "brendaDb")
   df <- ReadBrenda(brenda_txt)
