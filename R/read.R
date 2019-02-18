@@ -23,9 +23,7 @@
 ReadBrenda <- function(filepath) {
   # src/read_brenda
   message("Reading BRENDA text file...")
-  if (grepl("^~/", filepath)) {
-    filepath <- sub("^~/", path.expand("~/"), filepath)
-  }
+  filepath <- path.expand(filepath)
   df <- ReadBrendaFile(filepath)
 
   message("Converting text into matrix. This might take a while...")
