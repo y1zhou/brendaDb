@@ -45,3 +45,24 @@ ParseProteinNum <- function(x, type) {
 }
 
 
+#' @title Preprocessing of entry description.
+#'
+#' @description Separate subentries and strip unnecessary whitespace.
+#'
+#' @param description The `description` string of the field.
+#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#'
+#' @return A list of strings with each subentry as an element.
+#'
+#' @examples
+#' x <- "SN\talcohol:NAD+ oxidoreductase"
+#' SeparateSubentries(x, "SN")
+SeparateSubentries <- function(description, acronym) {
+  if (!(grepl(paste0("^", acronym, "\t"), description))) {
+    stop("The description doesn't seem to match your provided acronym.")
+  }
+  x <- strsplit(description, paste0("\n", acronym, "\t"))[[1]]
+  x <- sub(paste0("^", acronym, "(\\s+)?"), "", trimws(x))
+  x <- gsub("\n\t", " ", x)  # some refs will be delimited by " " instead of ,
+  return(x)
+}
