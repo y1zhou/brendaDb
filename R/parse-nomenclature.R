@@ -5,14 +5,15 @@
 #'
 #' @param description The description string in a "PROTEIN" entry.
 #'
-#' @return A list of lists with sublists having three elements:
-#' id, organism and reference.
+#' @return A `data.table` with three columns: id, organism and reference.
 #'
 #' @examples
 #' x <- paste0(
 #' "PR\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
 #' "PR\t#2# Mus musculus <11,18,19>\n")
 #' brendaDb:::ParseProtein(x)
+#'
+#' @importFrom data.table data.table
 ParseProtein <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
   x <- SeparateSubentries(description, acronym = "PR")
@@ -29,7 +30,7 @@ ParseProtein <- function(description) {
   ref.num <- sapply(ref.num, function(x)
     ParseProteinNum(x, type = "reference"), USE.NAMES = F)
 
-  res <- Map(list, id = protein.num, organism = protein.org,
+  res <- data.table(id = protein.num, organism = protein.org,
                     reference = ref.num)
   return(res)
 }
@@ -78,8 +79,7 @@ ParseSystematicName <- function(description) {
 #'
 #' @param description The description string in a "SYNONYMS" entry.
 #'
-#' @return A list of lists with sublists having three elements:
-#' id, organism and reference.
+#' @return A `data.table` with three columns: id, synonym and reference.
 #'
 #' @examples
 #' x <- paste0(
@@ -87,6 +87,8 @@ ParseSystematicName <- function(description) {
 #' "SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
 #' "\t<156,172,202,215,228,252,282>\n")
 #' brendaDb:::ParseSynonyms(x)
+#'
+#' @importFrom data.table data.table
 ParseSynonyms <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
   x <- SeparateSubentries(description, acronym = "SY")
@@ -94,20 +96,19 @@ ParseSynonyms <- function(description) {
   # Some items would be missing protein IDs and/or references ----------------
   protein.num <- sub("^(#[0-9,]+#).*$", "\\1", x)
   protein.num[!grepl("#", protein.num)] <- NA
-  protein.num[!is.na(protein.num)] <- sapply(
-    protein.num[!is.na(protein.num)],
-    function(x) ParseProteinNum(x, type = "protein"), USE.NAMES = F)
+  protein.num <- sapply(protein.num, function(y)
+    ParseProteinNum(y, type = "protein"), USE.NAMES = F)
 
   ref.num <- sub(".*(<[0-9, ]+>)$", "\\1", x)
   ref.num[!grepl("<", ref.num)] <- NA
   ref.num <- gsub("\\s+", ",", ref.num)
-  ref.num[!is.na(ref.num)] <- sapply(ref.num[!is.na(ref.num)], function(x)
-    ParseProteinNum(x, type = "reference"), USE.NAMES = F)
+  ref.num <- sapply(ref.num, function(y)
+    ParseProteinNum(y, type = "reference"), USE.NAMES = F)
 
   # TODO: synonym string may still contain commentaries wrapped in ()
   synonym <- trimws(sub("^(#[0-9,]+#)?(.*?)(<[0-9, ]+>)?$", "\\2", x))
 
-  res <- Map(list, id = protein.num, synonym = synonym,
+  res <- data.table(id = protein.num, synonym = synonym,
              reference = ref.num)
   return(res)
 }

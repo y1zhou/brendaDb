@@ -16,6 +16,9 @@
 #'
 #'@importFrom stringr str_glue
 ParseProteinNum <- function(x, type) {
+  if (is.na(x)) {
+    return(NA)
+  }
   if (missing(type)) {
     stop("Missing parameter: type.")
   }

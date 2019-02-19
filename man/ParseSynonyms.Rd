@@ -10,8 +10,7 @@ ParseSynonyms(description)
 \item{description}{The description string in a "SYNONYMS" entry.}
 }
 \value{
-A list of lists with sublists having three elements:
-id, organism and reference.
+A \code{data.table} with three columns: id, synonym and reference.
 }
 \description{
 Split an entry string into a list of lists. Elements could
@@ -23,4 +22,5 @@ x <- paste0(
 "SY\\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\\n",
 "\\t<156,172,202,215,228,252,282>\\n")
 brendaDb:::ParseSynonyms(x)
+
 }

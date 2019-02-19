@@ -10,8 +10,7 @@ ParseProtein(description)
 \item{description}{The description string in a "PROTEIN" entry.}
 }
 \value{
-A list of lists with sublists having three elements:
-id, organism and reference.
+A \code{data.table} with three columns: id, organism and reference.
 }
 \description{
 Split an entry string into a list of lists. Elements could
@@ -22,4 +21,5 @@ x <- paste0(
 "PR\\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\\n",
 "PR\\t#2# Mus musculus <11,18,19>\\n")
 brendaDb:::ParseProtein(x)
+
 }
