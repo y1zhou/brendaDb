@@ -1,6 +1,7 @@
-context("Parse entry descriptions")
+context("Parse helper")
 
 test_that("Parse protein number ", {
+  expect_equal(ParseProteinNum(NA), NA)
   expect_equal(ParseProteinNum("#1,2,3#", type = "protein"), c("1", "2", "3"))
   expect_identical(ParseProteinNum("<123>", type = "reference"), "123")
   expect_error(ParseProteinNum("#1,2#"))
@@ -10,11 +11,9 @@ test_that("Parse protein number ", {
   expect_error(ParseProteinNum("#1,<#", type = "reference"))
 })
 
-test_that("Parse Protein field", {
-  x <- ParseProtein(paste0(
-    "PR\t#1# Cavia porcellus   (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
-    "PR\t#2# Mus musculus   <11,18,19>\n",
-    "PR\t#3# Homo sapiens   <11,12,18,20,22>\n"))
-  expect_equal(length(x), 3)
-  expect_equal(length(x[["1"]]$reference), 4)
+test_that("Separate subentries", {
+  expect_error(SeparateSubentries("SN\talcohol oxidoreductase", "SS"))
+  expect_equal(SeparateSubentries("SN\txx\n\tyyy", "SN"), "xx yyy")
+  expect_equal(SeparateSubentries("SN\txx\n\tyyy\nSN\tzzz", "SN"),
+               c("xx yyy", "zzz"))
 })
