@@ -56,7 +56,7 @@ ParseProteinNum <- function(x, type) {
 #'
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
-#' SeparateSubentries(x, "SN")
+#' brendaDb:::SeparateSubentries(x, "SN")
 SeparateSubentries <- function(description, acronym) {
   if (!(grepl(paste0("^", acronym, "\t"), description))) {
     stop("The description doesn't seem to match your provided acronym.")

@@ -78,6 +78,7 @@ InitBrendaEntry <- function(EC) {
 }
 
 #' @rdname InitBrendaEntry
+#' @param x Any object.
 #' @export
 is.brenda.entry <- function(x) {
   return(inherits(x, "brenda.entry"))

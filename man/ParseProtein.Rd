@@ -15,12 +15,11 @@ id, organism and reference.
 }
 \description{
 Split an entry string into a list of lists. Elements could
-be accessed with \code{Find}.
+be accessed by \code{Find} or using the names.
 }
 \examples{
 x <- paste0(
 "PR\\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\\n",
 "PR\\t#2# Mus musculus <11,18,19>\\n")
-ParseProtein(x)
-
+brendaDb:::ParseProtein(x)
 }

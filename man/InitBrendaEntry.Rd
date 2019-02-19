@@ -11,6 +11,8 @@ is.brenda.entry(x)
 }
 \arguments{
 \item{EC}{A string indicating EC number of the enzyme.}
+
+\item{x}{Any object.}
 }
 \description{
 The list should contain 6 sublists: \code{nomenclature},

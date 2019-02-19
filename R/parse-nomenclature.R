@@ -12,7 +12,7 @@
 #' x <- paste0(
 #' "PR\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
 #' "PR\t#2# Mus musculus <11,18,19>\n")
-#' ParseProtein(x)
+#' brendaDb:::ParseProtein(x)
 ParseProtein <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
   x <- SeparateSubentries(description, acronym = "PR")
@@ -46,7 +46,7 @@ ParseProtein <- function(description) {
 #'
 #' @examples
 #' x <- "RN	D-arabinose 1-dehydrogenase (NAD+)"
-#' ParseRecommendedName(x)
+#' brendaDb:::ParseRecommendedName(x)
 ParseRecommendedName <- function(description) {
   x <- SeparateSubentries(description, acronym = "RN")
   return(x)
@@ -64,7 +64,7 @@ ParseRecommendedName <- function(description) {
 #'
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
-#' ParseSystematicName(x)
+#' brendaDb:::ParseSystematicName(x)
 ParseSystematicName <- function(description) {
   x <- SeparateSubentries(description, acronym = "SN")
   return(x)
@@ -86,7 +86,7 @@ ParseSystematicName <- function(description) {
 #' "SY\t aldehyde reductase\nSY\t dehydrogenase, alcohol\n",
 #' "SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
 #' "\t<156,172,202,215,228,252,282>\n")
-#' ParseSynonyms(x)
+#' brendaDb:::ParseSynonyms(x)
 ParseSynonyms <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
   x <- SeparateSubentries(description, acronym = "SY")
