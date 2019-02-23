@@ -1,7 +1,6 @@
-#' @title Parse a "PROTEIN" entry into list of lists.
+#' @title Parse a "PROTEIN" entry.
 #'
-#' @description Split an entry string into a list of lists. Elements could
-#' be accessed by `Find` or using the names.
+#' @description Expand the string into a `data.table`.
 #'
 #' @param description The description string in a "PROTEIN" entry.
 #'
@@ -74,8 +73,7 @@ ParseSystematicName <- function(description) {
 
 #' @title Parse a "SYNONYMS" entry into list of lists.
 #'
-#' @description Split an entry string into a list of lists. Elements could
-#' be accessed by `Find` or using the names.
+#' @description Expand the string into a `data.table`.
 #'
 #' @param description The description string in a "SYNONYMS" entry.
 #'

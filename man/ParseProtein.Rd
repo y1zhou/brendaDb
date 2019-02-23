@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse-nomenclature.R
 \name{ParseProtein}
 \alias{ParseProtein}
-\title{Parse a "PROTEIN" entry into list of lists.}
+\title{Parse a "PROTEIN" entry.}
 \usage{
 ParseProtein(description)
 }
@@ -13,8 +13,7 @@ ParseProtein(description)
 A \code{data.table} with three columns: id, organism and reference.
 }
 \description{
-Split an entry string into a list of lists. Elements could
-be accessed by \code{Find} or using the names.
+Expand the string into a \code{data.table}.
 }
 \examples{
 x <- paste0(

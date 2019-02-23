@@ -13,8 +13,7 @@ ParseSynonyms(description)
 A \code{data.table} with three columns: id, synonym and reference.
 }
 \description{
-Split an entry string into a list of lists. Elements could
-be accessed by \code{Find} or using the names.
+Expand the string into a \code{data.table}.
 }
 \examples{
 x <- paste0(
