@@ -14,7 +14,7 @@
 #' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
-#'@importFrom stringr str_glue
+#'@importFrom stringr str_glue str_split
 ParseProteinNum <- function(x, type) {
   if (is.na(x)) {
     return(NA)
@@ -25,14 +25,22 @@ ParseProteinNum <- function(x, type) {
   if (type == "protein") {
     delim <- "#"
     if (!(grepl("^#(\\d+,)*\\d+#$", x))) {
-      stop(str_glue('"{x}" is not a valid protein string. ',
-                    "Please check brendaDb:::ParseProteinNum"))
+      stop(
+        str_glue(
+          '"{x}" is not a valid protein string. ',
+          "Please check brendaDb:::ParseProteinNum"
+        )
+      )
     }
-  } else if(type == "reference") {
+  } else if (type == "reference") {
     delim <- "<|>"
     if (!(grepl("^<(\\d+,)*\\d+>$", x))) {
-      stop(str_glue('"{x}" is not a valid reference string. ',
-                    "Please check brendaDb:::ParseProteinNum"))
+      stop(
+        str_glue(
+          '"{x}" is not a valid reference string. ',
+          "Please check brendaDb:::ParseProteinNum"
+        )
+      )
     }
   } else {
     stop(str_glue('Unknown value for parameter type: "{type}".'))
@@ -43,7 +51,7 @@ ParseProteinNum <- function(x, type) {
   if (grepl("^\\d+$", x)) {
     return(x)
   } else {
-    return(strsplit(x, ",")[[1]])
+    return(str_split(x, ",")[[1]])
   }
 }
 
@@ -60,12 +68,63 @@ ParseProteinNum <- function(x, type) {
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
 #' brendaDb:::SeparateSubentries(x, "SN")
+#' @importFrom stringr str_split str_remove_all str_replace_all
 SeparateSubentries <- function(description, acronym) {
   if (!(grepl(paste0("^", acronym, "\t"), description))) {
     stop("The description doesn't seem to match your provided acronym.")
   }
-  x <- strsplit(description, paste0("\n", acronym, "\t"))[[1]]
-  x <- sub(paste0("^", acronym, "(\\s+)?"), "", trimws(x))
-  x <- gsub("\n\t", " ", x)  # some refs will be delimited by " " instead of ,
+  x <- str_split(description, paste0("\n", acronym, "\t"))[[1]]
+  x <- str_remove_all(trimws(x), paste0("^", acronym, "(\\s+)?"))
+  # The following line will result in some references delimited by " "
+  # instead of ,
+  x <- str_replace_all(x, "\n\t", " ")
   return(x)
+}
+
+
+#' @title Parse commentaries inside the description.
+#'
+#' @description Parse the commentaries inside parentheses in the given string.
+#'
+#' @param description A BRENDA description entry with commentaries.
+#'
+#' @return A list of commentaries.
+#'
+#' @examples
+#' brendaDb:::ParseCommentary("Cavia porcellus   (#1# SULT1A2 <1,2,6,7>)")
+#'
+#' @importFrom stringr str_replace_all str_extract str_sub str_split str_remove_all
+#' @importFrom data.table data.table
+ParseCommentary <- function(description) {
+  if (missing(description)) {
+    stop("Parameter description missing.")
+  }
+  if (!(is.character(description)) | length(description) > 1) {
+    stop("Parameter description has to be a single string.")
+  }
+
+  description <- str_replace_all(description, "\n\t", " ")
+  if (!(grepl("\\(#.*?>\\)", description))) {
+    return(NA)
+  } else {
+    description <- str_extract(description, "\\(#.*>\\)")
+    description <- str_sub(description, 2, -2)  # Remove parentheses
+    description <- str_split(description, "; ")[[1]]
+
+    protein.id <- str_extract(description, "^#[0-9,]+#")
+    protein.id <- lapply(protein.id, function(x)
+      ParseProteinNum(x, type = "protein"))
+
+    refs <- str_extract(description, "<[0-9, ]+>$")
+    refs <- str_remove_all(refs, " ")
+    refs <- lapply(refs, function(x)
+      ParseProteinNum(x, type = "reference"))
+
+    commentary <- str_remove_all(description,
+                                 "(^#[0-9,]+#\\s+)|(\\s+<[0-9, ]+>$)")
+    res <- data.table(id = protein.id,
+                      commentary = commentary,
+                      references = refs)
+    return(res)
+  }
 }
