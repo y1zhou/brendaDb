@@ -14,7 +14,7 @@
 #' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
-#'@importFrom stringr str_glue str_split
+#'@importFrom stringr str_glue str_split str_remove_all
 ParseProteinNum <- function(x, type) {
   if (is.na(x)) {
     return(NA)
@@ -47,7 +47,7 @@ ParseProteinNum <- function(x, type) {
   }
 
   # Sanity check finished, now parse the string
-  x <- gsub(delim, "", x)
+  x <- str_remove_all(x, delim)
   if (grepl("^\\d+$", x)) {
     return(x)
   } else {
@@ -71,7 +71,8 @@ ParseProteinNum <- function(x, type) {
 #' @importFrom stringr str_split str_remove_all str_replace_all
 SeparateSubentries <- function(description, acronym) {
   if (!(grepl(paste0("^", acronym, "\t"), description))) {
-    stop("The description doesn't seem to match your provided acronym.")
+    warning("The description doesn't seem to match your provided acronym.")
+    return(NA)
   }
   x <- str_split(description, paste0("\n", acronym, "\t"))[[1]]
   x <- str_remove_all(trimws(x), paste0("^", acronym, "(\\s+)?"))
