@@ -19,18 +19,20 @@ ParseProtein <- function(description) {
 
   # Split protein numbers, organisms and references --------------------------
   protein.num <- sub("^(#\\d+#).*$", "\\1", x)
-  protein.num <- sapply(protein.num, function(x)
-    ParseProteinNum(x, type = "protein"), USE.NAMES = F)
+  protein.num <- lapply(protein.num, function(x)
+    ParseProteinNum(x, type = "protein"))
   # TODO: protein.org string may still contain commentaries wrapped in ()
   protein.org <- trimws(sub("^#\\d+#(.*)<[0-9, ]+>$", "\\1", x))
 
   ref.num <- sub(".*(<[0-9, ]+>)$", "\\1", x)
   ref.num <- gsub("\\s+", ",", ref.num)
-  ref.num <- sapply(ref.num, function(x)
-    ParseProteinNum(x, type = "reference"), USE.NAMES = F)
+  ref.num <- lapply(ref.num, function(x)
+    ParseProteinNum(x, type = "reference"))
 
-  res <- data.table(id = protein.num, organism = protein.org,
-                    reference = ref.num)
+
+  res <- data.table(id = protein.num,
+                    organism = protein.org,
+                    references = ref.num)
   return(res)
 }
 
@@ -86,6 +88,7 @@ ParseSystematicName <- function(description) {
 #' "\t<156,172,202,215,228,252,282>\n")
 #' brendaDb:::ParseSynonyms(x)
 #'
+#' @importFrom stringr str_glue str_extract str_sub str_split str_remove_all
 #' @importFrom data.table data.table
 ParseSynonyms <- function(description) {
   # Separate experiments, and strip unnecessary whitespace -------------------
@@ -94,19 +97,22 @@ ParseSynonyms <- function(description) {
   # Some items would be missing protein IDs and/or references ----------------
   protein.num <- sub("^(#[0-9,]+#).*$", "\\1", x)
   protein.num[!grepl("#", protein.num)] <- NA
-  protein.num <- sapply(protein.num, function(y)
-    ParseProteinNum(y, type = "protein"), USE.NAMES = F)
+  protein.num <-
+    lapply(protein.num, function(y)
+      ParseProteinNum(y, type = "protein"))
 
-  ref.num <- sub(".*(<[0-9, ]+>)$", "\\1", x)
+  ref.num <- str_extract(x, "<[0-9, ]+>$")
   ref.num[!grepl("<", ref.num)] <- NA
   ref.num <- gsub("\\s+", ",", ref.num)
-  ref.num <- sapply(ref.num, function(y)
-    ParseProteinNum(y, type = "reference"), USE.NAMES = F)
+  ref.num <- lapply(ref.num, function(y)
+    ParseProteinNum(y, type = "reference"))
 
   # TODO: synonym string may still contain commentaries wrapped in ()
-  synonym <- trimws(sub("^(#[0-9,]+#)?(.*?)(<[0-9, ]+>)?$", "\\2", x))
+  synonym <-
+    trimws(sub("^(#[0-9,]+#)?(.*?)(<[0-9, ]+>)?$", "\\2", x))
 
-  res <- data.table(id = protein.num, synonym = synonym,
-             reference = ref.num)
+  res <- data.table(id = protein.num,
+                    synonym = synonym,
+                    references = ref.num)
   return(res)
 }
