@@ -15,65 +15,83 @@ InitBrendaEntry <- function(EC) {
   if (missing(EC)) {
     stop("Missing parameter: EC.")
   }
-  x <- structure(list(
-    nomenclature = structure(list(
-      ec = EC,
-      protein = list(),
-      systematic.name = NA,
-      recommended.name = NA,
-      synonyms = list()
-    ), class = "brenda.nomenclature"),
+  x <- structure(
+    list(
+      nomenclature = structure(
+        list(
+          ec = EC,
+          protein = NA,
+          systematic.name = NA,
+          recommended.name = NA,
+          synonyms = NA
+        ),
+        class = "brenda.nomenclature"
+      ),
 
-    interactions = structure(list(
-      reaction = list(),
-      reaction.type = list(),
-      substrate.product = list(),
-      natural.substrate.product = list(),
-      activating.compound = list(),
-      inhibitors = list(),
-      cofactor = list(),
-      metals.ions = list()
-    ), class = "brenda.interactions"),
+      interactions = structure(
+        list(
+          reaction = NA,
+          reaction.type = NA,
+          substrate.product = NA,
+          natural.substrate.product = NA,
+          activating.compound = NA,
+          inhibitors = NA,
+          cofactor = NA,
+          metals.ions = NA
+        ),
+        class = "brenda.interactions"
+      ),
 
-    parameters = structure(list(
-      km.value = list(),
-      turnover.number = list(),
-      ki.value = list(),
-      pi.values = list(),
-      ph.optimum = list(),
-      ph.range = list(),
-      temperature.optimum = list(),
-      temperature.range = list(),
-      specific.activity = list()
-    ), class = "brenda.parameters"),
+      parameters = structure(
+        list(
+          km.value = NA,
+          turnover.number = NA,
+          ki.value = NA,
+          pi.values = NA,
+          ph.optimum = NA,
+          ph.range = NA,
+          temperature.optimum = NA,
+          temperature.range = NA,
+          specific.activity = NA
+        ),
+        class = "brenda.parameters"
+      ),
 
-    molecular = structure(list(
-      cloned = list(),
-      purification = list(),
-      subunits = list(),
-      localization = list(),
-      source.tissue = list(),
-      molecular.weight = list(),
-      posttranslational.modification = list(),
-      cystallization = list(),
-      renatured = list(),
-      engineering = list()
-    ), class = "brenda.molecular"),
+      molecular = structure(
+        list(
+          cloned = NA,
+          purification = NA,
+          subunits = NA,
+          localization = NA,
+          source.tissue = NA,
+          molecular.weight = NA,
+          posttranslational.modification = NA,
+          cystallization = NA,
+          renatured = NA,
+          engineering = NA
+        ),
+        class = "brenda.molecular"
+      ),
 
-    stability = structure(list(
-      general.stability = list(),
-      storage.stability = list(),
-      ph.stability = list(),
-      organic.solvent.stability = list(),
-      oxidation.stability = list(),
-      temperature.stability = list()
-    ), class = "brenda.stability"),
+      stability = structure(
+        list(
+          general.stability = NA,
+          storage.stability = NA,
+          ph.stability = NA,
+          organic.solvent.stability = NA,
+          oxidation.stability = NA,
+          temperature.stability = NA
+        ),
+        class = "brenda.stability"
+      ),
 
-    bibliography = structure(list(
-      reference = list(),
-      application = list()
-    ), class = "brenda.bibliography")
-  ), class = "brenda.entry")
+      bibliography = structure(list(
+        reference = NA,
+        application = NA
+      ), class = "brenda.bibliography")
+    ),
+    class = "brenda.entry"
+  )
   return(x)
 }
 
