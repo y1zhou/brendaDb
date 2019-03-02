@@ -16,7 +16,8 @@ A string, or a vector of strings of protein numbers.
 }
 \description{
 Given a string like "#1,45,72#", parse into a character vector
-of c("1", "45", "72").
+of c("1", "45", "72"). Consecutive commas are collapsed into one, and spaces
+are treated as commas.
 }
 \examples{
 brendaDb:::ParseProteinNum("#1,2,3#", "protein")

@@ -4,7 +4,7 @@ test_that("Parse Protein field", {
   x <- ParseProtein(
     paste0(
       "PR\t#1# Cavia porcellus   (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
-      "PR\t#2# Mus musculus   <11,18,19>\n",
+      "PR\t#2# Mus musculus   <11,18,\n\t19>\n",
       "PR\t#3# Homo sapiens   <11,12,18,20,22>\n"
     )
   )
@@ -18,10 +18,10 @@ test_that("Parse Protein field", {
 
 test_that("Parse recommended name", {
   expect_equal(
-    ParseRecommendedName("RN	D-arabinose 1-dehydrogenase (NAD+)"),
+    ParseRecommendedName("RN\tD-arabinose 1-dehydrogenase (NAD+)"),
     "D-arabinose 1-dehydrogenase (NAD+)"
   )
-  expect_warning(ParseRecommendedName("XY	D-arabinose 1-dehydrogenase (NAD+)"))
+  expect_warning(ParseRecommendedName("XY\tD-arabinose 1-dehydrogenase (NAD+)"))
 })
 
 test_that("Parse systematic name", {
@@ -37,7 +37,7 @@ test_that("Parse synonyms", {
     paste0(
       "SY\t aldehyde reductase\nSY\t dehydrogenase, alcohol\n",
       "SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
-      "\t<156,172,202,215,228,252,282>\n"
+      "\t<156,172,202,215,228,\n\t252,282>\n"
     )
   )
   expect_is(x, "data.table")
