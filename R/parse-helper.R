@@ -1,7 +1,8 @@
 #' @title Parse protein information strings or reference strings.
 #'
 #' @description Given a string like "#1,45,72#", parse into a character vector
-#' of c("1", "45", "72").
+#' of c("1", "45", "72"). Consecutive commas are collapsed into one, and spaces
+#' are treated as commas.
 #'
 #' @param x A string in the format of "#1#" or "#1,2,3#" or "<1,3>".
 #' @param type Either "protein" or "reference".
@@ -14,7 +15,7 @@
 #' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
-#'@importFrom stringr str_glue str_split str_remove_all
+#'@import stringr
 ParseProteinNum <- function(x, type) {
   if (is.na(x)) {
     return(NA)
@@ -23,8 +24,8 @@ ParseProteinNum <- function(x, type) {
     stop("Missing parameter: type.")
   }
   if (type == "protein") {
-    delim <- "#"
-    if (!(grepl("^#(\\d+,)*\\d+#$", x))) {
+    if (str_detect(x, "^#[0-9, ]+#$", negate = T) |
+        str_detect(x, "(#,)|(,#)")) {
       stop(
         str_glue(
           '"{x}" is not a valid protein string. ',
@@ -32,9 +33,10 @@ ParseProteinNum <- function(x, type) {
         )
       )
     }
+    delim <- "#"
   } else if (type == "reference") {
-    delim <- "<|>"
-    if (!(grepl("^<(\\d+,)*\\d+>$", x))) {
+    if (str_detect(x, "<[0-9, ]+>$", negate = T) |
+        str_detect(x, "(<,)|(,>)")) {
       stop(
         str_glue(
           '"{x}" is not a valid reference string. ',
@@ -42,15 +44,18 @@ ParseProteinNum <- function(x, type) {
         )
       )
     }
+    delim <- "<|>"
   } else {
     stop(str_glue('Unknown value for parameter type: "{type}".'))
   }
 
   # Sanity check finished, now parse the string
   x <- str_remove_all(x, delim)
-  if (grepl("^\\d+$", x)) {
+  if (str_detect(x, "^\\d+$")) {
     return(x)
   } else {
+    x <- str_replace_all(x, "\\s+", ",")
+    x <- str_replace_all(x, ",+", ",")
     return(str_split(x, ",")[[1]])
   }
 }
@@ -109,7 +114,7 @@ ParseCommentary <- function(description) {
     return(NA)
   } else {
     description <- str_extract(description, "\\(#.*>\\)")
-    description <- str_sub(description, 2, -2)  # Remove parentheses
+    description <- str_sub(description, 2,-2)  # Remove parentheses
     description <- str_split(description, "; ")[[1]]
 
     protein.id <- str_extract(description, "^#[0-9,]+#")
@@ -117,7 +122,8 @@ ParseCommentary <- function(description) {
       ParseProteinNum(x, type = "protein"))
 
     refs <- str_extract(description, "<[0-9, ]+>$")
-    refs <- str_remove_all(refs, " ")
+    refs <- str_replace_all(refs, "\\s+", ",")
+    refs <- str_replace_all(refs, ",+", ",")
     refs <- lapply(refs, function(x)
       ParseProteinNum(x, type = "reference"))
 

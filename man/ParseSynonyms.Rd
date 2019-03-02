@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse-nomenclature.R
 \name{ParseSynonyms}
 \alias{ParseSynonyms}
-\title{Parse a "SYNONYMS" entry into list of lists.}
+\title{Parse a "SYNONYMS" entry.}
 \usage{
 ParseSynonyms(description)
 }
