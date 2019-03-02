@@ -19,18 +19,18 @@
 #' @importFrom stringr str_glue
 QueryBrenda <- function(brenda, EC) {
   brenda <- as.data.table(brenda)
-  brenda <- brenda[ID == EC]
+  brenda <- brenda[brenda$ID == EC]
   if (nrow(brenda) == 0) {
     stop(str_glue("EC {EC} not found in brenda data table."))
   }
   x <- InitBrendaEntry(EC)
   x$nomenclature$protein <-
-    ParseProtein(brenda[field == "PROTEIN", description])
+    ParseProtein(brenda[brenda$field == "PROTEIN", "description"])
   x$nomenclature$systematic.name <-
-    ParseSystematicName(brenda[field == "SYSTEMATIC_NAME", description])
+    ParseSystematicName(brenda[brenda$field == "SYSTEMATIC_NAME", "description"])
   x$nomenclature$recommended.name <-
-    ParseRecommendedName(brenda[field == "RECOMMENDED_NAME", description])
+    ParseRecommendedName(brenda[brenda$field == "RECOMMENDED_NAME", "description"])
   x$nomenclature$synonyms <-
-    ParseSynonyms(brenda[field == "SYNONYMS", description])
+    ParseSynonyms(brenda[brenda$field == "SYNONYMS", "description"])
   return(x)
 }
