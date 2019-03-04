@@ -11,7 +11,7 @@ ShowFields <- function(df) {
   } else {
     df_field <- unique(df$field)
     acronyms <- df[!duplicated(df$field), ]
-    acronyms$acronym <- sub("^([A-Z]+)\t.*$", "\\1", acronyms$description)
+    acronyms$acronym <- sub("^([A-Z05]+)\t.*$", "\\1", acronyms$description)
     acronyms <- acronyms[ ,c("field", "acronym")]
   }
   return(acronyms)

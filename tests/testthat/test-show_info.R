@@ -7,6 +7,6 @@ test_that("Show BRENDA fields and acronyms ", {
   df <- ReadBrenda(brenda_txt)
   df <- ShowFields(df)
 
-  expect_match(unique(df$field), "^[A-Z_]+$")
-  expect_match(unique(df$acronym), "^[A-Z]+$")
+  expect_match(unique(df$field), "^[A-Z_05]+$")
+  expect_match(unique(df$acronym), "^[A-Z05]+$")
 })

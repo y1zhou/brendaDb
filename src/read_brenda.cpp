@@ -63,7 +63,7 @@ std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
 //' this is a list of lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
-  std::regex field_regex("^[A-Z_]+$");
+  std::regex field_regex("^[A-Z05_]+$");  // IC50 field
   std::vector<std::vector<std::string>> res;
   std::vector<std::string> row(3);
   std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x, remove ID\t

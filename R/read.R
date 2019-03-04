@@ -18,7 +18,8 @@
 #' # 1.1.1.10   RECOMMENDED_NAME  RN  L-xylulose reductase
 #' # 1.1.1.10   SYSTEMATIC_NAME   SN  xylitol:NADP+ 4-oxidoreductase (L-xyl...
 #'
-#'@importFrom data.table as.data.table
+#' @importFrom data.table as.data.table
+#' @importFrom dplyr distinct
 #' @export
 ReadBrenda <- function(filepath) {
   # src/read_brenda
@@ -31,7 +32,10 @@ ReadBrenda <- function(filepath) {
 
   # Convert list of lists to matrix
   df <- matrix(unlist(df, use.names = F), ncol = length(df[[1]]), byrow = T)
+
+  message("Converting matrix to data.table and removing duplicated entries...")
   df <- data.table::as.data.table(df)
   colnames(df) <- c("ID", "field", "description")
+  df <- distinct(df)
   return(df)
 }
