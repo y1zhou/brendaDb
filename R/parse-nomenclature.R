@@ -28,6 +28,7 @@ ParseProtein <- function(description) {
     ParseProteinNum(x, type = "reference"))
 
   # TODO: protein.org string may still contain commentaries wrapped in ()
+  # TODO: UniProt accession number isn't parsed
   protein.org <-
     str_trim(str_remove_all(x, "(^#\\d+#)|(<[0-9, ]+>$)"))
 
