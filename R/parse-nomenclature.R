@@ -4,7 +4,8 @@
 #'
 #' @param description The description string in a "PROTEIN" entry.
 #'
-#' @return A `data.table` with three columns: id, organism and reference.
+#' @return A `data.table` with five columns: id, organism, commentary,
+#' uniprot and reference.
 #'
 #' @examples
 #' x <- paste0(
@@ -27,14 +28,29 @@ ParseProtein <- function(description) {
   ref.num <- lapply(ref.num, function(x)
     ParseProteinNum(x, type = "reference"))
 
-  # TODO: protein.org string may still contain commentaries wrapped in ()
-  # TODO: UniProt accession number isn't parsed
-  protein.org <-
-    str_trim(str_remove_all(x, "(^#\\d+#)|(<[0-9, ]+>$)"))
+  protein.org <- x %>%
+    str_remove_all("(^#\\d+#)|(<[0-9, ]+>$)") %>%
+    str_trim()
 
-  res <- data.table(id = protein.num,
-                    organism = protein.org,
-                    references = ref.num)
+  commentary <- protein.org %>%
+    str_extract("\\(.*\\)") %>%
+    str_sub(2, -2)
+
+  protein.org  <-
+    str_remove(protein.org, "\\(.*\\)") # remove all commentaries
+
+  uniprot <- str_extract(
+    protein.org,
+    "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}"
+  )  # regex taken from https://www.uniprot.org/help/accession_numbers
+
+  res <- data.table(
+    id = protein.num,
+    organism = protein.org,
+    uniprot = uniprot,
+    commentary = commentary,
+    references = ref.num
+  )
   return(res)
 }
 
