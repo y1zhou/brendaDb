@@ -34,7 +34,7 @@ ParseProtein <- function(description) {
 
   commentary <- protein.org %>%
     str_extract("\\(.*\\)") %>%
-    str_sub(2, -2)
+    str_sub(2, -2)  # remove parentheses
 
   protein.org  <-
     str_remove(protein.org, "\\(.*\\)") # remove all commentaries

@@ -73,7 +73,7 @@ ParseProteinNum <- function(x, type) {
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
 #' brendaDb:::SeparateSubentries(x, "SN")
-#' @importFrom stringr str_split str_remove_all str_replace_all
+#' @import stringr
 SeparateSubentries <- function(description, acronym) {
   if (!(grepl(paste0("^", acronym, "\t"), description))) {
     warning("The description doesn't seem to match your provided acronym.")
@@ -99,7 +99,7 @@ SeparateSubentries <- function(description, acronym) {
 #' @examples
 #' brendaDb:::ParseCommentary("Cavia porcellus   (#1# SULT1A2 <1,2,6,7>)")
 #'
-#' @importFrom stringr str_replace_all str_extract str_sub str_split str_remove_all
+#' @import stringr
 #' @importFrom data.table data.table
 ParseCommentary <- function(description) {
   if (missing(description)) {

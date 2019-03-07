@@ -16,7 +16,7 @@
 #' "RF\t<10> Herrera, E.; Zorzano, A... {Pubmed:} (c,review)\n")
 #' brendaDb:::ParseReference(x)
 #'
-#' @importFrom stringr str_extract str_trim str_remove_all
+#' @import stringr
 #' @importFrom data.table data.table
 ParseReference <- function(description) {
   x <- SeparateSubentries(description, acronym = "RF")

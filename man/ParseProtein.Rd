@@ -10,7 +10,8 @@ ParseProtein(description)
 \item{description}{The description string in a "PROTEIN" entry.}
 }
 \value{
-A \code{data.table} with three columns: id, organism and reference.
+A \code{data.table} with five columns: id, organism, commentary,
+uniprot and reference.
 }
 \description{
 Expand the string into a \code{data.table}.
