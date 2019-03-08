@@ -16,7 +16,7 @@
 #' QueryBrenda(brenda = df, EC = "1.1.1.10")
 #'
 #' @importFrom data.table as.data.table
-#' @importFrom stringr str_glue
+#' @import stringr
 QueryBrenda <- function(brenda, EC) {
   brenda <- as.data.table(brenda)
   brenda <- brenda[brenda$ID == EC]
@@ -32,5 +32,13 @@ QueryBrenda <- function(brenda, EC) {
     ParseRecommendedName(brenda[brenda$field == "RECOMMENDED_NAME", "description"])
   x$nomenclature$synonyms <-
     ParseSynonyms(brenda[brenda$field == "SYNONYMS", "description"])
+
+  x$parameters$ph.optimum <-
+    ParsePhOptimum(brenda[brenda$field == "PH_OPTIMUM", "description"])
+  x$parameters$ph.range <-
+    ParsePhRange(brenda[brenda$field == "PH_RANGE", "description"])
+
+  x$bibliography$reference <-
+    ParseReference(brenda[brenda$field == "REFERENCE", "description"])
   return(x)
 }
