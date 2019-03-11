@@ -113,7 +113,7 @@ ParseSynonyms <- function(description) {
   x <- SeparateSubentries(description, acronym = "SY")
 
   # Some items would be missing protein IDs and/or references ----------------
-  protein.num <- str_extract(x, "^#[0-9,]+#")
+  protein.num <- str_extract(x, "^#[0-9, ]+#")
   protein.num <-
     lapply(protein.num, function(y)
       ParseProteinNum(y, type = "protein"))
@@ -124,7 +124,7 @@ ParseSynonyms <- function(description) {
 
   # TODO: synonym string may still contain commentaries wrapped in ()
   synonym <-
-    str_trim(str_remove_all(x, "(^#[0-9,]+#)|(<[0-9, ]+>$)"))
+    str_trim(str_remove_all(x, "(^#[0-9, ]+#)|(<[0-9, ]+>$)"))
 
   res <- data.table(id = protein.num,
                     synonym = synonym,

@@ -37,16 +37,19 @@ test_that("Parse systematic name", {
 test_that("Parse synonyms", {
   x <- ParseSynonyms(
     paste0(
-      "SY\t aldehyde reductase\nSY\t dehydrogenase, alcohol\n",
-      "SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
+      "SY\t aldehyde reductase\n",
+      "SY\t dehydrogenase, alcohol\n",
+      "SY\t#8,10,95,97,112\n\t113,135# ADH1 (#10# isozyme <202>)\n",
       "\t<156,172,202,215,228,\n\t252,282>\n"
     )
   )
   expect_is(x, "data.table")
   expect_equal(dim(x), c(3, 3))
   expect_equal(length(x$reference[[3]]), 7)
+  expect_equal(length(x$id[[3]]), 7)
   expect_match(x$synonym, "^[^[:space:]].*[^[:space:]]$")
 
+  # Expect to work for a single entry
   expect_equal(dim(
     ParseSynonyms("SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n")
   ), c(1, 3))
