@@ -20,6 +20,5 @@ The list should contain 6 sublists: \code{nomenclature},
 All sublists should be empty apart from the \code{EC} term in \code{nomenclature}.
 }
 \examples{
-InitBrendaEntry("1.1.1.100")
-
+brendaDb:::InitBrendaEntry("1.1.1.100")
 }

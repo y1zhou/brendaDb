@@ -10,7 +10,7 @@ ParseReference(description)
 \item{description}{The description string in a "REFERENCE" entry.}
 }
 \value{
-A \code{data.table} with three columns: id, title and pubmed.
+A \code{data.table} with three columns: refID, title and pubmed.
 }
 \description{
 Expand the string into a \code{data.table}.
