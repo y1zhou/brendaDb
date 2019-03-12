@@ -10,8 +10,9 @@ ParsePhOptimum(description)
 \item{description}{The description string in a "PH_OPTIMUM" entry.}
 }
 \value{
-A \code{data.table} with four columns:
-id, pH_optimum, commentary and references.
+A \code{data.table} with columns: proteinID, description, fieldInfo,
+commentary and refID. The description column is the extracted pH optimum
+value/range, and the fieldInfo column should all be NAs.
 }
 \description{
 Expand the string into a \code{data.table}.
@@ -24,5 +25,4 @@ x <- paste0(
 "#9# oxidation of octanol <49>; #132# optimally active with ethanol and\\n\\t",
 "1-propanol at pH 11.0 with 3 M KCl <237>) <24,49,60,237>\\n")
 brendaDb:::ParsePhOptimum(x)
-
 }

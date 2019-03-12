@@ -10,8 +10,9 @@ ParsePhRange(description)
 \item{description}{The description string in a "PH_RANGE" entry.}
 }
 \value{
-A \code{data.table} with four columns:
-id, pH_range, commentary and references.
+A \code{data.table} with columns: proteinID, description, fieldInfo,
+commentary and refID. The description column is the extracted pH range,
+and the fieldInfo should be all NAs.
 }
 \description{
 Expand the string into a \code{data.table}.

@@ -10,7 +10,10 @@ ParseSynonyms(description)
 \item{description}{The description string in a "SYNONYMS" entry.}
 }
 \value{
-A \code{data.table} with three columns: id, synonym and reference.
+A \code{data.table} with columns: proteinID, description, fieldInfo,
+commentary and reference. The description column is the synonym, and the
+fieldInfo column (rarely not NA) is either the source of the identifier, or
+actually part of the description (false positive).
 }
 \description{
 Expand the string into a \code{data.table}.
@@ -21,5 +24,4 @@ x <- paste0(
 "SY\\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\\n",
 "\\t<156,172,202,215,228,252,282>\\n")
 brendaDb:::ParseSynonyms(x)
-
 }
