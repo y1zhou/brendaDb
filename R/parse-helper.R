@@ -135,3 +135,54 @@ ParseCommentary <- function(description) {
     return(res)
   }
 }
+
+
+#' @title Generic parser for a list of descriptions.
+#'
+#' @description Descriptions are generally structured as the following:
+#' - Protein information is included in '#'...#',
+#' - Literature citations are in '<...>',
+#' - Commentaries in '(...)', and
+#' - field-special information in '{...}'.
+#'
+#' @param des.list A list of descriptions separated by `SeparateSubentries`.
+#'
+#' @return A `data.table` with columns: proteinID, description, fieldInfo,
+#' commentary, and refID
+#'
+#' @import stringr
+#' @importFrom data.table data.table
+ParseGeneric <- function(des.list) {
+  protein.id <- str_extract(des.list, "^#[0-9, ]+#")
+  protein.id <- lapply(protein.id, function(x)
+    ParseProteinNum(x, type = "protein"))
+
+  ref.id <- str_extract(des.list, "<[0-9, ]+>$")
+  ref.id <- lapply(ref.id, function(x)
+    ParseProteinNum(x, type = "reference"))
+
+  field.info <- des.list %>%
+    str_extract("\\{.*?\\}") %>%  # should have at most one match
+    str_sub(2, -2)
+
+  description <- des.list %>%
+    str_remove("^#[0-9, ]+#") %>%
+    str_remove("<[0-9, ]+>$") %>%
+    str_remove("\\{.*?\\}")  # remove first because there could be () in {}
+
+  commentary <- description %>%
+    str_extract("\\(.*\\)") %>%  # greedy because there could be ) in commentary
+    str_sub(2, -2)
+
+  description <- description %>%
+    str_remove("\\(.*\\)") %>%
+    str_trim()
+
+  res <- data.table(
+    proteinID = protein.id,
+    description = description,
+    fieldInfo = field.info,
+    commentary = commentary,
+    refID = ref.id
+  )
+}
