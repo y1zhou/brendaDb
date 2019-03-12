@@ -6,11 +6,8 @@
 #'
 #' @param EC A string indicating EC number of the enzyme.
 #'
-#'
 #' @examples
-#' InitBrendaEntry("1.1.1.100")
-#'
-#' @export
+#' brendaDb:::InitBrendaEntry("1.1.1.100")
 InitBrendaEntry <- function(EC) {
   if (missing(EC)) {
     stop("Missing parameter: EC.")
