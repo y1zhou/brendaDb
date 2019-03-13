@@ -1,3 +1,30 @@
+#' @title Parse a "KM_VALUE" entry.
+#'
+#' @description Expand the string into a `data.table`.
+#'
+#' @param description The description string in a "KM_VALUE" entry.
+#'
+#' @return A `data.table` with columns: proteinID, description, fieldInfo,
+#' commentary and refID. The description column is the extracted Km value,
+#' and the fieldInfo column is the corresponding substrate.
+#'
+#' @examples
+#' x <- paste0(
+#' "KM\t#1# -999 {more}  (#1# in phosphate buffer, enzyme shows\n\t",
+#' "marked cooperativity with respect to NAD+ binding. <15>) <15>\n",
+#' "KM\t#1# 0.045 {GDP-D-mannose} (#1# pH 8.0, 5°C, recombinant mutant C268A\n\t",
+#' "<17>) <17>\n",
+#' "KM\t#1# 0.1 {NAD+(test)}  (#1# pH 8.0, phosphate buffer <15>) <15>\n"
+#' )
+#' brendaDb:::ParseKmValue(x)
+ParseKmValue <- function(description) {
+  x <- SeparateSubentries(description, acronym = "KM")
+  res <- ParseGeneric(x)
+  res$description[res$description == "-999"] <- "additional_information"
+  return(res)
+}
+
+
 #' @title Parse a "PH_OPTIMUM" entry.
 #'
 #' @description Expand the string into a `data.table`.

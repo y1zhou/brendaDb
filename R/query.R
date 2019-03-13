@@ -33,6 +33,8 @@ QueryBrenda <- function(brenda, EC) {
   x$nomenclature$synonyms <-
     ParseSynonyms(brenda[brenda$field == "SYNONYMS", "description"])
 
+  x$parameters$km.value <-
+    ParseKmValue(brenda[brenda$field == "KM_VALUE", "description"])
   x$parameters$ph.optimum <-
     ParsePhOptimum(brenda[brenda$field == "PH_OPTIMUM", "description"])
   x$parameters$ph.range <-
@@ -40,5 +42,7 @@ QueryBrenda <- function(brenda, EC) {
 
   x$bibliography$reference <-
     ParseReference(brenda[brenda$field == "REFERENCE", "description"])
+  x$bibliography$application <-
+    ParseApplication(brenda[brenda$field == "APPLICATION", "description"])
   return(x)
 }

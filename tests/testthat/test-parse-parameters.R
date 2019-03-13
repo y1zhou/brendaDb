@@ -1,5 +1,18 @@
 context("Parse parameters")
 
+test_that("Parse Km value", {
+  x <- ParseKmValue(paste0(
+    "KM\t#1# -999 {more}  (#1# in phosphate buffer, enzyme shows\n\t",
+    "marked cooperativity with respect to NAD+ binding. <15>) <15>\n",
+    "KM\t#1# 0.045 {GDP-D-mannose} (#1# pH 8.0, 5°C, recombinant mutant C268A\n\t",
+    "<17>) <17>\n",
+    "KM\t#1# 0.1 {NAD+(test)}  (#1# pH 8.0, phosphate buffer <15>) <15>\n"
+    ))
+  expect_equal(dim(x), c(3, 5))
+  expect_equal(x$description[1], "additional_information")
+  expect_equal(x$fieldInfo[3], "NAD+(test)")
+})
+
 test_that("Parse pH optimum", {
   x <- ParsePhOptimum(
     paste0(
