@@ -17,8 +17,7 @@
 #' @importFrom data.table as.data.table
 #' @importFrom dplyr mutate select
 ParseProtein <- function(description) {
-  x <- SeparateSubentries(description, acronym = "PR")
-  res <- ParseGeneric(x) %>%
+  res <- ParseGeneric(description, acronym = "PR") %>%
     mutate(
       uniprot = str_extract(
         description,
@@ -63,29 +62,4 @@ ParseRecommendedName <- function(description) {
 ParseSystematicName <- function(description) {
   x <- SeparateSubentries(description, acronym = "SN")
   return(x)
-}
-
-
-#' @title Parse a "SYNONYMS" entry.
-#'
-#' @description Expand the string into a `data.table`.
-#'
-#' @param description The description string in a "SYNONYMS" entry.
-#'
-#' @return A `data.table` with columns: proteinID, description, fieldInfo,
-#' commentary and reference. The description column is the synonym, and the
-#' fieldInfo column (rarely not NA) is either the source of the identifier, or
-#' actually part of the description (false positive).
-#'
-#' @examples
-#' x <- paste0(
-#' "SY\t aldehyde reductase\nSY\t dehydrogenase, alcohol\n",
-#' "SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
-#' "\t<156,172,202,215,228,252,282>\n")
-#' brendaDb:::ParseSynonyms(x)
-ParseSynonyms <- function(description) {
-  # Separate experiments, and strip unnecessary whitespace -------------------
-  x <- SeparateSubentries(description, acronym = "SY")
-  res <- ParseGeneric(x)
-  return(res)
 }

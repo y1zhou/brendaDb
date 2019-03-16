@@ -18,7 +18,7 @@ test_that("Parse references", {
 })
 
 test_that("Parse application", {
-  x <- ParseApplication(
+  x <- ParseGeneric(
     paste0(
       "AP\t#13# biotechnology (#13# possible usage in bioindustrial\n\t",
       "processes and as biosensor <126>) <126>\n",
@@ -26,7 +26,7 @@ test_that("Parse application", {
       "151,152# synthesis (#43# enzyme can be used in preparative... <1>)",
       "<114,131,132,133,134,137,169,179,187,219,232,234,240,242,245,246,248\n\t",
       "250,251,253,254,261,262,263,264,266,269,272>"
-  ))
+  ), acronym = "AP")
   expect_equal(dim(x), c(2, 5))
   expect_equal(length(x$proteinID[[2]]), 21)
   expect_true(all(is.na(x$fieldInfo)))

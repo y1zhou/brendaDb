@@ -35,14 +35,13 @@ test_that("Parse systematic name", {
 })
 
 test_that("Parse synonyms", {
-  x <- ParseSynonyms(
+  x <- ParseGeneric(
     paste0(
       "SY\t aldehyde reductase\n",
       "SY\t dehydrogenase, alcohol\n",
       "SY\t#8,10,95,97,112\n\t113,135# ADH1 (#10# isozyme <202>)\n",
       "\t<156,172,202,215,228,\n\t252,282>\n"
-    )
-  )
+    ), acronym = "SY")
   expect_is(x, "data.table")
   expect_equal(dim(x), c(3, 5))
   expect_equal(length(x$refID[[3]]), 7)
@@ -51,6 +50,7 @@ test_that("Parse synonyms", {
 
   # Expect to work for a single entry
   expect_equal(dim(
-    ParseSynonyms("SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n")
+    ParseGeneric("SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
+                 acronym = "SY")
   ), c(1, 5))
 })

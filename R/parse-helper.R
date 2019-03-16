@@ -137,7 +137,7 @@ ParseCommentary <- function(description) {
 }
 
 
-#' @title Generic parser for a list of descriptions.
+#' @title Generic parser for a description string.
 #'
 #' @description Descriptions are generally structured as the following:
 #' - Protein information is included in '#'...#',
@@ -145,14 +145,26 @@ ParseCommentary <- function(description) {
 #' - Commentaries in '(...)', and
 #' - field-special information in '{...}'.
 #'
-#' @param des.list A list of descriptions separated by `SeparateSubentries`.
+#' This function separates these fields into different columns.
+#'
+#' @param description A description string from one of the entries.
+#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#'
+#' @details
+#' The `description` column contains values extracted by BRENDA in each field.
+#'
+#' The `fieldInfo` column contains different information in different fields:
+#' - In a `SYNONYMS` entry, it is either the source of the identifier, or part
+#' of the description (a false positive).
+#' - In `KM_VALUE`, `TURNOVER_NUMBER` entries, it is the corresponding substrate.
 #'
 #' @return A `data.table` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
 #'
 #' @import stringr
 #' @importFrom data.table data.table
-ParseGeneric <- function(des.list) {
+ParseGeneric <- function(description, acronym) {
+  des.list <- SeparateSubentries(description, acronym = acronym)
   protein.id <- str_extract(des.list, "^#[0-9, ]+#")
   protein.id <- lapply(protein.id, function(x)
     ParseProteinNum(x, type = "protein"))
@@ -185,4 +197,7 @@ ParseGeneric <- function(des.list) {
     commentary = commentary,
     refID = ref.id
   )
+  # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.100&organism%5B%5D=Mycobacterium+tuberculosis#pH%20OPTIMUM
+  res$description[res$description == "-999"] <- "additional_information"
+  return(res)
 }

@@ -1,28 +1,27 @@
 context("Parse parameters")
 
 test_that("Parse Km value", {
-  x <- ParseKmValue(paste0(
+  x <- ParseGeneric(paste0(
     "KM\t#1# -999 {more}  (#1# in phosphate buffer, enzyme shows\n\t",
     "marked cooperativity with respect to NAD+ binding. <15>) <15>\n",
     "KM\t#1# 0.045 {GDP-D-mannose} (#1# pH 8.0, 5°C, recombinant mutant C268A\n\t",
     "<17>) <17>\n",
     "KM\t#1# 0.1 {NAD+(test)}  (#1# pH 8.0, phosphate buffer <15>) <15>\n"
-    ))
+    ), acronym = "KM")
   expect_equal(dim(x), c(3, 5))
   expect_equal(x$description[1], "additional_information")
   expect_equal(x$fieldInfo[3], "NAD+(test)")
 })
 
 test_that("Parse pH optimum", {
-  x <- ParsePhOptimum(
+  x <- ParseGeneric(
     paste0(
       "PHO\t#10# 8.3 (#10# alcohol dehydrogenase IV <87>) <87>\n",
       "PHO\t#9,68,78,132# -999 (#78# oxidation of ethanol, pyrazole-insensitive\n\t",
       "enzyme <24>; #68# ethanol oxidation, enzyme form ADH-2 and ADH-3 <60>;\n\t",
       "#9# oxidation of octanol <49>; #132# optimally active with ethanol and\n\t",
       "1-propanol at pH 11.0 with 3 M KCl <237>) <24,49,60,237>\n"
-    )
-  )
+    ), acronym = "PHO")
   expect_is(x, "data.table")
   expect_equal(dim(x), c(2, 5))
   expect_equal(length(x$refID[[2]]), 4)
@@ -31,7 +30,7 @@ test_that("Parse pH optimum", {
 })
 
 test_that("Parse pH range", {
-  x <- ParsePhRange(
+  x <- ParseGeneric(
     paste0(
       "PHR\t#10# 5-9 <196>\n",
       "PHR\t#10# 8.2-9.5 (#10# pH 8.2: about 10% of maximal activity, pH 9.5: about\n\t",
@@ -41,8 +40,7 @@ test_that("Parse pH range", {
       "<243>) <243>\n",
       "PHR\t#51# -999 (#51# pH profiles of the ATP-cleavage reaction in the\n\t",
       "presence and absence of free biotin <90>) <90>\n"
-    )
-  )
+    ), acronym = "PHR")
   expect_is(x, "data.table")
   expect_equal(dim(x), c(5, 5))
   expect_equal(length(x$refID[[3]]), 2)

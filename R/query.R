@@ -31,18 +31,18 @@ QueryBrenda <- function(brenda, EC) {
   x$nomenclature$recommended.name <-
     ParseRecommendedName(brenda[brenda$field == "RECOMMENDED_NAME", "description"])
   x$nomenclature$synonyms <-
-    ParseSynonyms(brenda[brenda$field == "SYNONYMS", "description"])
+    ParseGeneric(brenda[brenda$field == "SYNONYMS", "description"], "SY")
 
   x$parameters$km.value <-
-    ParseKmValue(brenda[brenda$field == "KM_VALUE", "description"])
+    ParseGeneric(brenda[brenda$field == "KM_VALUE", "description"], "KM")
   x$parameters$ph.optimum <-
-    ParsePhOptimum(brenda[brenda$field == "PH_OPTIMUM", "description"])
+    ParseGeneric(brenda[brenda$field == "PH_OPTIMUM", "description"], "PHO")
   x$parameters$ph.range <-
-    ParsePhRange(brenda[brenda$field == "PH_RANGE", "description"])
+    ParseGeneric(brenda[brenda$field == "PH_RANGE", "description"], "PHR")
 
   x$bibliography$reference <-
     ParseReference(brenda[brenda$field == "REFERENCE", "description"])
   x$bibliography$application <-
-    ParseApplication(brenda[brenda$field == "APPLICATION", "description"])
+    ParseGeneric(brenda[brenda$field == "APPLICATION", "description"], "AP")
   return(x)
 }

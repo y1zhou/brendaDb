@@ -2,12 +2,14 @@
 % Please edit documentation in R/parse-helper.R
 \name{ParseGeneric}
 \alias{ParseGeneric}
-\title{Generic parser for a list of descriptions.}
+\title{Generic parser for a description string.}
 \usage{
-ParseGeneric(des.list)
+ParseGeneric(description, acronym)
 }
 \arguments{
-\item{des.list}{A list of descriptions separated by \code{SeparateSubentries}.}
+\item{description}{A description string from one of the entries.}
+
+\item{acronym}{The acronym of the field. Can be found with \code{ShowFields()}.}
 }
 \value{
 A \code{data.table} with columns: proteinID, description, fieldInfo,
@@ -20,5 +22,17 @@ Descriptions are generally structured as the following:
 \item Literature citations are in '<...>',
 \item Commentaries in '(...)', and
 \item field-special information in '{...}'.
+}
+
+This function separates these fields into different columns.
+}
+\details{
+The \code{description} column contains values extracted by BRENDA in each field.
+
+The \code{fieldInfo} column contains different information in different fields:
+\itemize{
+\item In a \code{SYNONYMS} entry, it is either the source of the identifier, or part
+of the description (a false positive).
+\item In \code{KM_VALUE}, \code{TURNOVER_NUMBER} entries, it is the corresponding substrate.
 }
 }
