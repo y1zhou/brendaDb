@@ -12,7 +12,7 @@ ParseGeneric(description, acronym)
 \item{acronym}{The acronym of the field. Can be found with \code{ShowFields()}.}
 }
 \value{
-A \code{data.table} with columns: proteinID, description, fieldInfo,
+A \code{tibble} with columns: proteinID, description, fieldInfo,
 commentary, and refID
 }
 \description{

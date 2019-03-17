@@ -22,7 +22,7 @@ test_that("Parse pH optimum", {
       "#9# oxidation of octanol <49>; #132# optimally active with ethanol and\n\t",
       "1-propanol at pH 11.0 with 3 M KCl <237>) <24,49,60,237>\n"
     ), acronym = "PHO")
-  expect_is(x, "data.table")
+  expect_is(x, "tbl_df")
   expect_equal(dim(x), c(2, 5))
   expect_equal(length(x$refID[[2]]), 4)
   expect_true(all(is.na(x$fieldInfo)))
@@ -41,7 +41,7 @@ test_that("Parse pH range", {
       "PHR\t#51# -999 (#51# pH profiles of the ATP-cleavage reaction in the\n\t",
       "presence and absence of free biotin <90>) <90>\n"
     ), acronym = "PHR")
-  expect_is(x, "data.table")
+  expect_is(x, "tbl_df")
   expect_equal(dim(x), c(5, 5))
   expect_equal(length(x$refID[[3]]), 2)
   expect_true(all(is.na(x$fieldInfo)))

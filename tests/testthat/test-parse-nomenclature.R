@@ -11,7 +11,7 @@ test_that("Parse Protein field", {
       "PR\t#42# Suberites domuncula O97342 SwissProt <64>\n"
     )
   )
-  expect_is(x, "data.table")
+  expect_is(x, "tbl_df")
   expect_equal(dim(x), c(6, 5))
   expect_equal(length(x$refID[[1]]), 4)
   expect_equal(sum(is.na(x$uniprot)), 3)
@@ -42,7 +42,7 @@ test_that("Parse synonyms", {
       "SY\t#8,10,95,97,112\n\t113,135# ADH1 (#10# isozyme <202>)\n",
       "\t<156,172,202,215,228,\n\t252,282>\n"
     ), acronym = "SY")
-  expect_is(x, "data.table")
+  expect_is(x, "tbl_df")
   expect_equal(dim(x), c(3, 5))
   expect_equal(length(x$refID[[3]]), 7)
   expect_equal(length(x$proteinID[[3]]), 7)

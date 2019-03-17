@@ -15,7 +15,7 @@
 #' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
-#'@import stringr
+#'@importFrom stringr str_detect str_glue str_remove_all str_replace_all str_split
 ParseProteinNum <- function(x, type) {
   if (is.na(x)) {
     return(NA)
@@ -73,9 +73,9 @@ ParseProteinNum <- function(x, type) {
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
 #' brendaDb:::SeparateSubentries(x, "SN")
-#' @import stringr
+#' @importFrom stringr str_detect str_split str_remove_all str_replace_all
 SeparateSubentries <- function(description, acronym) {
-  if (!(grepl(paste0("^", acronym, "\t"), description))) {
+  if (str_detect(description, paste0("^", acronym, "\t"), negate = T)) {
     warning("The description doesn't seem to match your provided acronym.")
     return(NA)
   }
@@ -99,8 +99,8 @@ SeparateSubentries <- function(description, acronym) {
 #' @examples
 #' brendaDb:::ParseCommentary("Cavia porcellus   (#1# SULT1A2 <1,2,6,7>)")
 #'
-#' @import stringr
-#' @importFrom data.table data.table
+#' @importFrom stringr str_replace_all str_extract str_sub str_split str_remove_all
+#' @importFrom tibble tibble
 ParseCommentary <- function(description) {
   if (missing(description)) {
     stop("Parameter description missing.")
@@ -129,7 +129,7 @@ ParseCommentary <- function(description) {
 
     commentary <- str_remove_all(description,
                                  "(^#[0-9,]+#\\s+)|(\\s+<[0-9, ]+>$)")
-    res <- data.table(id = protein.id,
+    res <- tibble(id = protein.id,
                       commentary = commentary,
                       references = refs)
     return(res)
@@ -158,11 +158,11 @@ ParseCommentary <- function(description) {
 #' of the description (a false positive).
 #' - In `KM_VALUE`, `TURNOVER_NUMBER` entries, it is the corresponding substrate.
 #'
-#' @return A `data.table` with columns: proteinID, description, fieldInfo,
+#' @return A `tibble` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
 #'
-#' @import stringr
-#' @importFrom data.table data.table
+#' @importFrom stringr str_extract str_sub str_remove str_trim
+#' @importFrom tibble tibble
 ParseGeneric <- function(description, acronym) {
   des.list <- SeparateSubentries(description, acronym = acronym)
   protein.id <- str_extract(des.list, "^#[0-9, ]+#")
@@ -190,7 +190,7 @@ ParseGeneric <- function(description, acronym) {
     str_remove("\\(.*\\)") %>%
     str_trim()
 
-  res <- data.table(
+  res <- tibble(
     proteinID = protein.id,
     description = description,
     fieldInfo = field.info,

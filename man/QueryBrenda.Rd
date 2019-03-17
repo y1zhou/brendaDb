@@ -7,7 +7,7 @@
 QueryBrenda(brenda, EC)
 }
 \arguments{
-\item{brenda}{A \code{data.table} containing information from BRENDA.}
+\item{brenda}{A \code{tibble} containing information from BRENDA.}
 
 \item{EC}{A string of the EC number.}
 }
@@ -16,7 +16,7 @@ A \code{brenda.entry} object.
 }
 \description{
 Use a EC number to retrieve information from the BRENDA
-\code{data.table} read in by \code{ReadBrenda}.
+\code{tibble} read in by \code{ReadBrenda()}.
 }
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",

@@ -1,10 +1,10 @@
 #' @title Parse a "PROTEIN" entry.
 #'
-#' @description Expand the string into a `data.table`.
+#' @description Expand the string into a `tibble`.
 #'
 #' @param description The description string in a "PROTEIN" entry.
 #'
-#' @return A `data.table` with five columns: proteinID, description, uniprot,
+#' @return A `tibble` with five columns: proteinID, description, uniprot,
 #' commentary and reference. The description column is the source organism.
 #'
 #' @examples
@@ -13,18 +13,18 @@
 #' "PR\t#2# Mus musculus <11,18,19>\n")
 #' brendaDb:::ParseProtein(x)
 #'
-#' @import stringr
-#' @importFrom data.table as.data.table
+#' @importFrom stringr str_extract
+#' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select
 ParseProtein <- function(description) {
   res <- ParseGeneric(description, acronym = "PR") %>%
+    as_tibble() %>%
     mutate(
       uniprot = str_extract(
         description,
         "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}"
       )) %>%  # regex taken from https://www.uniprot.org/help/accession_numbers
-    select(proteinID, description, uniprot, commentary, refID) %>%
-    as.data.table()
+    select(proteinID, description, uniprot, commentary, refID)
   return(res)
 }
 

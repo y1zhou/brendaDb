@@ -10,10 +10,10 @@ ParseReference(description)
 \item{description}{The description string in a "REFERENCE" entry.}
 }
 \value{
-A \code{data.table} with three columns: refID, title and pubmed.
+A \code{tibble} with three columns: refID, title and pubmed.
 }
 \description{
-Expand the string into a \code{data.table}.
+Expand the string into a \code{tibble}.
 }
 \examples{
 x <- paste0(

@@ -11,7 +11,7 @@ test_that("Parse references", {
       "RF\t<10> Herrera, E.; Zorzano, A... {Pubmed:} (c,review)\n"
     )
   )
-  expect_is(x, "data.table")
+  expect_is(x, "tbl_df")
   expect_equal(dim(x), c(3, 3))
   expect_equal(x$refID, list("1", "12", "10"))
   expect_true(is.na(x[3, "pubmed"]))

@@ -1,10 +1,10 @@
 #' @title Parse a "REFERENCE" entry.
 #'
-#' @description Expand the string into a `data.table`.
+#' @description Expand the string into a `tibble`.
 #'
 #' @param description The description string in a "REFERENCE" entry.
 #'
-#' @return A `data.table` with three columns: refID, title and pubmed.
+#' @return A `tibble` with three columns: refID, title and pubmed.
 #'
 #' @examples
 #' x <- paste0(
@@ -16,8 +16,8 @@
 #' "RF\t<10> Herrera, E.; Zorzano, A... {Pubmed:} (c,review)\n")
 #' brendaDb:::ParseReference(x)
 #'
-#' @import stringr
-#' @importFrom data.table data.table
+#' @importFrom stringr str_extract str_trim str_remove_all
+#' @importFrom tibble tibble
 ParseReference <- function(description) {
   x <- SeparateSubentries(description, acronym = "RF")
 
@@ -32,7 +32,7 @@ ParseReference <- function(description) {
   ref.title <-
     str_trim(str_remove_all(x, "(^<\\d+>)|(\\{Pubmed.*$)"))
 
-  res <- data.table(refID = ref.num,
+  res <- tibble(refID = ref.num,
                     title = ref.title,
                     pubmed = pubmed)
   return(res)
