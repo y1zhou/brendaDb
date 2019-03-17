@@ -5,7 +5,7 @@ test_that("Read BRENDA txt file correctly into matrix ", {
                             package = "brendaDb")
   df <- ReadBrenda(brenda_txt)
   expect_error(ReadBrenda("fakefile.txt"))
-  expect_is(df, "data.table")
+  expect_is(df, "tbl_df")
   expect_equal(colnames(df), c("ID", "field", "description"))
 
   # First column should be EC numbers

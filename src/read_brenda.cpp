@@ -60,34 +60,33 @@ std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
 //' @param lines The output vector<string> from `read_brenda_file`.
 //'
 //' @return A vector<vector<string>> containing information about the EC entries. In R
-//' this is a list of lists.
+//' this is a list of 3 lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
   std::regex field_regex("^[A-Z05_]+$");  // IC50 field
-  std::vector<std::vector<std::string>> res;
-  std::vector<std::string> row(3);
+  std::vector<std::string> colID, colField, colDescription;
   std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x, remove ID\t
               current_field = lines[1],  // PROTEIN, PH_OPTIMUM, etc.
               ec_info = "";
-
-  for (auto i = 2; i < lines.size(); ++i) {
+  const size_t nline = lines.size() - 1;
+  for (auto i = 2; i < nline; ++i) {  // Not reading last line
     // Skip first two lines because they're already read
     if (lines[i] == "///") {
       // /// indicates the end of an EC-number specific part
       // Insert previous entry, update ID and first field, clear ec_info
-      row = {current_ID, current_field, ec_info};
-      res.push_back(row);
-      if (i < lines.size() - 1) {
-        // Not the last element
-        current_ID = lines[++i].substr(3);
-        current_field = lines[++i];
-        ec_info = "";
-      }
+      colID.emplace_back(current_ID);
+      colField.emplace_back(current_field);
+      colDescription.emplace_back(ec_info);
+
+      current_ID = lines[++i].substr(3);
+      current_field = lines[++i];
+      ec_info = "";
     } else {
       if (std::regex_match(lines[i].begin(), lines[i].end(), field_regex)) {
         // Insert previous entry, update field and clear ec_info
-        row = {current_ID, current_field, ec_info};
-        res.push_back(row);
+        colID.emplace_back(current_ID);
+        colField.emplace_back(current_field);
+        colDescription.emplace_back(ec_info);
         current_field = lines[i];
         ec_info = "";
       } else {
@@ -96,5 +95,12 @@ std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::str
       }
     }
   }
+  // Insert last entry
+  colID.emplace_back(current_ID);
+  colField.emplace_back(current_field);
+  colDescription.emplace_back(ec_info);
+
+  // Create vector of 3 columns
+  std::vector<std::vector<std::string>> res = {colID, colField, colDescription};
   return res;
 }

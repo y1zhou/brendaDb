@@ -10,7 +10,7 @@ Overview
 
 `brendaDb` aims to make importing and analyzing data from the [BRENDA database](https://www.brenda-enzymes.org) easier. The main functions include:
 
--   \[x\] Read [text file downloaded from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php) into an R `data.table`
+-   \[x\] Read [text file downloaded from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php) into an R `tibble`
 -   \[x\] Retrieve information for specific enzymes
 -   \[ \] Query enzyme information for specific pathways
 -   \[ \] Generate enzyme activity profiles based on temperature, pH, etc.
@@ -29,7 +29,7 @@ Getting Started
 ---------------
 
 -   Download the BRENDA database as [a text file](https://www.brenda-enzymes.org/download_brenda_without_registration.php).
--   Read the text file into a `data.table`:
+-   Read the text file into a `tibble`:
 
 ``` r
 df <- ReadBrenda("/path/to/textfile")

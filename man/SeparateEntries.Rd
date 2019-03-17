@@ -11,7 +11,7 @@ SeparateEntries(lines)
 }
 \value{
 A vector<vector<string>> containing information about the EC entries. In R
-this is a list of lists.
+this is a list of 3 lists.
 }
 \description{
 For each EC entry, split the annotations into three columns:

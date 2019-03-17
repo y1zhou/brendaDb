@@ -15,8 +15,9 @@ Suggests:
 Imports: 
     dplyr,
     Rcpp,
-    data.table,
-    stringr
+    tibble,
+    stringr,
+    magrittr
 LinkingTo: 
     Rcpp
 RoxygenNote: 6.1.1

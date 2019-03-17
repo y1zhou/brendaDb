@@ -18,7 +18,8 @@
 #' # 1.1.1.10   RECOMMENDED_NAME  RN  L-xylulose reductase
 #' # 1.1.1.10   SYSTEMATIC_NAME   SN  xylitol:NADP+ 4-oxidoreductase (L-xyl...
 #'
-#' @importFrom data.table as.data.table
+#' @importFrom magrittr %>%
+#' @importFrom tibble as_tibble
 #' @importFrom dplyr distinct
 #' @export
 ReadBrenda <- function(filepath) {
@@ -27,15 +28,13 @@ ReadBrenda <- function(filepath) {
   filepath <- path.expand(filepath)
   df <- ReadBrendaFile(filepath)
 
-  message("Converting text into matrix. This might take a while...")
+  message("Converting text into a list. This might take a while...")
   df <- SeparateEntries(df)
+  names(df) <- c("ID", "field", "description")
 
-  # Convert list of lists to matrix
-  df <- matrix(unlist(df, use.names = F), ncol = length(df[[1]]), byrow = T)
-
-  message("Converting matrix to data.table and removing duplicated entries...")
-  df <- data.table::as.data.table(df)
-  colnames(df) <- c("ID", "field", "description")
-  df <- distinct(df)
+  message("Converting list to tibble and removing duplicated entries...")
+  df <- df %>%
+    as_tibble() %>%
+    distinct()
   return(df)
 }
