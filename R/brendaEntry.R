@@ -44,7 +44,7 @@ InitBrendaEntry <- function(EC) {
           km.value = NA,
           turnover.number = NA,
           ki.value = NA,
-          pi.values = NA,
+          pi.value = NA,
           ph.optimum = NA,
           ph.range = NA,
           temperature.optimum = NA,
