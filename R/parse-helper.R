@@ -164,6 +164,12 @@ ParseCommentary <- function(description) {
 #' @importFrom stringr str_extract str_sub str_remove str_trim
 #' @importFrom tibble tibble
 ParseGeneric <- function(description, acronym) {
+  if (missing(description)) {
+    stop("Parameter description missing. Should be a string.")
+  }
+  if (length(description) == 0) {
+    return(NA)
+  }
   des.list <- SeparateSubentries(description, acronym = acronym)
   protein.id <- str_extract(des.list, "^#[0-9, ]+#")
   protein.id <- lapply(protein.id, function(x)
@@ -183,11 +189,11 @@ ParseGeneric <- function(description, acronym) {
     str_remove("\\{.*?\\}")  # remove first because there could be () in {}
 
   commentary <- description %>%
-    str_extract("\\(.*\\)") %>%  # greedy because there could be ) in commentary
+    str_extract("\\(#.*>\\)") %>%  # greedy because there could be ) in commentary
     str_sub(2, -2)
 
   description <- description %>%
-    str_remove("\\(.*\\)") %>%
+    str_remove("\\(#.*>\\)") %>%
     str_trim()
 
   res <- tibble(
@@ -196,8 +202,9 @@ ParseGeneric <- function(description, acronym) {
     fieldInfo = field.info,
     commentary = commentary,
     refID = ref.id
-  )
+  ) %>%
+    distinct(description, fieldInfo, commentary, .keep_all = T)
   # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.100&organism%5B%5D=Mycobacterium+tuberculosis#pH%20OPTIMUM
-  res$description[res$description == "-999"] <- "additional_information"
+  res$description[res$description %in% c("-999", "more", "More", "more = ?")] <- "additional information"
   return(res)
 }

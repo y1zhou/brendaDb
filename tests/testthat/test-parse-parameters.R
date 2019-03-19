@@ -9,7 +9,7 @@ test_that("Parse Km value", {
     "KM\t#1# 0.1 {NAD+(test)}  (#1# pH 8.0, phosphate buffer <15>) <15>\n"
     ), acronym = "KM")
   expect_equal(dim(x), c(3, 5))
-  expect_equal(x$description[1], "additional_information")
+  expect_equal(x$description[1], "additional information")
   expect_equal(x$fieldInfo[3], "NAD+(test)")
 })
 
@@ -26,7 +26,7 @@ test_that("Parse pH optimum", {
   expect_equal(dim(x), c(2, 5))
   expect_equal(length(x$refID[[2]]), 4)
   expect_true(all(is.na(x$fieldInfo)))
-  expect_equal(x$description[[2]], "additional_information")
+  expect_equal(x$description[[2]], "additional information")
 })
 
 test_that("Parse pH range", {
@@ -45,5 +45,5 @@ test_that("Parse pH range", {
   expect_equal(dim(x), c(5, 5))
   expect_equal(length(x$refID[[3]]), 2)
   expect_true(all(is.na(x$fieldInfo)))
-  expect_equal(x$description[[5]], "additional_information")
+  expect_equal(x$description[[5]], "additional information")
 })
