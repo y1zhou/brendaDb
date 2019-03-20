@@ -9,7 +9,7 @@ test_that("Read BRENDA txt file correctly into matrix ", {
   expect_equal(colnames(df), c("ID", "field", "description"))
 
   # First column should be EC numbers
-  expect_match(unique(df$ID), "^(\\d+\\.){3}\\d+$")
+  expect_equal(unique(df$ID), "1.1.1.1")
   # Second column should be field full names
   expect_match(unique(df$field), "^[A-Z_05]+$")
 })
