@@ -134,13 +134,15 @@ ParseGeneric <- function(description, acronym) {
     ParseProteinNum(x, type = "reference"))
 
   field.info <- des.list %>%
-    str_extract("\\{.*?\\}") %>%  # should have at most one match
-    str_sub(2, -2)
+    str_extract("\\{.*?\\}\\s+(\\(|<)") %>%  # should have at most one match
+    # remove {}, and trailing < or (
+    str_remove_all("([\\s{}])|(\\(|<)$")
 
   description <- des.list %>%
     str_remove("^#[0-9, ]+#") %>%
     str_remove("<[0-9, ]+>$") %>%
-    str_remove("\\{.*?\\}")  # remove first because there could be () in {}
+    # remove field-specific information, but keep markers for commentaries
+    str_replace("\\{.*?\\}(\\s+(\\(|<))", "\\1")
 
   commentary <- description %>%
     str_extract("\\(#.*>\\)") %>%  # greedy because there could be ) in commentary
