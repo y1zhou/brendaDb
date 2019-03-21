@@ -88,55 +88,6 @@ SeparateSubentries <- function(description, acronym) {
 }
 
 
-#' @title Parse commentaries inside the description.
-#'
-#' @description Parse the commentaries inside parentheses in the given string.
-#'
-#' @param description A BRENDA description entry with commentaries.
-#'
-#' @return A list of commentaries.
-#'
-#' @examples
-#' brendaDb:::ParseCommentary("Cavia porcellus   (#1# SULT1A2 <1,2,6,7>)")
-#'
-#' @importFrom stringr str_replace_all str_extract str_sub str_split str_remove_all
-#' @importFrom tibble tibble
-ParseCommentary <- function(description) {
-  if (missing(description)) {
-    stop("Parameter description missing.")
-  }
-  if (!(is.character(description)) | length(description) > 1) {
-    stop("Parameter description has to be a single string.")
-  }
-
-  description <- str_replace_all(description, "\n\t", " ")
-  if (!(grepl("\\(#.*?>\\)", description))) {
-    return(NA)
-  } else {
-    description <- str_extract(description, "\\(#.*>\\)")
-    description <- str_sub(description, 2,-2)  # Remove parentheses
-    description <- str_split(description, "; ")[[1]]
-
-    protein.id <- str_extract(description, "^#[0-9,]+#")
-    protein.id <- lapply(protein.id, function(x)
-      ParseProteinNum(x, type = "protein"))
-
-    refs <- str_extract(description, "<[0-9, ]+>$")
-    refs <- str_replace_all(refs, "\\s+", ",")
-    refs <- str_replace_all(refs, ",+", ",")
-    refs <- lapply(refs, function(x)
-      ParseProteinNum(x, type = "reference"))
-
-    commentary <- str_remove_all(description,
-                                 "(^#[0-9,]+#\\s+)|(\\s+<[0-9, ]+>$)")
-    res <- tibble(id = protein.id,
-                      commentary = commentary,
-                      references = refs)
-    return(res)
-  }
-}
-
-
 #' @title Generic parser for a description string.
 #'
 #' @description Descriptions are generally structured as the following:
@@ -206,5 +157,52 @@ ParseGeneric <- function(description, acronym) {
     distinct(description, fieldInfo, commentary, .keep_all = T)
   # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.100&organism%5B%5D=Mycobacterium+tuberculosis#pH%20OPTIMUM
   res$description[res$description %in% c("-999", "more", "More", "more = ?")] <- "additional information"
+  return(res)
+}
+
+
+#' @title Generic parser for a description string without extracted values.
+#'
+#' @description This parser works for fields `storage.stability`, `general.stability`,
+#' `oxidation.stability`, `cloned`, `purification`, `crystallization` and `renatured`.
+#'
+#' These fields in BRENDA don't have extracted values - the commentary itself is
+#' the extracted value.
+#'
+#' @param description A description string from one of the entries.
+#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#'
+#' @return A `tibble` with columns: proteinID, description and refID.
+#'
+#' @import stringr
+#' @importFrom tibble tibble
+ParseNoDescription <- function(description, acronym) {
+  if (missing(description)) {
+    stop("Parameter description missing. Should be a string.")
+  }
+  if (length(description) == 0) {
+    return(NA)
+  }
+  des.list <- SeparateSubentries(description, acronym = acronym)
+  protein.id <- str_extract(des.list, "^#[0-9, ]+#")
+  protein.id <- lapply(protein.id, function(x)
+    ParseProteinNum(x, type = "protein"))
+
+  ref.id <- str_extract(des.list, "<[0-9, ]+>$")
+  ref.id <- lapply(ref.id, function(x)
+    ParseProteinNum(x, type = "reference"))
+
+  description <- des.list %>%
+    str_remove("^#[0-9, ]+#") %>%
+    str_remove("<[0-9, ]+>$") %>%
+    str_extract("\\(.*\\)") %>%
+    str_sub(2, -2)  # remove parentheses
+
+  res <- tibble(
+    proteinID = protein.id,
+    description = description,
+    refID = ref.id
+  ) %>%
+    distinct(description, .keep_all = T)
   return(res)
 }
