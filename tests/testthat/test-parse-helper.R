@@ -18,20 +18,3 @@ test_that("Separate subentries", {
   expect_equal(SeparateSubentries("SN\txx\n\tyyy\nSN\tzzz", "SN"),
                c("xx yyy", "zzz"))
 })
-
-test_that("Parse commentaries", {
-  expect_error(ParseCommentary())
-  expect_error(ParseCommentary(c("1", "2")))
-  expect_equal(ParseCommentary("Cavia porcellus)"), NA)
-
-  x <- ParseCommentary("Cavia porcellus   (#1# SULT1A2(1) <1,2,6,7>)")
-  expect_equal(dim(x), c(1, 3))
-  expect_equal(x$commentary[[1]], "SULT1A2(1)")
-  expect_equal(length(x$references[[1]]), 4)
-
-  x <- ParseCommentary("E coli (#1,2# SULT1A2(1)\n\tSALT <1,2,\n\t6,7>)")
-  expect_equal(dim(x), c(1, 3))
-  expect_equal(length(x$id[[1]]), 2)
-  expect_equal(x$commentary[[1]], "SULT1A2(1) SALT")
-  expect_equal(length(x$references[[1]]), 4)
-})

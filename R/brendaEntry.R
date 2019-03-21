@@ -20,21 +20,21 @@ InitBrendaEntry <- function(EC) {
           protein = NA,
           systematic.name = NA,
           recommended.name = NA,
-          synonyms = NA
+          synonyms = NA,
+          reaction = NA,
+          reaction.type = NA
         ),
         class = "brenda.nomenclature"
       ),
 
       interactions = structure(
         list(
-          reaction = NA,
-          reaction.type = NA,
           substrate.product = NA,
           natural.substrate.product = NA,
-          activating.compound = NA,
-          inhibitors = NA,
           cofactor = NA,
-          metals.ions = NA
+          metals.ions = NA,
+          inhibitors = NA,
+          activating.compound = NA
         ),
         class = "brenda.interactions"
       ),
@@ -49,43 +49,56 @@ InitBrendaEntry <- function(EC) {
           ph.range = NA,
           temperature.optimum = NA,
           temperature.range = NA,
-          specific.activity = NA
+          specific.activity = NA,
+          ic50 = NA
         ),
         class = "brenda.parameters"
       ),
 
+      organism = structure(
+        list(
+          source.tissue = NA,
+          localization = NA
+
+        ),
+        class = "brenda.organism"
+      ),
+
       molecular = structure(
         list(
-          cloned = NA,
+          stability = structure(
+            list(
+              general.stability = NA,
+              storage.stability = NA,
+              ph.stability = NA,
+              organic.solvent.stability = NA,
+              oxidation.stability = NA,
+              temperature.stability = NA
+            ),
+            class = "brenda.stability"
+          ),
           purification = NA,
-          subunits = NA,
-          localization = NA,
-          source.tissue = NA,
-          molecular.weight = NA,
-          posttranslational.modification = NA,
-          cystallization = NA,
+          cloned = NA,
+          engineering = NA,
           renatured = NA,
-          engineering = NA
+          application = NA
         ),
         class = "brenda.molecular"
       ),
 
-      stability = structure(
+      structure = structure(
         list(
-          general.stability = NA,
-          storage.stability = NA,
-          ph.stability = NA,
-          organic.solvent.stability = NA,
-          oxidation.stability = NA,
-          temperature.stability = NA
+          molecular.weight = NA,
+          subunits = NA,
+          posttranslational.modification = NA,
+          cystallization = NA
         ),
-        class = "brenda.stability"
+        class = "brenda.structure"
       ),
 
-      bibliography = structure(list(
-        reference = NA,
-        application = NA
-      ), class = "brenda.bibliography")
+      bibliography = structure(
+        NA,
+        class = "brenda.bibliography")
     ),
     class = "brenda.entry"
   )

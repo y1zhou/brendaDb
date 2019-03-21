@@ -21,7 +21,7 @@ Use a EC number to retrieve information from the BRENDA
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
                           package = "brendaDb"))
-QueryBrenda(brenda = df, EC = "1.1.1.10")
+QueryBrenda(brenda = df, EC = "1.1.1.1")
 
 }
 \seealso{
