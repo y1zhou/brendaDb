@@ -13,7 +13,7 @@
 #' @return A `tibble` with columns: proteinID, substrate, product,
 #' commentarySubstrate, commentaryProduct, fieldInfo and refID
 #'
-#' @importFrom stringr str_extract str_sub str_remove str_trim str_split
+#' @import stringr
 #' @importFrom tibble tibble
 #' @importFrom dplyr distinct
 #' @importFrom purrr map_chr

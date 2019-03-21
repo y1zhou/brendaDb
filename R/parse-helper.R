@@ -15,7 +15,7 @@
 #' brendaDb:::ParseProteinNum("<123>", "reference")
 #' # [1] "123"
 #'
-#'@importFrom stringr str_detect str_glue str_remove_all str_replace_all str_split
+#'@import stringr
 ParseProteinNum <- function(x, type) {
   if (is.na(x)) {
     return(NA)
@@ -73,10 +73,12 @@ ParseProteinNum <- function(x, type) {
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
 #' brendaDb:::SeparateSubentries(x, "SN")
-#' @importFrom stringr str_detect str_split str_remove_all str_replace_all
+#' @import stringr
 SeparateSubentries <- function(description, acronym) {
   if (str_detect(description, paste0("^", acronym, "\t"), negate = T)) {
-    warning("The description doesn't seem to match your provided acronym.")
+    warning(str_glue(
+      "The description doesn't seem to match your provided acronym \"{acronym}\".")
+    )
     return(NA)
   }
   x <- str_split(description, paste0("\n", acronym, "\t"))[[1]]
@@ -112,7 +114,8 @@ SeparateSubentries <- function(description, acronym) {
 #' @return A `tibble` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
 #'
-#' @importFrom stringr str_extract str_sub str_remove str_trim
+#' @importFrom magrittr %>%
+#' @import stringr
 #' @importFrom tibble tibble
 ParseGeneric <- function(description, acronym) {
   if (missing(description)) {

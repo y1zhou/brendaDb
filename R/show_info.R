@@ -5,7 +5,7 @@
 #' @return A data.frame with columns "field" and "acronym".
 #'
 #' @importFrom dplyr distinct mutate select
-#' @importFrom stringr str_extract
+#' @import stringr
 #' @importFrom tibble as_tibble
 #' @export
 ShowFields <- function(df) {
