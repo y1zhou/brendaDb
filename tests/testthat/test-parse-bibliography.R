@@ -13,6 +13,6 @@ test_that("Parse references", {
   )
   expect_is(x, "tbl_df")
   expect_equal(dim(x), c(3, 3))
-  expect_equal(x$refID, list("1", "12", "10"))
+  expect_equal(x$refID, c("1", "12", "10"))
   expect_true(is.na(x[3, "pubmed"]))
 })

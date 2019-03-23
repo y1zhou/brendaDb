@@ -56,7 +56,7 @@ ParseProteinNum <- function(x, type) {
   } else {
     x <- str_replace_all(x, "\\s+", ",")
     x <- str_replace_all(x, ",+", ",")
-    return(str_split(x, ",")[[1]])
+    return(x)
   }
 }
 

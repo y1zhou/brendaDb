@@ -13,7 +13,7 @@ test_that("Parse Protein field", {
   )
   expect_is(x, "tbl_df")
   expect_equal(dim(x), c(6, 5))
-  expect_equal(length(x$refID[[1]]), 4)
+  expect_equal(x$refID[[1]], "1,2,6,7")
   expect_equal(sum(is.na(x$uniprot)), 3)
   expect_equal(sum(is.na(x$commentary)), 5)
 })
@@ -44,8 +44,8 @@ test_that("Parse synonyms", {
     ), acronym = "SY")
   expect_is(x, "tbl_df")
   expect_equal(dim(x), c(3, 5))
-  expect_equal(length(x$refID[[3]]), 7)
-  expect_equal(length(x$proteinID[[3]]), 7)
+  expect_equal(x$refID[[3]], "156,172,202,215,228,252,282")
+  expect_equal(x$proteinID[[3]], "8,10,95,97,112,113,135")
   expect_match(x$description, "^[^[:space:]].*[^[:space:]]$")
 
   # Expect to work for a single entry
