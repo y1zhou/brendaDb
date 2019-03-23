@@ -44,7 +44,9 @@ df <- ReadBrenda("/path/to/textfile")
 ```{r, eval=FALSE}
 res <- QueryBrenda(df, EC = "1.1.1.1")
 names(res)
-# [1] "nomenclature" "interactions" "parameters"   "molecular"    "stability"    "bibliography"
+# [1] "nomenclature" "interactions" "parameters"   "organism"     "molecular"   
+# [6] "structure"    "bibliography"
 names(res$nomenclature)
-# [1] "ec"               "protein"          "systematic.name"  "recommended.name" "synonyms"
+# [1] "ec"               "protein"          "systematic.name"  "recommended.name"
+# [5] "synonyms"         "reaction"         "reaction.type"  
 ```
