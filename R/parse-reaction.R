@@ -31,13 +31,13 @@ ParseReaction <- function(description, acronym) {
     map_chr(function(x) ParseProteinNum(x, type = "reference"))
 
   reversibility <- des.list %>%
-    str_extract("(\\{i?r\\})|(\\{\\??\\})") %>%  # {r}, {ir}, {?}, {}
+    str_extract("\\{(i?r|\\??)\\}") %>%  # {r}, {ir}, {?}, {}
     str_sub(2, -2)
 
   description <- des.list %>%
     str_remove("^#[0-9, ]+#") %>%
     str_remove("<[0-9, ]+>$") %>%
-    str_remove("(\\{i?r\\})|(\\{\\??\\})")
+    str_remove("\\{(i?r|\\??)\\}")
 
   commentary.substrate <- description %>%
     str_extract("\\(#.*>\\)") %>%

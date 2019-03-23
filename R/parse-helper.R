@@ -116,35 +116,39 @@ SeparateSubentries <- function(description, acronym) {
 #' @return A `tibble` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
 #'
-#' @importFrom magrittr %>%
 #' @import stringr
+#' @importFrom magrittr %>%
+#' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseGeneric <- function(description, acronym) {
-  if (missing(description)) {
-    stop("Parameter description missing. Should be a string.")
-  }
   if (length(description) == 0) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)
-  protein.id <- str_extract(des.list, "^#[0-9, ]+#")
-  protein.id <- lapply(protein.id, function(x)
-    ParseProteinNum(x, type = "protein"))
+  protein.id <- des.list %>%
+    str_extract("^#[0-9, ]+#") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "protein"))
 
-  ref.id <- str_extract(des.list, "<[0-9, ]+>$")
-  ref.id <- lapply(ref.id, function(x)
-    ParseProteinNum(x, type = "reference"))
+  ref.id <- des.list %>%
+    str_extract("<[0-9, ]+>$") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "reference"))
 
-  field.info <- des.list %>%
-    str_extract("\\{.*?\\}\\s+(\\(|<)") %>%  # should have at most one match
-    # remove {}, and trailing < or (
-    str_remove_all("([\\s{}])|(\\(|<)$")
-
-  description <- des.list %>%
-    str_remove("^#[0-9, ]+#") %>%
-    str_remove("<[0-9, ]+>$") %>%
-    # remove field-specific information, but keep markers for commentaries
-    str_replace("\\{.*?\\}(\\s+(\\(|<))", "\\1")
+  if (acronym %in% c("SY", "TN", "KM", "IN", "KI", "IC50")) {
+    field.info <- des.list %>%
+      str_extract("\\{.*?(\\}$|\\}\\s+[(<])") %>%  # should have at most one match
+      # remove {}, and trailing < or (
+      str_remove_all("([\\s{}])|[(<]$")
+    description <- des.list %>%
+      str_remove("^#[0-9, ]+#") %>%
+      str_remove("<[0-9, ]+>$") %>%
+      # remove field-specific information, but keep markers for commentaries
+      str_replace("\\{.*?\\}(\\s+\\()?", "\\1")
+  } else {
+    field.info <- NA
+    description <- des.list %>%
+      str_remove("^#[0-9, ]+#") %>%
+      str_remove("<[0-9, ]+>$")
+  }
 
   commentary <- description %>%
     str_extract("\\(#.*>\\)") %>%  # greedy because there could be ) in commentary
