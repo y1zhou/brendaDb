@@ -15,113 +15,73 @@
 #'                           package = "brendaDb"))
 #' QueryBrenda(brenda = df, EC = "1.1.1.1")
 #'
-#' @importFrom tibble as_tibble
-#' @importFrom dplyr filter
+#' @importFrom tibble as_tibble deframe
+#' @importFrom dplyr filter select
 #' @importFrom stringr str_glue
 QueryBrenda <- function(brenda, EC) {
   brenda <- brenda %>%
-    as_tibble() %>%
-    filter(ID == EC)
-  if (nrow(brenda) == 0) {
+    filter(ID == EC) %>%
+    select(field, description) %>%
+    deframe()  # two columns to named vector
+  if (length(brenda) == 0) {
     stop(str_glue("EC {EC} not found in brenda table."))
   }
-  x <- InitBrendaEntry(EC)
-  # Nomenclature -------------------------------------------------------------
-  x$nomenclature$protein <-
-    ParseProtein(brenda[brenda$field == "PROTEIN", ]$description)
-  x$nomenclature$systematic.name <-
-    ParseSystematicName(brenda[brenda$field == "SYSTEMATIC_NAME", ]$description)
-  x$nomenclature$recommended.name <-
-    ParseRecommendedName(brenda[brenda$field == "RECOMMENDED_NAME", ]$description)
-  x$nomenclature$synonyms <-
-    ParseGeneric(brenda[brenda$field == "SYNONYMS", ]$description, "SY")
-  x$nomenclature$reaction <-
-    ParseGeneric(brenda[brenda$field == "REACTION", ]$description, "RE")
-  x$nomenclature$reaction.type <-  # TODO: only one column has values
-    ParseGeneric(brenda[brenda$field == "REACTION_TYPE", ]$description, "RT")
+  x <- InitBrendaEntry(
+    EC,
+    # Nomenclature -------------------------------------------------------------
+    protein = ParseProtein(brenda["PROTEIN"]),
+    systematic.name = ParseSystematicName(brenda["SYSTEMATIC_NAME"]),
+    recommended.name = ParseRecommendedName(brenda["RECOMMENDED_NAME"]),
+    synonyms = ParseGeneric(brenda["SYNONYMS"], "SY"),
+    reaction = ParseGeneric(brenda["REACTION"], "RE"),
+    reaction.type = ParseGeneric(brenda["REACTION_TYPE"], "RT"),
 
-  # Interactions -------------------------------------------------------------
-  x$interactions$substrate.product <-
-    ParseReaction(brenda[brenda$field == "SUBSTRATE_PRODUCT", ]$description, "SP")
-  x$interactions$natural.substrate.product <-
-    ParseReaction(brenda[brenda$field == "NATURAL_SUBSTRATE_PRODUCT", ]$description, "NSP")
-  x$interactions$cofactor <-
-    ParseGeneric(brenda[brenda$field == "COFACTOR", ]$description, "CF")
-  x$interactions$metals.ions <-
-    ParseGeneric(brenda[brenda$field == "METALS_IONS", ]$description, "ME")
-  x$interactions$activating.compound <-
-    ParseGeneric(brenda[brenda$field == "ACTIVATING_COMPOUND", ]$description, "AC")
-  x$interactions$inhibitors <-
-    ParseGeneric(brenda[brenda$field == "INHIBITORS", ]$description, "IN")
-  x$interactions$activating.compound <-
-    ParseGeneric(brenda[brenda$field == "ACTIVATING_COMPOUND", ]$description, "AC")
+    # Interactions -------------------------------------------------------------
+    substrate.product = ParseReaction(brenda["SUBSTRATE_PRODUCT"], "SP"),
+    natural.substrate.product = ParseReaction(brenda["NATURAL_SUBSTRATE_PRODUCT"], "NSP"),
+    cofactor = ParseGeneric(brenda["COFACTOR"], "CF"),
+    metals.ions = ParseGeneric(brenda["METALS_IONS"], "ME"),
+    inhibitors = ParseGeneric(brenda["INHIBITORS"], "IN"),
+    activating.compound = ParseGeneric(brenda["ACTIVATING_COMPOUND"], "AC"),
 
-  # Parameters ---------------------------------------------------------------
-  x$parameters$km.value <-
-    ParseGeneric(brenda[brenda$field == "KM_VALUE", ]$description, "KM")
-  x$parameters$turnover.number <-
-    ParseGeneric(brenda[brenda$field == "TURNOVER_NUMBER", ]$description, "TN")
-  x$parameters$ki.value <-
-    ParseGeneric(brenda[brenda$field == "KI_VALUE", ]$description, "KI")
-  x$parameters$pi.value <-
-    ParseGeneric(brenda[brenda$field == "PI_VALUE", ]$description, "PI")
-  x$parameters$ph.optimum <-
-    ParseGeneric(brenda[brenda$field == "PH_OPTIMUM", ]$description, "PHO")
-  x$parameters$ph.range <-
-    ParseGeneric(brenda[brenda$field == "PH_RANGE", ]$description, "PHR")
-  x$parameters$temperature.optimum <-
-    ParseGeneric(brenda[brenda$field == "TEMPERATURE_OPTIMUM", ]$description, "TO")
-  x$parameters$temperature.range <-
-    ParseGeneric(brenda[brenda$field == "TEMPERATURE_RANGE", ]$description, "TR")
-  x$parameters$specific.activity <-
-    ParseGeneric(brenda[brenda$field == "SPECIFIC_ACTIVITY", ]$description, "SA")
-  x$parameters$ic50 <-
-    ParseGeneric(brenda[brenda$field == "IC50_VALUE", ]$description, "IC50")
+    # Parameters ---------------------------------------------------------------
+    km.value = ParseGeneric(brenda["KM_VALUE"], "KM"),
+    turnover.number = ParseGeneric(brenda["TURNOVER_NUMBER"], "TN"),
+    ki.value = ParseGeneric(brenda["KI_VALUE"], "KI"),
+    pi.value = ParseGeneric(brenda["PI_VALUE"], "PI"),
+    ph.optimum = ParseGeneric(brenda["PH_OPTIMUM"], "PHO"),
+    ph.range = ParseGeneric(brenda["PH_RANGE"], "PHR"),
+    temperature.optimum = ParseGeneric(brenda["TEMPERATURE_OPTIMUM"], "TO"),
+    temperature.range = ParseGeneric(brenda["TEMPERATURE_RANGE"], "TR"),
+    specific.activity = ParseGeneric(brenda["SPECIFIC_ACTIVITY"], "SA"),
+    ic50 = ParseGeneric(brenda["IC50_VALUE"], "IC50"),
 
-  # Organism information -----------------------------------------------------
-  x$organism$source.tissue <-
-    ParseGeneric(brenda[brenda$field == "SOURCE_TISSUE", ]$description, "ST")
-  x$organism$localization <-
-    ParseGeneric(brenda[brenda$field == "LOCALIZATION", ]$description, "LO")
+    # Organism information -----------------------------------------------------
+    source.tissue = ParseGeneric(brenda["SOURCE_TISSUE"], "ST"),
+    localization = ParseGeneric(brenda["LOCALIZATION"], "LO"),
 
-  # Structure ----------------------------------------------------------------
-  x$structure$molecular.weight <-
-    ParseGeneric(brenda[brenda$field == "MOLECULAR_WEIGHT", ]$description, "MW")
-  x$structure$subunits <-
-    ParseGeneric(brenda[brenda$field == "SUBUNITS", ]$description, "SU")
-  x$structure$posttranslational.modification <-
-    ParseGeneric(brenda[brenda$field == "POSTTRANSLATIONAL_MODIFICATION", ]$description, "PM")
-  x$structure$cystallization <-
-    ParseNoDescription(brenda[brenda$field == "CRYSTALLIZATION", ]$description, "CR")
+    # Structure ----------------------------------------------------------------
+    molecular.weight = ParseGeneric(brenda["MOLECULAR_WEIGHT"], "MW"),
+    subunits = ParseGeneric(brenda["SUBUNITS"], "SU"),
+    posttranslational.modification = ParseGeneric(brenda["POSTTRANSLATIONAL_MODIFICATION"], "PM"),
+    cystallization = ParseNoDescription(brenda["CRYSTALLIZATION"], "CR"),
 
-  # Molecular ----------------------------------------------------------------
-  x$molecular$stability$general.stability <-
-    ParseNoDescription(brenda[brenda$field == "GENERAL_STABILITY", ]$description, "GS")
-  x$molecular$stability$storage.stability <-
-    ParseNoDescription(brenda[brenda$field == "STORAGE_STABILITY", ]$description, "SS")
-  x$molecular$stability$ph.stability <-
-    ParseGeneric(brenda[brenda$field == "PH_STABILITY", ]$description, "PHS")
-  x$molecular$stability$organic.solvent.stability <-
-    ParseGeneric(brenda[brenda$field == "ORGANIC_SOLVENT_STABILITY", ]$description, "OSS")
-  x$molecular$stability$oxidation.stability <-
-    ParseNoDescription(brenda[brenda$field == "OXIDATION_STABILITY", ]$description, "OS")
-  x$molecular$stability$temperature.stability <-
-    ParseGeneric(brenda[brenda$field == "TEMPERATURE_STABILITY", ]$description, "TS")
+    # Molecular ----------------------------------------------------------------
+    general.stability = ParseNoDescription(brenda["GENERAL_STABILITY"], "GS"),
+    storage.stability = ParseNoDescription(brenda["STORAGE_STABILITY"], "SS"),
+    ph.stability = ParseGeneric(brenda["PH_STABILITY"], "PHS"),
+    organic.solvent.stability = ParseGeneric(brenda["ORGANIC_SOLVENT_STABILITY"], "OSS"),
+    oxidation.stability = ParseNoDescription(brenda["OXIDATION_STABILITY"], "OS"),
+    temperature.stability = ParseGeneric(brenda["TEMPERATURE_STABILITY"], "TS"),
 
-  x$molecular$purification <-
-    ParseGeneric(brenda[brenda$field == "PURIFICATION", ]$description, "PU")
-  x$molecular$cloned <-
-    ParseNoDescription(brenda[brenda$field == "CLONED", ]$description, "CL")
-  x$molecular$engineering <-
-    ParseGeneric(brenda[brenda$field == "ENGINEERING", ]$description, "EN")
-  x$molecular$renatured <-
-    ParseNoDescription(brenda[brenda$field == "RENATURED", ]$description, "REN")
-  x$molecular$application <-
-    ParseGeneric(brenda[brenda$field == "APPLICATION", ]$description, "AP")
+    purification = ParseGeneric(brenda["PURIFICATION"], "PU"),
+    cloned = ParseNoDescription(brenda["CLONED"], "CL"),
+    engineering = ParseGeneric(brenda["ENGINEERING"], "EN"),
+    renatured = ParseNoDescription(brenda["RENATURED"], "REN"),
+    application = ParseGeneric(brenda["APPLICATION"], "AP"),
 
-  # Bibliography -------------------------------------------------------------
-  x$bibliography <-
-    ParseReference(brenda[brenda$field == "REFERENCE", ]$description)
-
+    # Bibliography -------------------------------------------------------------
+    bibliography = ParseReference(brenda["REFERENCE"])
+  )
   return(x)
 }
