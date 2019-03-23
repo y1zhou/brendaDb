@@ -18,20 +18,17 @@
 #' @importFrom dplyr distinct
 #' @importFrom purrr map_chr
 ParseReaction <- function(description, acronym) {
-  if (missing(description)) {
-    stop("Parameter description missing. Should be a string.")
-  }
   if (length(description) == 0) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)
-  protein.id <- str_extract(des.list, "^#[0-9, ]+#")
-  protein.id <- lapply(protein.id, function(x)
-    ParseProteinNum(x, type = "protein"))
+  protein.id <- des.list %>%
+    str_extract("^#[0-9, ]+#") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "protein"))
 
-  ref.id <- str_extract(des.list, "<[0-9, ]+>$")
-  ref.id <- lapply(ref.id, function(x)
-    ParseProteinNum(x, type = "reference"))
+  ref.id <- des.list %>%
+    str_extract("<[0-9, ]+>$") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "reference"))
 
   reversibility <- des.list %>%
     str_extract("(\\{i?r\\})|(\\{\\??\\})") %>%  # {r}, {ir}, {?}, {}

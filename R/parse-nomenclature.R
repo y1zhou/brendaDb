@@ -13,8 +13,8 @@
 #' "PR\t#2# Mus musculus <11,18,19>\n")
 #' brendaDb:::ParseProtein(x)
 #'
-#' @importFrom magrittr %>%
 #' @import stringr
+#' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select
 ParseProtein <- function(description) {

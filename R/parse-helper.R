@@ -82,10 +82,12 @@ SeparateSubentries <- function(description, acronym) {
     return(NA)
   }
   x <- str_split(description, paste0("\n", acronym, "\t"))[[1]]
-  x <- str_remove_all(trimws(x), paste0("^", acronym, "(\\s+)?"))
-  # The following line will result in some references delimited by " "
-  # instead of ,
-  x <- str_replace_all(x, "\n\t", " ")
+  x <- x %>%
+    str_trim() %>%
+    str_remove_all(paste0("^", acronym, "(\\s+)?")) %>%
+    # The following line will result in some references delimited by " "
+    # instead of ,
+    str_replace_all("\n\t", " ")
   return(x)
 }
 
@@ -180,22 +182,20 @@ ParseGeneric <- function(description, acronym) {
 #' @return A `tibble` with columns: proteinID, description and refID.
 #'
 #' @import stringr
+#' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseNoDescription <- function(description, acronym) {
-  if (missing(description)) {
-    stop("Parameter description missing. Should be a string.")
-  }
   if (length(description) == 0) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)
-  protein.id <- str_extract(des.list, "^#[0-9, ]+#")
-  protein.id <- lapply(protein.id, function(x)
-    ParseProteinNum(x, type = "protein"))
+  protein.id <- des.list %>%
+    str_extract("^#[0-9, ]+#") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "protein"))
 
-  ref.id <- str_extract(des.list, "<[0-9, ]+>$")
-  ref.id <- lapply(ref.id, function(x)
-    ParseProteinNum(x, type = "reference"))
+  ref.id <- des.list %>%
+    str_extract("<[0-9, ]+>$") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "reference"))
 
   description <- des.list %>%
     str_remove("^#[0-9, ]+#") %>%

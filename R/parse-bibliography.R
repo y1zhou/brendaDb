@@ -17,23 +17,25 @@
 #' brendaDb:::ParseReference(x)
 #'
 #' @import stringr
+#' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseReference <- function(description) {
   x <- SeparateSubentries(description, acronym = "RF")
 
   # Split reference IDs, titles, and pubmed IDs ------------------------------
-  ref.num <- str_extract(x, "^<\\d+>")
-  ref.num <- lapply(ref.num, function(x)
-    ParseProteinNum(x, type = "reference"))
+  ref.num <- x %>%
+    str_extract("^<\\d+>") %>%
+    map_chr(function(x) ParseProteinNum(x, type = "reference"))
 
-  pubmed <- str_extract(x, "\\{Pubmed:\\d+\\}")
-  pubmed <- lapply(pubmed, function(x) str_extract(x, "\\d+"))
+  pubmed <- x %>%
+    str_extract("\\{Pubmed:\\d+\\}") %>%
+    map_chr(function(x) str_extract(x, "\\d+"))
 
   ref.title <-
     str_trim(str_remove_all(x, "(^<\\d+>)|(\\{Pubmed.*$)"))
 
   res <- tibble(refID = ref.num,
-                    title = ref.title,
-                    pubmed = pubmed)
+                title = ref.title,
+                pubmed = pubmed)
   return(res)
 }
