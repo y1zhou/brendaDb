@@ -166,8 +166,8 @@ ParseGeneric <- function(description, acronym) {
     refID = ref.id
   ) %>%
     distinct(description, fieldInfo, commentary, .keep_all = T)
-  # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.100&organism%5B%5D=Mycobacterium+tuberculosis#pH%20OPTIMUM
-  res$description[res$description %in% c("-999", "more", "More", "more = ?")] <- "additional information"
+  # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.1&organism=Mus+musculus#pH%20OPTIMUM
+  res$description[res$description %in% c("-999", "more", "More")] <- "additional information"
   return(res)
 }
 
