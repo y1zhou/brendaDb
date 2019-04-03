@@ -6,6 +6,54 @@
 #'
 #' @param EC A string indicating EC number of the enzyme.
 #'
+#' @param protein The description string of a PR field.
+#' @param systematic.name The description string of a SN field.
+#' @param recommended.name The description string of a RN field.
+#' @param synonyms The description string of a SY field.
+#' @param reaction The description string of a RE field.
+#' @param reaction.type The description string of a RT field.
+#'
+#' @param substrate.product The description string of a SP field.
+#' @param natural.substrate.product The description string of a NSP field.
+#' @param cofactor The description string of a CF field.
+#' @param metals.ions The description string of a ME field.
+#' @param inhibitors The description string of a IN field.
+#' @param activating.compound The description string of a AC field.
+#'
+#' @param km.value The description string of a KM field.
+#' @param turnover.number The description string of a TN field.
+#' @param ki.value The description string of a KI field.
+#' @param pi.value The description string of a PI field.
+#' @param ph.optimum The description string of a PHO field.
+#' @param ph.range The description string of a PHR field.
+#' @param temperature.optimum The description string of a TO field.
+#' @param temperature.range The description string of a TR field.
+#' @param specific.activity The description string of a SA field.
+#' @param ic50 The description string of a IC50 field.
+#'
+#' @param source.tissue The description string of a ST field.
+#' @param localization The description string of a LO field.
+#'
+#' @param general.stability The description string of a GS field.
+#' @param storage.stability The description string of a SS field.
+#' @param ph.stability The description string of a PHS field.
+#' @param organic.solvent.stability The description string of a OSS field.
+#' @param oxidation.stability The description string of a OS field.
+#' @param temperature.stability The description string of a TS field.
+#'
+#' @param purification The description string of a PU field.
+#' @param cloned The description string of a CL field.
+#' @param engineering The description string of a EN field.
+#' @param renatured The description string of a REN field.
+#' @param application The description string of a AP field.
+#'
+#' @param molecular.weight The description string of a MW field.
+#' @param subunits The description string of a SU field.
+#' @param posttranslational.modification The description string of a PM field.
+#' @param crystallization The description string of a CR field.
+#'
+#' @param bibliography The description string of a RF field.
+#'
 #' @examples
 #' brendaDb:::InitBrendaEntry("1.1.1.100")
 InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
@@ -24,7 +72,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
                             purification = NA, cloned = NA, engineering = NA,
                             renatured = NA, application = NA, molecular.weight = NA,
                             subunits = NA, posttranslational.modification = NA,
-                            cystallization = NA, bibliography = NA) {
+                            crystallization = NA, bibliography = NA) {
   if (missing(EC)) {
     stop("Missing parameter: EC.")
   }
@@ -106,7 +154,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           molecular.weight = molecular.weight,
           subunits = subunits,
           posttranslational.modification = posttranslational.modification,
-          cystallization = cystallization
+          crystallization = crystallization
         ),
         class = "brenda.structure"
       ),

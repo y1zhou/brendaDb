@@ -64,7 +64,7 @@ QueryBrenda <- function(brenda, EC) {
     molecular.weight = ParseGeneric(brenda["MOLECULAR_WEIGHT"], "MW"),
     subunits = ParseGeneric(brenda["SUBUNITS"], "SU"),
     posttranslational.modification = ParseGeneric(brenda["POSTTRANSLATIONAL_MODIFICATION"], "PM"),
-    cystallization = ParseNoDescription(brenda["CRYSTALLIZATION"], "CR"),
+    crystallization = ParseNoDescription(brenda["CRYSTALLIZATION"], "CR"),
 
     # Molecular ----------------------------------------------------------------
     general.stability = ParseNoDescription(brenda["GENERAL_STABILITY"], "GS"),
