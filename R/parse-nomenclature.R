@@ -15,18 +15,31 @@
 #'
 #' @import stringr
 #' @importFrom magrittr %>%
-#' @importFrom tibble as_tibble
+#' @importFrom tibble as_tibble is_tibble
 #' @importFrom dplyr mutate select
 ParseProtein <- function(description) {
-  res <- ParseGeneric(description, acronym = "PR") %>%
-    as_tibble() %>%
-    mutate(
-      uniprot = str_extract(
-        description,
-        "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}"
-      )) %>%  # regex taken from https://www.uniprot.org/help/accession_numbers
-    select(proteinID, description, uniprot, commentary, refID)
-  return(res)
+  # regex taken from https://www.uniprot.org/help/accession_numbers
+  uniprot.regex <- regex(
+    "([OPQ][0-9][A-Z0-9]{3}[0-9]|
+    [A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})|  # official accession numbers
+    \\w+\\s([uU]ni|[sS]wiss)[pP]rot  # non-canonical IDs",
+    comments = T)
+  res <- ParseGeneric(description, acronym = "PR")
+  if (is_tibble(res)) {
+    res <- res %>%
+      mutate(
+        uniprot = str_extract(description, uniprot.regex)
+      ) %>%
+      mutate(
+        description = str_remove(description, uniprot.regex),
+        description = str_trim(str_remove(description, "([uU]ni|[sS]wiss)[pP]rot")),
+        uniprot = toupper(str_remove(uniprot, "\\s+([uU]ni|[sS]wiss)[pP]rot"))
+      ) %>%
+      select(proteinID, description, uniprot, commentary, refID)
+    return(res)
+  } else {
+    return(NA)
+  }
 }
 
 
