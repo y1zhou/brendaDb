@@ -18,7 +18,7 @@
 #' @importFrom dplyr distinct
 #' @importFrom purrr map_chr
 ParseReaction <- function(description, acronym) {
-  if (length(description) == 0) {
+  if (is.na(description)) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)
@@ -50,7 +50,7 @@ ParseReaction <- function(description, acronym) {
     str_remove("\\(#.*>\\)") %>%
     str_remove("\\|#.*>\\|") %>%
     str_trim() %>%
-    str_split(" = ")  # separate substrate and product
+    str_split(regex(" = ", fixed = T))  # separate substrate and product
 
   res <- tibble(
     proteinID = protein.id,

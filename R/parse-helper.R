@@ -44,20 +44,14 @@ ParseProteinNum <- function(x, type) {
         )
       )
     }
-    delim <- "<|>"
+    delim <- "[<>]"
   } else {
     stop(str_glue('Unknown value for parameter type: "{type}".'))
   }
 
-  # Sanity check finished, now parse the string
   x <- str_remove_all(x, delim)
-  if (str_detect(x, "^\\d+$")) {
-    return(x)
-  } else {
-    x <- str_replace_all(x, "\\s+", ",")
-    x <- str_replace_all(x, ",+", ",")
-    return(x)
-  }
+  x <- str_replace_all(x, "[\\s,]+", ",")
+  return(x)
 }
 
 
@@ -87,7 +81,7 @@ SeparateSubentries <- function(description, acronym) {
     str_remove_all(paste0("^", acronym, "(\\s+)?")) %>%
     # The following line will result in some references delimited by " "
     # instead of ,
-    str_replace_all("\n\t", " ")
+    str_replace_all(regex("\n\t", fixed = T), " ")
   return(x)
 }
 
@@ -121,7 +115,7 @@ SeparateSubentries <- function(description, acronym) {
 #' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseGeneric <- function(description, acronym) {
-  if (length(description) == 0) {
+  if (is.na(description)) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)
@@ -189,7 +183,7 @@ ParseGeneric <- function(description, acronym) {
 #' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseNoDescription <- function(description, acronym) {
-  if (length(description) == 0) {
+  if (is.na(description)) {
     return(NA)
   }
   des.list <- SeparateSubentries(description, acronym = acronym)

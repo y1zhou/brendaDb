@@ -160,7 +160,9 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
       ),
 
       bibliography = structure(
-        bibliography,
+        list(
+          reference = bibliography
+        ),
         class = "brenda.bibliography")
     ),
     class = "brenda.entry"
