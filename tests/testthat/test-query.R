@@ -9,11 +9,6 @@ test_that("Query specific enzyme ", {
 
   expect_equal(x$nomenclature$ec, "1.1.1.1")
   expect_is(x, "brenda.entry")
-  expect_is(x$nomenclature$protein, "tbl_df")
-  expect_equal(
-    x$nomenclature$systematic.name,
-    "alcohol:NAD+ oxidoreductase"
-  )
-  expect_equal(x$nomenclature$recommended.name, "alcohol dehydrogenase")
-  expect_is(x$nomenclature$synonyms, "tbl_df")
+  # None of the elements should be NA
+  expect_true(all(unlist(lapply(x, function(x) !is.na(x)))))
 })

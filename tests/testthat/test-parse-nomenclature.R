@@ -1,6 +1,7 @@
 context("Parse nomenclature")
 
-test_that("Parse Protein field", {
+test_that("Parse PROTEIN", {
+  expect_true(is.na(ParseProtein(NA)))
   x <- ParseProtein(
     paste0(
       "PR\t#1# Cavia porcellus   (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
@@ -18,7 +19,7 @@ test_that("Parse Protein field", {
   expect_equal(sum(is.na(x$commentary)), 5)
 })
 
-test_that("Parse recommended name", {
+test_that("Parse RECOMMENDED_NAME", {
   expect_equal(
     ParseRecommendedName("RN\tD-arabinose 1-dehydrogenase (NAD+)"),
     "D-arabinose 1-dehydrogenase (NAD+)"
@@ -26,7 +27,7 @@ test_that("Parse recommended name", {
   expect_warning(ParseRecommendedName("XY\tD-arabinose 1-dehydrogenase (NAD+)"))
 })
 
-test_that("Parse systematic name", {
+test_that("Parse SYSTEMATIC_NAME", {
   expect_equal(
     ParseSystematicName("SN\talcohol:NAD+ oxidoreductase"),
     "alcohol:NAD+ oxidoreductase"
@@ -34,7 +35,7 @@ test_that("Parse systematic name", {
   expect_warning(ParseSystematicName("XY\talcohol:NAD+ oxidoreductase"))
 })
 
-test_that("Parse synonyms", {
+test_that("Parse SYNONYMS", {
   x <- ParseGeneric(
     paste0(
       "SY\t aldehyde reductase\n",
@@ -53,4 +54,23 @@ test_that("Parse synonyms", {
     ParseGeneric("SY\t#8,10,95,97,112,113,135# ADH1 (#10# isozyme <202>)\n",
                  acronym = "SY")
   ), c(1, 5))
+})
+
+test_that("Parse REACTION", {
+  x <- ParseGeneric(paste0(
+    "RE\ta (3R)-3-hydroxyacyl-[acyl-carrier protein] + NADP+ = a\n\t",
+    "3-oxoacyl-[acyl-carrier protein] + NADPH + H+ (#16# belongs to family\n\t",
+    "of short-chain alcohol dehydrogenases (SDR) with catalytic triad\n\t",
+    "Ser154, Tyr167 and Lys171, catalytic mechanism <16>; #42# ordered bi bi\n\t",
+    "kinetic mechanism, [acyl-carrier protein] recognition mechanism <23>)\n"
+  ), "RE")
+  expect_is(x, "tbl_df")
+  expect_equal(dim(x), c(1, 5))
+  expect_true(all(is.na(c(x$proteinID, x$fieldInfo, x$refID))))
+})
+
+test_that("Parse REACTION_TYPE", {
+  x <- ParseGeneric("RT\tredox reaction\nRT\toxidation\nRT\treduction\n", "RT")
+  expect_equal(dim(x), c(3, 5))
+  expect_true(all(is.na(c(x$proteinID, x$fieldInfo, x$commentary, x$refID))))
 })
