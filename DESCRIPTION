@@ -1,7 +1,7 @@
 Package: brendaDb
 Type: Package
 Title: The BRENDA Enzyme Database
-Version: 0.4.10
+Version: 0.4.11
 Author: Yi Zhou
 Maintainer: Yi Zhou <yi.zhou@uga.edu>
 Description: The aims of brendaDb include:
