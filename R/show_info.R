@@ -4,7 +4,7 @@
 #'
 #' @return A data.frame with columns "field" and "acronym".
 #'
-#' @importFrom dplyr distinct mutate select
+#' @importFrom dplyr filter distinct mutate select
 #' @import stringr
 #' @importFrom tibble as_tibble
 #' @export
@@ -13,6 +13,7 @@ ShowFields <- function(df) {
     stop("Missing parameter df. If you want all the fields, please use data(acronyms).")
   } else {
     acronyms <- df %>%
+      filter(field != "TRANSFERRED_DELETED") %>%
       distinct(field, .keep_all = T) %>%
       mutate(acronym = str_extract(description, "^[A-Z05]+")) %>%
       select(field, acronym) %>%
