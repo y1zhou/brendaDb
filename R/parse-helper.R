@@ -69,6 +69,9 @@ ParseProteinNum <- function(x, type) {
 #' brendaDb:::SeparateSubentries(x, "SN")
 #' @import stringr
 SeparateSubentries <- function(description, acronym) {
+  if (is.na(description)) {
+    return (NA)
+  }
   if (str_detect(description, paste0("^", acronym, "\t"), negate = T)) {
     warning(str_glue(
       "The description doesn't seem to match your provided acronym \"{acronym}\".")

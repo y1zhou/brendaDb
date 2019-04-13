@@ -20,6 +20,9 @@
 #' @importFrom purrr map_chr
 #' @importFrom tibble tibble
 ParseReference <- function(description) {
+  if (is.na(description)) {
+    return(NA)
+  }
   x <- SeparateSubentries(description, acronym = "RF")
 
   # Split reference IDs, titles, and pubmed IDs ------------------------------
