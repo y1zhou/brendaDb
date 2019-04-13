@@ -59,10 +59,7 @@ QueryBrendaBase <- function(brenda, EC, fields = F) {
     filter(ID == EC) %>%
     select(field, description) %>%
     deframe()  # two columns to named vector
-  # Select certain fields
-  if (is.character(fields)) {
-    brenda <- brenda[names(brenda) %in% fields]
-  }
+
   # Don't use InitBrendaEntry for transferred / deleted entries
   if ("TRANSFERRED_DELETED" %in% names(brenda)) {
     message(str_glue("{EC} was transferred or deleted."))
@@ -76,6 +73,10 @@ QueryBrendaBase <- function(brenda, EC, fields = F) {
       class = "brenda.entry"
     )
   } else {
+    # Select certain fields
+    if (is.character(fields)) {
+      brenda <- brenda[names(brenda) %in% fields]
+    }
     x <- InitBrendaEntry(
       EC,
       # Nomenclature -------------------------------------------------------------
