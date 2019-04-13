@@ -26,6 +26,6 @@ this case we point to the new entry) entries.
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
                           package = "brendaDb"))
-CleanECNumber(df)
+brendaDb:::CleanECNumber(df)
 
 }

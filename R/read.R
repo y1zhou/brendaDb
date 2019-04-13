@@ -58,11 +58,10 @@ ReadBrenda <- function(filepath, clean = T) {
 #' - field being "TRANSFERRED_DELETED", and
 #' - description being the information included in the original ID column.
 #'
-#' @export
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
-#' CleanECNumber(df)
+#' brendaDb:::CleanECNumber(df)
 #'
 #' @importFrom dplyr mutate filter bind_rows
 #' @import stringr
