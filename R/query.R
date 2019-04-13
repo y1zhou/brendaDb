@@ -1,3 +1,38 @@
+#' @title Query for multiple enzymes.
+#'
+#' @description Use a vector of EC numbers to retrieve information from the BRENDA
+#' `tibble` read in by `ReadBrenda()`. Invalid EC numbers will be removed.
+#'
+#' @inheritParams QueryBrendaBase
+#' @inheritParams ConfigBPCores
+#'
+#' @return A list of `brenda.entry` objects.
+#'
+#' @seealso QueryBrendaBase
+#' @export
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"))
+#'
+#' @import BiocParallel
+#' @importFrom purrr map_chr
+QueryBrenda <- function(brenda, EC, fields = F, n.core = 0) {
+  EC.not.found <- EC[!EC %in% brenda$ID]
+  if (length(EC.not.found) != 0) {
+    message(str_glue(
+      "Invalid EC number(s) removed: {paste(EC.not.found, collapse = ', ')}"
+    ))
+  }
+  EC <- EC[EC %in% brenda$ID]
+  BP.param <- ConfigBPCores(n.core = n.core)
+  res <- bplapply(EC, function(x) QueryBrendaBase(brenda, x, fields),
+                  BPPARAM = BP.param)
+  names(res) <- map_chr(res, function(x) x$nomenclature$ec)
+  return(res)
+}
+
+
 #' @title Query for a specific enzyme.
 #'
 #' @description Use a EC number to retrieve information from the BRENDA
@@ -5,32 +40,37 @@
 #'
 #' @param brenda A `tibble` containing information from BRENDA.
 #' @param EC A string of the EC number.
+#' @param fields A character vector indicating fields to parse. Default is
+#' FALSE, which would be returning all fields.
 #'
 #' @return A `brenda.entry` object.
 #'
 #' @seealso ReadBrenda InitBrendaEntry
-#' @export
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
-#' QueryBrenda(brenda = df, EC = "1.1.1.1")
+#' brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1")
 #'
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
 #' @importFrom stringr str_glue
-QueryBrenda <- function(brenda, EC) {
+QueryBrendaBase <- function(brenda, EC, fields = F) {
   brenda <- brenda %>%
     filter(ID == EC) %>%
     select(field, description) %>%
     deframe()  # two columns to named vector
-  if (length(brenda) == 0) {
-    stop(str_glue("EC {EC} not found in brenda table."))
+  # Select certain fields
+  if (is.character(fields)) {
+    brenda <- brenda[names(brenda) %in% fields]
   }
+  # Don't use InitBrendaEntry for transferred / deleted entries
   if ("TRANSFERRED_DELETED" %in% names(brenda)) {
     message(str_glue("{EC} was transferred or deleted."))
     x <- structure(
       list(
-        ec = EC,
+        nomenclature = list(
+          ec = EC
+        ),
         msg = brenda[["TRANSFERRED_DELETED"]]
       ),
       class = "brenda.entry"
@@ -95,4 +135,32 @@ QueryBrenda <- function(brenda, EC) {
     )
   }
   return(x)
+}
+
+
+#' @title Configure the number of cores used by BiocParallel.
+#'
+#' @param n.core Integer specifying the number of cores to use. Default is 0,
+#' which would result in using all available cores.
+#'
+#' @return The back-end of type bpparamClass.
+#'
+#' @examples
+#' brendaDb:::ConfigBPCores(2)
+#'
+#' @import BiocParallel
+ConfigBPCores <- function(n.core = 0){
+  if (n.core != 0) {
+    if (.Platform$OS.type == "windows") {
+      # Use the cluster approach to spawn processes on Windows machines
+      res <- SnowParam(workers = n.core)
+    } else {
+      # The multicore approach is recommended on other platforms
+      res <- MulticoreParam(workers = n.core)
+    }
+  } else {
+    # By default, use the first registered backend returned by bpparam()
+    res <- bpparam()
+  }
+  return(res)
 }
