@@ -8911,3 +8911,20 @@ IC50	#45# 2.2 {guanidine hydrochloride}  (#45# mutant enzyme N249Y <154>)
 	<154>
 
 ///
+ID	6.3.5.8 (transferred to EC 2.6.1.85. As ATP is not hydrolysed during the reaction, the classification of the enzyme as a ligase was incorrect.)
+********************************************************************************
+*                                                                              *
+* Copyrighted by Dietmar Schomburg, Techn. University Braunschweig, GERMANY    *
+* Distributed under the License as stated at http:/www.brenda-enzymes.org      *
+*                                                                              *
+********************************************************************************
+
+RECOMMENDED_NAME
+RN	aminodeoxychorismate synthase
+
+
+SYSTEMATIC_NAME
+SN
+
+
+///
