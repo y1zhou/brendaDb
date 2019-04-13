@@ -5,6 +5,12 @@ cache: packages
 
 r_packages:
   - covr
+  - testthat
+  - Rcpp
+  - rlang
+
+bioc_packages:
+  - BiocParallel
 
 jobs:
   include:
