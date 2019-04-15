@@ -16,7 +16,7 @@
 #' @import stringr
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble is_tibble
-#' @importFrom dplyr mutate select
+#' @importFrom dplyr mutate select distinct
 ParseProtein <- function(description) {
   # regex taken from https://www.uniprot.org/help/accession_numbers
   uniprot.regex <- regex(
@@ -35,7 +35,8 @@ ParseProtein <- function(description) {
         description = str_trim(str_remove(description, "([uU]ni|[sS]wiss)[pP]rot")),
         uniprot = toupper(str_remove(uniprot, "\\s+([uU]ni|[sS]wiss)[pP]rot"))
       ) %>%
-      select(proteinID, description, uniprot, commentary, refID)
+      select(proteinID, description, uniprot, commentary, refID) %>%
+      distinct()
     return(res)
   } else {
     return(NA)
