@@ -12,3 +12,10 @@ test_that("Query enzymes", {
   # None of the elements should be NA
   expect_true(all(unlist(lapply(x, function(x) !is.na(x)))))
 })
+
+test_that("Query single enzyme", {
+  expect_message(QueryBrendaBase(df, "6.3.5.8"), "^6.3.5.8.*deleted.")
+
+  x <- QueryBrendaBase(df, "1.1.1.1", fields = c("PROTEIN", "KM_VALUE"))
+  expect_equal(dim(x$parameters$km.value), c(878, 5))
+})

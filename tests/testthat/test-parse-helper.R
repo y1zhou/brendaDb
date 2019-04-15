@@ -13,6 +13,7 @@ test_that("Parse protein number ", {
 })
 
 test_that("Separate subentries", {
+  expect_true(is.na(SeparateSubentries(NA)))
   expect_warning(SeparateSubentries("SN\talcohol oxidoreductase", "SS"))
   expect_equal(SeparateSubentries("SN\txx\n\tyyy", "SN"), "xx yyy")
   expect_equal(SeparateSubentries("SN\txx\n\tyyy\nSN\tzzz", "SN"),

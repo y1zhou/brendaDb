@@ -1,6 +1,7 @@
 context("Parse bibliography")
 
 test_that("Parse references", {
+  expect_true(is.na(ParseReference(NA)))
   x <- ParseReference(
     paste0(
       "RF\t<1> Talbot, B.G.; Thirion, J.P.: Purification\n\t",
