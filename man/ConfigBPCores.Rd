@@ -11,7 +11,7 @@ ConfigBPCores(n.core = 0)
 which would result in using all available cores.}
 }
 \value{
-The back-end of type bpparamClass.
+The back-end of type \code{bpparamClass}.
 }
 \description{
 Configure the number of cores used by BiocParallel.

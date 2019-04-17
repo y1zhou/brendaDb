@@ -4,7 +4,7 @@
 #' `natural.substrate.product`.
 #'
 #' @param description A description string from one of the entries.
-#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @details The reversibility of the reactions are wrapped in {}; substrates
 #' and products are separated by "="; commentaries on substrates are wrapped in

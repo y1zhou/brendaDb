@@ -4,25 +4,24 @@
 \alias{QueryBrenda}
 \title{Query for multiple enzymes.}
 \usage{
-QueryBrenda(brenda, EC, fields = F, n.core = 0)
+QueryBrenda(brenda, EC, n.core = 0, ...)
 }
 \arguments{
 \item{brenda}{A \code{tibble} containing information from BRENDA.}
 
 \item{EC}{A string of the EC number.}
 
-\item{fields}{A character vector indicating fields to parse. Default is
-FALSE, which would be returning all fields.}
-
 \item{n.core}{Integer specifying the number of cores to use. Default is 0,
 which would result in using all available cores.}
+
+\item{...}{Other parameters passed to \code{\link[=QueryBrendaBase]{QueryBrendaBase()}}.}
 }
 \value{
 A list of \code{brenda.entry} objects.
 }
 \description{
 Use a vector of EC numbers to retrieve information from the BRENDA
-\code{tibble} read in by \code{ReadBrenda()}. Invalid EC numbers will be removed.
+\code{tibble} read in by \code{\link[=ReadBrenda]{ReadBrenda()}}. Invalid EC numbers will be removed.
 }
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
@@ -31,5 +30,5 @@ QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"))
 
 }
 \seealso{
-QueryBrendaBase
+\code{\link[=QueryBrendaBase]{QueryBrendaBase()}}
 }

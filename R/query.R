@@ -1,14 +1,15 @@
 #' @title Query for multiple enzymes.
 #'
 #' @description Use a vector of EC numbers to retrieve information from the BRENDA
-#' `tibble` read in by `ReadBrenda()`. Invalid EC numbers will be removed.
+#' `tibble` read in by [ReadBrenda()]. Invalid EC numbers will be removed.
 #'
 #' @inheritParams QueryBrendaBase
 #' @inheritParams ConfigBPCores
+#' @param ... Other parameters passed to [QueryBrendaBase()].
 #'
 #' @return A list of `brenda.entry` objects.
 #'
-#' @seealso QueryBrendaBase
+#' @seealso [QueryBrendaBase()]
 #' @export
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
@@ -17,7 +18,7 @@
 #'
 #' @import BiocParallel
 #' @importFrom purrr map_chr
-QueryBrenda <- function(brenda, EC, fields = F, n.core = 0) {
+QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
   EC.not.found <- EC[!EC %in% brenda$ID]
   if (length(EC.not.found) != 0) {
     message(str_glue(
@@ -26,7 +27,7 @@ QueryBrenda <- function(brenda, EC, fields = F, n.core = 0) {
   }
   EC <- EC[EC %in% brenda$ID]
   BP.param <- ConfigBPCores(n.core = n.core)
-  res <- bplapply(EC, function(x) QueryBrendaBase(brenda, x, fields),
+  res <- bplapply(EC, function(x) QueryBrendaBase(brenda, x, ...),
                   BPPARAM = BP.param)
   names(res) <- map_chr(res, function(x) x$nomenclature$ec)
   return(res)
@@ -36,7 +37,7 @@ QueryBrenda <- function(brenda, EC, fields = F, n.core = 0) {
 #' @title Query for a specific enzyme.
 #'
 #' @description Use a EC number to retrieve information from the BRENDA
-#' `tibble` read in by `ReadBrenda()`.
+#' `tibble` read in by [ReadBrenda()].
 #'
 #' @param brenda A `tibble` containing information from BRENDA.
 #' @param EC A string of the EC number.
@@ -45,7 +46,7 @@ QueryBrenda <- function(brenda, EC, fields = F, n.core = 0) {
 #'
 #' @return A `brenda.entry` object.
 #'
-#' @seealso ReadBrenda InitBrendaEntry
+#' @seealso [ReadBrenda()] [InitBrendaEntry()]
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
@@ -144,7 +145,7 @@ QueryBrendaBase <- function(brenda, EC, fields = F) {
 #' @param n.core Integer specifying the number of cores to use. Default is 0,
 #' which would result in using all available cores.
 #'
-#' @return The back-end of type bpparamClass.
+#' @return The back-end of type `bpparamClass`.
 #'
 #' @examples
 #' brendaDb:::ConfigBPCores(2)

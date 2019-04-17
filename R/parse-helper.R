@@ -60,7 +60,7 @@ ParseProteinNum <- function(x, type) {
 #' @description Separate subentries and strip unnecessary whitespace.
 #'
 #' @param description The `description` string of the field.
-#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @return A list of strings with each subentry as an element.
 #'
@@ -100,7 +100,7 @@ SeparateSubentries <- function(description, acronym) {
 #' This function separates these fields into different columns.
 #'
 #' @param description A description string from one of the entries.
-#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @details
 #' The `description` column contains values extracted by BRENDA in each field.
@@ -178,7 +178,7 @@ ParseGeneric <- function(description, acronym) {
 #' the extracted value.
 #'
 #' @param description A description string from one of the entries.
-#' @param acronym The acronym of the field. Can be found with `ShowFields()`.
+#' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @return A `tibble` with columns: proteinID, description and refID.
 #'

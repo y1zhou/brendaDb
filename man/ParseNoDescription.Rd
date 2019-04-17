@@ -9,7 +9,7 @@ ParseNoDescription(description, acronym)
 \arguments{
 \item{description}{A description string from one of the entries.}
 
-\item{acronym}{The acronym of the field. Can be found with \code{ShowFields()}.}
+\item{acronym}{The acronym of the field. Can be found with \code{\link[=ShowFields]{ShowFields()}}.}
 }
 \value{
 A \code{tibble} with columns: proteinID, description and refID.

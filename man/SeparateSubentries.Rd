@@ -9,7 +9,7 @@ SeparateSubentries(description, acronym)
 \arguments{
 \item{description}{The \code{description} string of the field.}
 
-\item{acronym}{The acronym of the field. Can be found with \code{ShowFields()}.}
+\item{acronym}{The acronym of the field. Can be found with \code{\link[=ShowFields]{ShowFields()}}.}
 }
 \value{
 A list of strings with each subentry as an element.

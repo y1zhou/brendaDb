@@ -9,7 +9,7 @@ ReadBrenda(filepath, clean = T)
 \arguments{
 \item{filepath}{A string indicating the path to the text file.}
 
-\item{clean}{Boolean; if TRUE, run \code{CleanECNumber()} after reading the file.}
+\item{clean}{Boolean; if TRUE, run \code{\link[=CleanECNumber]{CleanECNumber()}} after reading the file.}
 }
 \value{
 A matrix containing information about the EC entries.

@@ -19,7 +19,7 @@ A \code{brenda.entry} object.
 }
 \description{
 Use a EC number to retrieve information from the BRENDA
-\code{tibble} read in by \code{ReadBrenda()}.
+\code{tibble} read in by \code{\link[=ReadBrenda]{ReadBrenda()}}.
 }
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
@@ -28,5 +28,5 @@ brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1")
 
 }
 \seealso{
-ReadBrenda InitBrendaEntry
+\code{\link[=ReadBrenda]{ReadBrenda()}} \code{\link[=InitBrendaEntry]{InitBrendaEntry()}}
 }
