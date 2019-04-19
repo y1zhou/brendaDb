@@ -1,4 +1,4 @@
-#' @title Create a `brendaEntry` object.
+#' @title Create a `brenda.entry` object.
 #'
 #' @description The list should contain 6 sublists: `nomenclature`,
 #' `interactions`, `parameters`, `molecular`, `stability`, and `bibliography`.
@@ -88,7 +88,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           reaction = reaction,
           reaction.type = reaction.type
         ),
-        class = "brenda.nomenclature"
+        class = "brenda.sublist"
       ),
 
       interactions = structure(
@@ -100,7 +100,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           inhibitors = inhibitors,
           activating.compound = activating.compound
         ),
-        class = "brenda.interactions"
+        class = "brenda.sublist"
       ),
 
       parameters = structure(
@@ -116,7 +116,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           specific.activity = specific.activity,
           ic50 = ic50
         ),
-        class = "brenda.parameters"
+        class = "brenda.sublist"
       ),
 
       organism = structure(
@@ -124,7 +124,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           source.tissue = source.tissue,
           localization = localization
         ),
-        class = "brenda.organism"
+        class = "brenda.sublist"
       ),
 
       molecular = structure(
@@ -138,7 +138,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
               oxidation.stability = oxidation.stability,
               temperature.stability = temperature.stability
             ),
-            class = "brenda.stability"
+            class = "brenda.sublist"
           ),
           purification = purification,
           cloned = cloned,
@@ -146,7 +146,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           renatured = renatured,
           application = application
         ),
-        class = "brenda.molecular"
+        class = "brenda.sublist"
       ),
 
       structure = structure(
@@ -156,23 +156,70 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
           posttranslational.modification = posttranslational.modification,
           crystallization = crystallization
         ),
-        class = "brenda.structure"
+        class = "brenda.sublist"
       ),
 
       bibliography = structure(
         list(
           reference = bibliography
         ),
-        class = "brenda.bibliography")
+        class = "brenda.sublist")
     ),
     class = "brenda.entry"
   )
   return(x)
 }
 
+
+#' @title Create a `brenda.deprecated.entry` object.
+#'
+#' @description Some EC numbers are transferred or deleted. For these entries,
+#' return a `brenda.deprecated.entry` object and the corresponding message.
+#'
+#' @param EC A string indicating EC number of the enzyme.
+#' @param msg A string of the transferred / deleted message.
+#'
+#' @examples
+#' brendaDb:::InitBrendaDeprecatedEntry("6.3.5.8", "Transferred to EC 2.6.1.85")
+InitBrendaDeprecatedEntry <- function(EC, msg) {
+  return(structure(
+    list(
+      nomenclature = list(
+        ec = EC
+      ),
+      msg = msg
+    ),
+    class = c("brenda.deprecated.entry", "brenda.entry")
+  ))
+}
+
+
 #' @rdname InitBrendaEntry
 #' @param x Any object.
+#' @importFrom purrr map_lgl
 #' @export
 is.brenda.entry <- function(x) {
-  return(inherits(x, "brenda.entry"))
+  if (inherits(x, "brenda.entries")) {
+    res <- map_lgl(x, function(x) inherits(x, "brenda.entry"))
+    if (all(res)) {
+      message("You might need \"is.brenda.deprecated.entry()\" ",
+      "to check for transferred or deleted entries.")
+    }
+  } else {
+    res <- inherits(x, "brenda.entry")
+  }
+  return(res)
+}
+
+
+#' @rdname InitBrendaDeprecatedEntry
+#' @param x Any object.
+#' @importFrom purrr map_lgl
+#' @export
+is.brenda.deprecated.entry <- function(x) {
+  if (is.list(x)) {
+    return(map_lgl(x, function(x) inherits(x, "brenda.deprecated.entry")))
+  } else {
+    return(inherits(x, "brenda.deprecated.entry"))
+  }
 }

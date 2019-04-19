@@ -8,7 +8,7 @@ test_that("Query enzymes", {
   x <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
 
   expect_equal(x[[1]]$nomenclature$ec, "1.1.1.1")
-  expect_true(all(sapply(x, is.brenda.entry)))
+  expect_true(all(is.brenda.entry(x)))
   # None of the elements should be NA
   expect_true(all(unlist(lapply(x, function(x) !is.na(x)))))
 })
