@@ -2,7 +2,7 @@
 #'
 #' @description The list should contain 6 sublists: `nomenclature`,
 #' `interactions`, `parameters`, `molecular`, `stability`, and `bibliography`.
-#' All sublists should be empty apart from the `EC` term in `nomenclature`.
+#' All sublists should be empty by default apart from `EC` under `nomenclature`.
 #'
 #' @param EC A string indicating EC number of the enzyme.
 #'
@@ -81,7 +81,6 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
       nomenclature = structure(
         list(
           ec = EC,
-          protein = protein,
           systematic.name = systematic.name,
           recommended.name = recommended.name,
           synonyms = synonyms,
@@ -121,6 +120,7 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
 
       organism = structure(
         list(
+          organism = protein,
           source.tissue = source.tissue,
           localization = localization
         ),
