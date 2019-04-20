@@ -45,13 +45,66 @@ df <- ReadBrenda("/path/to/textfile")
 ```{r, eval=FALSE}
 # Query for multiple enzymes -----
 res <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"))
+# 6.3.5.8 was transferred or deleted.
 
-names(res[[1]])
-# [1] "nomenclature" "interactions" "parameters"   "organism"     "molecular"   
-# [6] "structure"    "bibliography"
-names(res[[1]]$nomenclature)
-# [1] "ec"               "protein"          "systematic.name"  "recommended.name"
-# [5] "synonyms"         "reaction"         "reaction.type"
+summary(res)
+# A list of 2 brenda.entry object(s) with:
+# - 1 regular brenda.entry object(s)
+#   1.1.1.1
+# - 1 transferred or deleted object(s)
+#   6.3.5.8
+
+summary(res[[1]])
+# Entry 1.1.1.1
+# ├── nomenclature
+# |    ├── ec: 1.1.1.1
+# |    ├── systematic.name: alcohol:NAD+ oxidoreductase
+# |    ├── recommended.name: alcohol dehydrogenase
+# |    ├── synonyms: A tibble with 128 rows
+# |    ├── reaction: A tibble with 2 rows
+# |    └── reaction.type: A tibble with 3 rows
+# ├── interactions
+# |    ├── substrate.product: A tibble with 772 rows
+# |    ├── natural.substrate.product: A tibble with 20 rows
+# |    ├── cofactor: A tibble with 7 rows
+# |    ├── metals.ions: A tibble with 20 rows
+# |    ├── inhibitors: A tibble with 207 rows
+# |    └── activating.compound: A tibble with 22 rows
+# ├── parameters
+# |    ├── km.value: A tibble with 878 rows
+# |    ├── turnover.number: A tibble with 495 rows
+# |    ├── ki.value: A tibble with 34 rows
+# |    ├── pi.value: A tibble with 11 rows
+# |    ├── ph.optimum: A tibble with 55 rows
+# |    ├── ph.range: A tibble with 28 rows
+# |    ├── temperature.optimum: A tibble with 29 rows
+# |    ├── temperature.range: A tibble with 20 rows
+# |    ├── specific.activity: A tibble with 88 rows
+# |    └── ic50: A tibble with 2 rows
+# ├── organism
+# |    ├── organism: A tibble with 159 rows
+# |    ├── source.tissue: A tibble with 63 rows
+# |    └── localization: A tibble with 9 rows
+# ├── molecular
+# |    ├── stability
+# |    |    ├── general.stability: A tibble with 15 rows
+# |    |    ├── storage.stability: A tibble with 15 rows
+# |    |    ├── ph.stability: A tibble with 20 rows
+# |    |    ├── organic.solvent.stability: A tibble with 25 rows
+# |    |    ├── oxidation.stability: A tibble with 3 rows
+# |    |    └── temperature.stability: A tibble with 36 rows
+# |    ├── purification: A tibble with 48 rows
+# |    ├── cloned: A tibble with 46 rows
+# |    ├── engineering: A tibble with 60 rows
+# |    ├── renatured: A tibble with 1 rows
+# |    └── application: A tibble with 5 rows
+# ├── structure
+# |    ├── molecular.weight: A tibble with 119 rows
+# |    ├── subunits: A tibble with 11 rows
+# |    ├── posttranslational.modification: A tibble with 2 rows
+# |    └── crystallization: A tibble with 22 rows
+# └── bibliography
+# |    └── reference: A tibble with 285 rows
 
 # Query specific fields -----
 ShowFields(df)
@@ -90,7 +143,7 @@ res$`1.1.1.1`$interactions$substrate.product
 
 
 ## Additional Information
-By default `QueryBrenda` uses all available cores, but most of the times limiting it gives better performance:
+By default `QueryBrenda` uses all available cores, but often limiting `n.core` gives better performance:
 ```{r, eval=FALSE}
 EC.numbers <- head(unique(df$ID), 100)
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 0))  # default
