@@ -9,6 +9,8 @@ in the brenda.entries list.}
 }
 \arguments{
 \item{x}{A brenda.entries list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}.}
+
+\item{verbose}{Boolean; if TRUE, print tree views of each brenda.query object.}
 }
 \description{
 Show the number of regular and transferred/deleted brenda.entry objects

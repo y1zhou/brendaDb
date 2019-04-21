@@ -27,6 +27,7 @@ ShowFields <- function(df) {
 #' in the brenda.entries list.
 #'
 #' @param x A brenda.entries list returned by [QueryBrenda()].
+#' @param verbose Boolean; if TRUE, print tree views of each brenda.query object.
 #'
 #' @import stringr
 #' @importFrom purrr map
@@ -47,19 +48,22 @@ summary.brenda.entries <- function(x, verbose = F) {
 
 #' @title Show the non-empty fields in the query result.
 #'
+#' @description For details, see [PrettyPrintBrendaEntry()].
+#'
 #' @param x A brenda.entry object (elements in the list returned by [QueryBrenda()]).
 #'
 #' @import stringr
 #' @importFrom tibble is_tibble
 #' @importFrom purrr pmap
+#' @importFrom crayon make_style
 #' @export
 summary.brenda.entry <- function(x) {
   if (inherits(x, "brenda.deprecated.entry")) {
     print(str_glue(
       "Entry {x$nomenclature$ec}\n",
-      "├── nomenclature\n",
-      "|    └── ec: {make_style(rgb(0.58, 0.58, 0.58))(x$nomenclature$ec)}\n",
-      "└── msg: {make_style(rgb(0.58, 0.58, 0.58))(x$msg)}"
+      "\U251C\U2500\U2500 nomenclature\n",
+      "|    \U2514\U2500\U2500 ec: {make_style(rgb(0.58, 0.58, 0.58))(x$nomenclature$ec)}\n",
+      "\U2514\U2500\U2500 msg: {make_style(rgb(0.28, 0.28, 0.28))(x$msg)}"
     ))
   } else {
     cat("Entry", x$nomenclature$ec)
@@ -69,23 +73,39 @@ summary.brenda.entry <- function(x) {
   }
 }
 
+#' @title Print a brenda.entry in a tree view.
+#'
+#' @param x A `brenda.entry` object.
+#' @param index A string of the name of the sublist.
+#' @param tail.idx A string showing the last element in the entry. This is for
+#' printing a different character in the tree.
+#' @param depth Int, showing the depth of the element.
+#'
 #' @importFrom crayon make_style red
+#' @importFrom grDevices rgb
+#' @importFrom utils tail
 PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth) {
   if(index == tail.idx) {
-    cat("\n", rep("|    ", depth), "└── ", index, sep = "")
+    cat("\n", rep("|    ", depth), "\U2514\U2500\U2500 ", index, sep = "")
   } else {
-    cat("\n", rep("|    ", depth), "├── ", index, sep = "")
+    cat("\n", rep("|    ", depth), "\U251C\U2500\U2500 ", index, sep = "")
   }
 
   if(inherits(x, "brenda.sublist")) {
     pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
          function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, depth+1))
   } else if(is_tibble(x)) {
-    cat(":", make_style(rgb(0.58, 0.58, 0.58))("A tibble with", nrow(x), "rows"))
+    if (nrow(x) == 0) {
+      cat(":", make_style(rgb(0.58, 0.58, 0.58))(
+        "A tibble with", crayon::red(nrow(x)), "rows"))
+    } else {
+      cat(":", make_style(rgb(0.58, 0.58, 0.58))(
+        "A tibble with", nrow(x), "rows"))
+    }
   } else if (is.na(x)) {
     cat(":", crayon::red("NA"))
   } else {
-    cat(":", make_style(rgb(0.58, 0.58, 0.58))(x))
+    cat(":", make_style(rgb(0.28, 0.28, 0.28))(x))
   }
 }
 

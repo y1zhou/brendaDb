@@ -10,5 +10,5 @@
 \item{x}{A brenda.entry object (elements in the list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}).}
 }
 \description{
-Show the non-empty fields in the query result.
+For details, see \code{\link[=PrettyPrintBrendaEntry]{PrettyPrintBrendaEntry()}}.
 }
