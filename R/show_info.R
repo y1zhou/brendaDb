@@ -22,16 +22,6 @@ ShowFields <- function(df) {
   return(acronyms)
 }
 
-#' @title Generic function for showing summaries of brenda.entry objects.
-#'
-#' @param x A `brenda.entry` or `brenda.entries` object.
-#' @param ... Other arguments passed to the generic function.
-#'
-#' @seealso [summary.brenda.entries()] [summary.brenda.entry()]
-#' @export
-summary <- function (x, ...) {
-  UseMethod("summary", x)
-}
 
 #' @title Show the number of regular and transferred/deleted brenda.entry objects
 #' in the brenda.entries list.
@@ -40,19 +30,20 @@ summary <- function (x, ...) {
 #' @param verbose Boolean; if TRUE, print tree views of each brenda.query object.
 #' @param ... Other arguments passed to the generic function.
 #'
-#' @import stringr
 #' @importFrom purrr map
 #' @export
-summary.brenda.entries <- function(x, ..., verbose = F) {
-  print(str_glue(
+print.brenda.entries <- function(x, ..., verbose = F) {
+  cat(
     "A list of {length(x)} brenda.entry object(s) with:\n",
-    "- {length(x[!is.brenda.deprecated.entry(x)])} regular brenda.entry object(s)\n  ",
+    "-", length(x[!is.brenda.deprecated.entry(x)]),
+    "regular brenda.entry object(s)\n  ",
     paste(names(x)[!is.brenda.deprecated.entry(x)], collapse = ", "),
-    "\n- {length(x[is.brenda.deprecated.entry(x)])} transferred or deleted object(s)\n  ",
-    paste(names(x[is.brenda.deprecated.entry((x))]), collapse = ", ")))
+    "\n-", length(x[is.brenda.deprecated.entry(x)]),
+    "transferred or deleted object(s)\n  ",
+    paste(names(x[is.brenda.deprecated.entry((x))]), collapse = ", "))
 
   if (verbose) {
-    invisible(map(x, summary))
+    invisible(map(x, print))
   }
 }
 
@@ -69,7 +60,7 @@ summary.brenda.entries <- function(x, ..., verbose = F) {
 #' @importFrom purrr pmap
 #' @importFrom crayon make_style
 #' @export
-summary.brenda.entry <- function(x, ...) {
+print.brenda.entry <- function(x, ...) {
   if (inherits(x, "brenda.deprecated.entry")) {
     print(str_glue(
       "Entry {x$nomenclature$ec}\n",
