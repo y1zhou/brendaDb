@@ -75,7 +75,7 @@ CleanECNumber <- function(df) {
     distinct(ID) %>%
     mutate(
       field = "TRANSFERRED_DELETED",
-      description = str_extract(ID, "\\(.*$"),
+      description = str_sub(str_extract(ID, "\\(.*$"), 2, -2),
       ID = str_extract(ID, "^(\\d+\\.){3}\\d+")
     ) %>%
     filter(!is.na(ID))
