@@ -9,7 +9,7 @@
 #'
 #' @return A list of `brenda.entry` objects.
 #'
-#' @seealso [QueryBrendaBase()]
+#' @seealso [QueryBrendaBase()] [ConfigBPCores()] [SelectOrganism()]
 #' @export
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
@@ -30,6 +30,7 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
   res <- bplapply(EC, function(x) QueryBrendaBase(brenda, x, ...),
                   BPPARAM = BP.param)
   names(res) <- map_chr(res, function(x) x$nomenclature$ec)
+  class(res) <- "brenda.entries"
   return(res)
 }
 
@@ -43,6 +44,8 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
 #' @param EC A string of the EC number.
 #' @param fields A character vector indicating fields to parse. Default is
 #' FALSE, which would be returning all fields.
+#' @param organisms A character vector indicating organisms to keep. Default is
+#' FALSE, which would keep all organisms.
 #'
 #' @return A `brenda.entry` object.
 #'
@@ -55,30 +58,21 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
 #' @importFrom stringr str_glue
-QueryBrendaBase <- function(brenda, EC, fields = F) {
+QueryBrendaBase <- function(brenda, EC, fields = F, organisms = F) {
   brenda <- brenda %>%
     filter(ID == EC) %>%
     select(field, description) %>%
     deframe()  # two columns to named vector
 
-  # Don't use InitBrendaEntry for transferred / deleted entries
   if ("TRANSFERRED_DELETED" %in% names(brenda)) {
     message(str_glue("{EC} was transferred or deleted."))
-    x <- structure(
-      list(
-        nomenclature = list(
-          ec = EC
-        ),
-        msg = brenda[["TRANSFERRED_DELETED"]]
-      ),
-      class = "brenda.entry"
-    )
+    query <- InitBrendaDeprecatedEntry(EC, brenda[["TRANSFERRED_DELETED"]])
   } else {
     # Select certain fields
     if (is.character(fields)) {
       brenda <- brenda[names(brenda) %in% fields]
     }
-    x <- InitBrendaEntry(
+    query <- InitBrendaEntry(
       EC,
       # Nomenclature -------------------------------------------------------------
       protein = ParseProtein(brenda["PROTEIN"]),
@@ -135,8 +129,16 @@ QueryBrendaBase <- function(brenda, EC, fields = F) {
       # Bibliography -------------------------------------------------------------
       bibliography = ParseReference(brenda["REFERENCE"])
     )
+
+    if (is.character(organisms)) {
+      org.id <- query$organism$organism %>%
+        filter(description %in% organisms) %>%
+        select(description, proteinID) %>%
+        deframe()
+      query <- SelectOrganism(query, org.id)
+    }
   }
-  return(x)
+  return(query)
 }
 
 
@@ -146,6 +148,8 @@ QueryBrendaBase <- function(brenda, EC, fields = F) {
 #' which would result in using all available cores.
 #'
 #' @return The back-end of type `bpparamClass`.
+#'
+#' @seealso [BiocParallel::bpparam()]
 #'
 #' @examples
 #' brendaDb:::ConfigBPCores(2)
@@ -163,6 +167,38 @@ ConfigBPCores <- function(n.core = 0){
   } else {
     # By default, use the first registered backend returned by bpparam()
     res <- bpparam()
+  }
+  return(res)
+}
+
+
+#' @title Select a subset of organisms in the brenda.query object.
+#'
+#' @param query A brenda.entry object from [QueryBrendaBase()].
+#' @param org.id A named character vector with values as `proteinID`s.
+#'
+#' @return A subset of the given brenda.query object with the given organisms
+#' selected.
+#'
+#' @seealso [QueryBrendaBase()]
+#'
+#' @importFrom dplyr filter
+#' @importFrom purrr map map_lgl
+#' @importFrom tibble is_tibble
+SelectOrganism <- function(query, org.id) {
+  if(inherits(query, c("brenda.entry", "brenda.sublist"))) {
+    res.class <- class(query)
+    res <- map(query, function(x) SelectOrganism(x, org.id))
+    class(res) <- res.class
+  } else if(is_tibble(query) & ("proteinID" %in% colnames(query))) {
+      # Rows should contain at least one of the organism IDs.
+      res <- query %>%
+        filter(
+          map_lgl(str_split(proteinID, ","),
+                  function(x) any(x %in% org.id) | all(is.na(x)))
+        )
+    } else {
+    res <- query
   }
   return(res)
 }

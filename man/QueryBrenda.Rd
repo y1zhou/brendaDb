@@ -30,5 +30,5 @@ QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"))
 
 }
 \seealso{
-\code{\link[=QueryBrendaBase]{QueryBrendaBase()}}
+\code{\link[=QueryBrendaBase]{QueryBrendaBase()}} \code{\link[=ConfigBPCores]{ConfigBPCores()}} \code{\link[=SelectOrganism]{SelectOrganism()}}
 }

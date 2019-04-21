@@ -4,7 +4,7 @@
 \alias{QueryBrendaBase}
 \title{Query for a specific enzyme.}
 \usage{
-QueryBrendaBase(brenda, EC, fields = F)
+QueryBrendaBase(brenda, EC, fields = F, organisms = F)
 }
 \arguments{
 \item{brenda}{A \code{tibble} containing information from BRENDA.}
@@ -13,6 +13,9 @@ QueryBrendaBase(brenda, EC, fields = F)
 
 \item{fields}{A character vector indicating fields to parse. Default is
 FALSE, which would be returning all fields.}
+
+\item{organisms}{A character vector indicating organisms to keep. Default is
+FALSE, which would keep all organisms.}
 }
 \value{
 A \code{brenda.entry} object.

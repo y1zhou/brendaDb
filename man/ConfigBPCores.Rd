@@ -20,3 +20,6 @@ Configure the number of cores used by BiocParallel.
 brendaDb:::ConfigBPCores(2)
 
 }
+\seealso{
+\code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}
+}
