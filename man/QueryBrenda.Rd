@@ -26,7 +26,8 @@ Use a vector of EC numbers to retrieve information from the BRENDA
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
                           package = "brendaDb"))
-QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"))
+res <- QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"),
+                   n.core = 2, organisms = "Homo sapiens")
 
 }
 \seealso{

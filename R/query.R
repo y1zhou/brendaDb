@@ -14,7 +14,8 @@
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
-#' QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"))
+#' res <- QueryBrenda(brenda = df, EC = c("1.1.1.1", "1.1.1.10", "6.3.5.8"),
+#'                    n.core = 2, organisms = "Homo sapiens")
 #'
 #' @import BiocParallel
 #' @importFrom purrr map_chr
@@ -53,7 +54,8 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
-#' brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1")
+#' brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1",
+#'                            fields = "PH_RANGE", organisms = "Homo sapiens")
 #'
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
@@ -70,7 +72,7 @@ QueryBrendaBase <- function(brenda, EC, fields = F, organisms = F) {
   } else {
     # Select certain fields
     if (is.character(fields)) {
-      brenda <- brenda[names(brenda) %in% fields]
+      brenda <- brenda[names(brenda) %in% c("PROTEIN", "REFERENCE", fields)]
     }
     query <- InitBrendaEntry(
       EC,

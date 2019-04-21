@@ -27,7 +27,8 @@ Use a EC number to retrieve information from the BRENDA
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
                           package = "brendaDb"))
-brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1")
+brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1",
+                           fields = "PH_RANGE", organisms = "Homo sapiens")
 
 }
 \seealso{
