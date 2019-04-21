@@ -22,17 +22,28 @@ ShowFields <- function(df) {
   return(acronyms)
 }
 
+#' @title Generic function for showing summaries of brenda.entry objects.
+#'
+#' @param x A `brenda.entry` or `brenda.entries` object.
+#' @param ... Other arguments passed to the generic function.
+#'
+#' @seealso [summary.brenda.entries()] [summary.brenda.entry()]
+#' @export
+summary <- function (x, ...) {
+  UseMethod("summary", x)
+}
 
 #' @title Show the number of regular and transferred/deleted brenda.entry objects
 #' in the brenda.entries list.
 #'
 #' @param x A brenda.entries list returned by [QueryBrenda()].
 #' @param verbose Boolean; if TRUE, print tree views of each brenda.query object.
+#' @param ... Other arguments passed to the generic function.
 #'
 #' @import stringr
 #' @importFrom purrr map
 #' @export
-summary.brenda.entries <- function(x, verbose = F) {
+summary.brenda.entries <- function(x, ..., verbose = F) {
   print(str_glue(
     "A list of {length(x)} brenda.entry object(s) with:\n",
     "- {length(x[!is.brenda.deprecated.entry(x)])} regular brenda.entry object(s)\n  ",
@@ -51,13 +62,14 @@ summary.brenda.entries <- function(x, verbose = F) {
 #' @description For details, see [PrettyPrintBrendaEntry()].
 #'
 #' @param x A brenda.entry object (elements in the list returned by [QueryBrenda()]).
+#' @param ... Other arguments passed to the generic function.
 #'
 #' @import stringr
 #' @importFrom tibble is_tibble
 #' @importFrom purrr pmap
 #' @importFrom crayon make_style
 #' @export
-summary.brenda.entry <- function(x) {
+summary.brenda.entry <- function(x, ...) {
   if (inherits(x, "brenda.deprecated.entry")) {
     print(str_glue(
       "Entry {x$nomenclature$ec}\n",

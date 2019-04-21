@@ -5,10 +5,12 @@
 \title{Show the number of regular and transferred/deleted brenda.entry objects
 in the brenda.entries list.}
 \usage{
-\method{summary}{brenda.entries}(x, verbose = F)
+\method{summary}{brenda.entries}(x, ..., verbose = F)
 }
 \arguments{
 \item{x}{A brenda.entries list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}.}
+
+\item{...}{Other arguments passed to the generic function.}
 
 \item{verbose}{Boolean; if TRUE, print tree views of each brenda.query object.}
 }

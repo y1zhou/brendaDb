@@ -4,10 +4,12 @@
 \alias{summary.brenda.entry}
 \title{Show the non-empty fields in the query result.}
 \usage{
-\method{summary}{brenda.entry}(x)
+\method{summary}{brenda.entry}(x, ...)
 }
 \arguments{
 \item{x}{A brenda.entry object (elements in the list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}).}
+
+\item{...}{Other arguments passed to the generic function.}
 }
 \description{
 For details, see \code{\link[=PrettyPrintBrendaEntry]{PrettyPrintBrendaEntry()}}.
