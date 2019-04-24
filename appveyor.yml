@@ -18,16 +18,9 @@ environment:
     _R_CHECK_SYSTEM_CLOCK_: FALSE
 
   matrix:
-  - R_VERSION: release
-    R_ARCH: x64
-    GCC_PATH: mingw_64
-
   - R_VERSION: devel
     R_ARCH: x64
     GCC_PATH: mingw_64
-
-  - R_VERSION: patched
-    GCC_PATH: mingw_32
 
 matrix:
   fast_finish: true
