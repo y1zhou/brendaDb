@@ -18,7 +18,7 @@ environment:
     _R_CHECK_SYSTEM_CLOCK_: FALSE
 
   matrix:
-  - R_VERSION: devel
+  - R_VERSION: 3.6.0
     R_ARCH: x64
     GCC_PATH: mingw_64
 
