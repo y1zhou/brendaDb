@@ -63,13 +63,13 @@ std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
 //' this is a list of 3 lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
-  std::regex field_regex("^[A-Z05_]+$");  // IC50 field
+  std::regex field_regex("^[A-Z05_]{3,}$");  // IC50 field
   std::vector<std::string> colID, colField, colDescription;
   std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x, remove ID\t
               current_field = lines[1],  // PROTEIN, PH_OPTIMUM, etc.
               ec_info = "";
   const size_t nline = lines.size() - 1;
-  for (auto i = 2; i < nline; ++i) {  // Not reading last line
+  for (size_t i = 2; i < nline; ++i) {  // Not reading last line
     // Skip first two lines because they're already read
     if (lines[i] == "///") {
       // /// indicates the end of an EC-number specific part
