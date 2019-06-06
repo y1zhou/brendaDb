@@ -36,6 +36,48 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
 }
 
 
+#' @title A helper function for converting names/synonyms to EC numbers.
+#'
+#' @param brenda A `tibble` generated from [ReadBrenda()].
+#' @param ids A character vector of IDs to be converted.
+#'
+#' @return A tibble with columns ID, EC, and at least one of (RECOMMENDED_NAME,
+#' SYSTEMATIC_NAME and SYNONYMS).
+#'
+#' @details The function goes through "RECOMMENDED_NAME", "SYSTEMATIC_NAME", and
+#' "SYNONYMS" in the BRENDA file, and uses regexes to look for the given IDs.
+#' Values in the three columns are kept if the regex had a hit, otherwise NA is filled.
+#' The function can take in IDs of multiple sources, e.g. `c("ADH4", "CD38",
+#' "pyruvate dehydrogenase")`. Note that using aliases instead of symbols could
+#' lead to false positives in the output table.
+#'
+#' @import stringr
+#' @importFrom dplyr filter mutate select
+#' @importFrom purrr map_dfr
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr spread
+ID2Enzyme <- function(brenda, ids) {
+  ids <- as.character(ids[!is.na(ids)])
+
+  brenda <- brenda %>%
+    filter(field %in% c("RECOMMENDED_NAME", "SYSTEMATIC_NAME", "SYNONYMS")) %>%
+    mutate(
+      description = str_remove(description, "^(RN|SN|SY)\\s+"),
+      description = str_replace_all(description, "\nSY\\s+", "\n"),
+      description = str_trim(description)
+    )
+
+  map_dfr(ids, function(x) {
+    brenda %>%
+      filter(str_detect(description, str_glue("\\b({x})"))) %>%
+      mutate(fromID = x)
+  }) %>%
+    as_tibble() %>%
+    select(ID = fromID, EC = ID, field, description) %>%
+    spread(key = "field", value = "description")
+}
+
+
 #' @title Query for a specific enzyme.
 #'
 #' @description Use a EC number to retrieve information from the BRENDA
