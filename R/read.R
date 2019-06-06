@@ -81,3 +81,23 @@ CleanECNumber <- function(df) {
     filter(!is.na(ID))
   return(bind_rows(df.standard, df.nonstd))
 }
+
+
+#' @title Download the BRENDA text file.
+#'
+#' @param path The path to store the downloaded text file.
+#' @param ... Parameters to be passed to `unzip`.
+#'
+#' @return A text file downloaded to `path`.
+#' @export
+#'
+#' @examples DownloadBrenda("/path/to/textfile")
+#'
+#' @importFrom utils download.file unzip
+DownloadBrenda <- function(path = "./brenda_download.zip", ...) {
+  download.file(
+    url = "https://s3.us-east-2.amazonaws.com/brendadb-r-package/brenda_download.zip",
+    destfile = path
+    )
+  unzip(path, ...)
+}
