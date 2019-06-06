@@ -34,13 +34,15 @@ ShowFields <- function(df) {
 #' @export
 print.brenda.entries <- function(x, ..., verbose = F) {
   cat(
-    "A list of {length(x)} brenda.entry object(s) with:\n",
+    "A list of", length(x), "brenda.entry object(s) with:\n",
     "-", length(x[!is.brenda.deprecated.entry(x)]),
     "regular brenda.entry object(s)\n  ",
     paste(names(x)[!is.brenda.deprecated.entry(x)], collapse = ", "),
     "\n-", length(x[is.brenda.deprecated.entry(x)]),
     "transferred or deleted object(s)\n  ",
-    paste(names(x[is.brenda.deprecated.entry((x))]), collapse = ", "))
+    paste(names(x[is.brenda.deprecated.entry((x))]), collapse = ", "),
+    "\n"
+    )
 
   if (verbose) {
     invisible(map(x, print))
@@ -100,7 +102,7 @@ PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth) {
   } else if(is_tibble(x)) {
     if (nrow(x) == 0) {
       cat(":", make_style(rgb(0.58, 0.58, 0.58))(
-        "A tibble with", crayon::red(nrow(x)), "rows"))
+        "A tibble with", crayon::red("0"), "rows"))
     } else {
       cat(":", make_style(rgb(0.58, 0.58, 0.58))(
         "A tibble with", nrow(x), "rows"))
