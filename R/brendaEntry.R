@@ -203,7 +203,7 @@ is.brenda.entry <- function(x) {
     res <- map_lgl(x, function(x) inherits(x, "brenda.entry"))
     if (all(res)) {
       message("You might need \"is.brenda.deprecated.entry()\" ",
-      "to check for transferred or deleted entries.")
+              "to check for transferred or deleted entries.")
     }
   } else {
     res <- inherits(x, "brenda.entry")
@@ -217,7 +217,7 @@ is.brenda.entry <- function(x) {
 #' @importFrom purrr map_lgl
 #' @export
 is.brenda.deprecated.entry <- function(x) {
-  if (is.list(x)) {
+  if (inherits(x, "brenda.entries")) {
     return(map_lgl(x, function(x) inherits(x, "brenda.deprecated.entry")))
   } else {
     return(inherits(x, "brenda.deprecated.entry"))
