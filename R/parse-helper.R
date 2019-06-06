@@ -68,8 +68,12 @@ ParseProteinNum <- function(x, type) {
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
 #' brendaDb:::SeparateSubentries(x, "SN")
 #' @import stringr
-SeparateSubentries <- function(description, acronym) {
-  if (is.na(description)) {
+SeparateSubentries <- function(description, acronym = NA) {
+  if (is.na(acronym)) {
+    message("Please specify the acronym.")
+    return(NA)
+  }
+  if (is.na(description) | str_trim(description) == acronym) {
     return (NA)
   }
   if (str_detect(description, paste0("^", acronym, "\t"), negate = T)) {

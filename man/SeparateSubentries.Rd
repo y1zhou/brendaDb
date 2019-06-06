@@ -4,7 +4,7 @@
 \alias{SeparateSubentries}
 \title{Preprocessing of entry description.}
 \usage{
-SeparateSubentries(description, acronym)
+SeparateSubentries(description, acronym = NA)
 }
 \arguments{
 \item{description}{The \code{description} string of the field.}
