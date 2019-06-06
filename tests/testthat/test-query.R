@@ -6,16 +6,58 @@ df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 test_that("Query enzymes", {
   expect_message(QueryBrenda(df, "8.8.8.8"), "^Invalid.*8.8.8.8")
   x <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
-
   expect_equal(x[[1]]$nomenclature$ec, "1.1.1.1")
-  expect_true(all(is.brenda.entry(x)))
+
   # None of the elements should be NA
   expect_true(all(unlist(lapply(x, function(x) !is.na(x)))))
+
+  # Extra test for is.brenda.entry
+  expect_message(is.brenda.entry(x), ".+is.brenda.deprecated")
+  expect_equivalent(is.brenda.deprecated.entry(x), c(F, T))
 })
 
-test_that("Query single enzyme", {
+test_that("Query single enzyme with certain fields", {
   expect_message(QueryBrendaBase(df, "6.3.5.8"), "^6.3.5.8.*deleted.")
 
   x <- QueryBrendaBase(df, "1.1.1.1", fields = c("PROTEIN", "KM_VALUE"))
   expect_equal(dim(x$parameters$km.value), c(878, 5))
+})
+
+test_that("Query single enzyme with certain organisms", {
+  expect_message(QueryBrendaBase(df, "6.3.5.8"), "^6.3.5.8.*deleted.")
+
+  x <- QueryBrendaBase(df, "1.1.1.1", organisms = "Homo sapiens")
+  expect_equal(dim(x$parameters$km.value), c(163, 5))
+})
+
+test_that("ID to enzyme conversion", {
+  df <- bind_rows(df, tibble(
+    ID = c("3.2.2.5", "1.2.1.51", "2.7.11.2", "2.7.11.2"),
+    field = c("SYNONYMS", "RECOMMENDED_NAME", "RECOMMENDED_NAME", "SYSTEMATIC_NAME"),
+    description = c(
+      paste0(
+        "SY\t DPNase\nSY\t nicotinamide adenine dinucleotide nucleosidase\n",
+        "SY\t Acute lymphoblastic leukemia cells antigen CD38\n"
+      ),
+      "RN\tpyruvate dehydrogenase (NADP+)",
+      "RN\t[pyruvate dehydrogenase (acetyl-transferring)] kinase",
+      "SN\tATP:[pyruvate dehydrogenase (acetyl-transferring)] phosphotransferase"
+    )
+  ))
+  x <- ID2Enzyme(df, c("CD38", "ADH4", "pyruvate dehydrogenase"))
+  expect_equal(dim(x), c(4, 5))
+  expect_equal(x$ID,c("ADH4", "CD38",
+                      "pyruvate dehydrogenase", "pyruvate dehydrogenase"))
+  # NA-filled rows
+  expect_equal(length(x$RECOMMENDED_NAME[is.na(x$RECOMMENDED_NAME)]), 2)
+  expect_equal(length(x$SYNONYMS[is.na(x$SYNONYMS)]), 2)
+  expect_equal(length(x$SYSTEMATIC_NAME[is.na(x$SYSTEMATIC_NAME)]), 3)
+
+  # Correctly parsed values
+  expect_equal(x$RECOMMENDED_NAME[3], "pyruvate dehydrogenase (NADP+)")
+  expect_equal(length(str_split(x$SYNONYMS[2], "\n")[[1]]), 3)
+  expect_equal(
+    x$SYSTEMATIC_NAME[4],
+    "ATP:[pyruvate dehydrogenase (acetyl-transferring)] phosphotransferase"
+  )
 })

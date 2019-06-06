@@ -235,13 +235,13 @@ SelectOrganism <- function(query, org.id) {
     res <- map(query, function(x) SelectOrganism(x, org.id))
     class(res) <- res.class
   } else if(is_tibble(query) & ("proteinID" %in% colnames(query))) {
-      # Rows should contain at least one of the organism IDs.
-      res <- query %>%
-        filter(
-          map_lgl(str_split(proteinID, ","),
-                  function(x) any(x %in% org.id) | all(is.na(x)))
-        )
-    } else {
+    # Rows should contain at least one of the organism IDs.
+    res <- query %>%
+      filter(
+        map_lgl(str_split(proteinID, ","),
+                function(x) any(x %in% org.id) | all(is.na(x)))
+      )
+  } else {
     res <- query
   }
   return(res)
