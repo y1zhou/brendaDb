@@ -15,9 +15,9 @@ bioc_packages:
 jobs:
   include:
     - r: bioc-devel
+    - r: devel
       after_success:
       - Rscript -e 'covr::codecov()'
-    - r: devel
     - r: release
 env:
   global:
