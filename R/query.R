@@ -56,6 +56,8 @@ QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
 #' @importFrom purrr map_dfr
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr spread
+#'
+#' @export
 ID2Enzyme <- function(brenda, ids) {
   ids <- as.character(ids[!is.na(ids)])
 
