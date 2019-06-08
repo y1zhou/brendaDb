@@ -25,7 +25,8 @@ include:
     into an R `tibble`
   - \[x\] Retrieve information for specific enzymes
   - \[x\] Query enzymes using their synonyms, gene symbols, etc.
-  - \[ \] Query enzyme information for specific pathways
+  - \[x\] Query enzyme information for specific
+    [BioCyc](https://biocyc.org) pathways
   - \[ \] Generate enzyme activity profiles based on temperature, pH,
     etc.
 
@@ -36,6 +37,7 @@ include:
 ``` r
 # install.packages("devtools")
 devtools::install_github("y1zhou/brendaDb")
+library(brendaDb)
 ```
 
 ## Getting Started
@@ -227,7 +229,9 @@ res$`1.1.1.1`
 # |    └── reference: A tibble with 285 rows
 ```
 
-### Synonym Queries
+## Foreign ID Retrieval
+
+### Querying Synonyms
 
 A lot of the times we have a list of gene symbols or enzyme names
 instead of EC numbers. In this case, a helper function can be used to
@@ -256,6 +260,50 @@ ID2Enzyme(brenda = df, ids = c("ADH4", "CD38", "pyruvate dehydrogenase"))
 ```
 
 The `EC` column can be then handpicked and used in `QueryBrenda()`.
+
+### BioCyc Pathways
+
+Often we are interested in the enzymes involved in a specific
+[BioCyc](https://biocyc.org) pathway. Functions `BioCycPathwayEnzymes()`
+and `BiocycPathwayGenes()` can be used in this case:
+
+``` r
+BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")
+#> Found 10 reactions for HUMAN pathway PWY66-400.
+## A tibble: 11 x 2
+#    Reaction                 EC      
+#    <chr>                    <chr>   
+#  1 PGLUCISOM-RXN            5.3.1.9 
+#  2 GLUCOKIN-RXN             2.7.1.1 
+#  3 GLUCOKIN-RXN             2.7.1.2 
+#  4 PEPDEPHOS-RXN            2.7.1.40
+#  5 2PGADEHYDRAT-RXN         4.2.1.11
+#  6 RXN-15513                5.4.2.11
+#  7 PHOSGLYPHOS-RXN          2.7.2.3 
+#  8 GAPOXNPHOSPHN-RXN        1.2.1.12
+#  9 TRIOSEPISOMERIZATION-RXN 5.3.1.1 
+# 10 F16ALDOLASE-RXN          4.1.2.13
+# 11 6PFRUCTPHOS-RXN          2.7.1.11
+```
+
+``` r
+BiocycPathwayGenes(org.id = "HUMAN", pathway = "PWY66-400")
+#> Found 25 genes in HUMAN pathway PWY66-400.
+# # A tibble: 25 x 4
+#    BiocycGene BiocycProtein   Symbol Ensembl        
+#    <chr>      <chr>           <chr>  <chr>          
+#  1 HS00894    HS00894-MONOMER PFKP   ENSG00000067057
+#  2 HS07832    HS07832-MONOMER PFKM   ENSG00000152556
+#  3 HS06881    HS06881-MONOMER PFKL   ENSG00000141959
+#  4 HS06234    HS06234-MONOMER ALDOB  ENSG00000136872
+#  5 HS07647    HS07647-MONOMER ALDOA  ENSG00000149925
+#  6 HS03200    HS03200-MONOMER ALDOC  ENSG00000109107
+#  7 HS03441    HS03441-MONOMER TPI1   ENSG00000111669
+#  8 HS02793    HS02793-MONOMER GAPDHS ENSG00000105679
+#  9 HS03433    HS03433-MONOMER GAPDH  ENSG00000111640
+# 10 HS02359    HS02359-MONOMER PGK1   ENSG00000102144
+# # … with 15 more rows
+```
 
 ## Additional Information
 
