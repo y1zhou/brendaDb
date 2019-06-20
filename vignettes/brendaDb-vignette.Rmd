@@ -1,0 +1,126 @@
+---
+title: "brendaDb Vignette"
+author: "Yi Zhou"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{brendaDb-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+## Overview
+`brendaDb` aims to make importing and analyzing data from the [BRENDA database](https://www.brenda-enzymes.org) easier. The main functions include:
+
+- Read [text file downloaded from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php) into an R `tibble`
+- Retrieve information for specific enzymes
+- Query enzymes using their synonyms, gene symbols, etc.
+- Query enzyme information for specific [BioCyc](https://biocyc.org) pathways
+- TODO: Generate enzyme activity profiles based on temperature, pH, etc.
+
+## Installation
+```{r, setup, message=FALSE}
+if(!requireNamespace("brendaDb")) {
+  devtools::install_github("y1zhou/brendaDb")
+}
+library(brendaDb)
+```
+
+## Getting Started
+### Downloading the BRENDA Text File
+Download the BRENDA database as [a text file](https://www.brenda-enzymes.org/download_brenda_without_registration.php) here. Alternatively, download the file in R (file updated 2019-04-24):
+```{r, eval=FALSE}
+DownloadBrenda(file="/path/to/textfile.txt")
+```
+
+The function downloads the file to your specified location. Now the text file can be loaded into R as a `tibble`:
+```{r, eval=FALSE}
+df <- ReadBrenda("/path/to/textfile.txt")
+#> Reading BRENDA text file...
+#> Converting text into a list. This might take a while...
+#> Converting list to tibble and removing duplicated entries...
+```
+
+## Making Queries
+Since BRENDA is a database for enzymes, all final queries are based on EC numbers.
+
+### Query for Multiple Enzymes
+If you already have a list of EC numbers in mind, you may call `QueryBrenda` directly:
+```{r}
+brenda_txt <- system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb")
+df <- ReadBrenda(brenda_txt)
+res <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
+
+res
+
+res[[1]]
+```
+
+### Query Specific Fields
+You can also query for certain fields to reduce the size of the returned object.
+```{r}
+ShowFields(df)
+
+res <- QueryBrenda(df, EC = "1.1.1.1", fields = c("PROTEIN", "SUBSTRATE_PRODUCT"))
+res$`1.1.1.1`$interactions$substrate.product
+```
+
+### Query Specific Organisms
+Note the difference in row numbers in the following example and in the one where we queried for [all organisms](#query-for-multiple-enzymes).
+
+```{r}
+res <- QueryBrenda(df, EC = "1.1.1.1", organisms = "Homo sapiens")
+res$`1.1.1.1`
+```
+
+## Foreign ID Retrieval
+### Querying Synonyms
+A lot of the times we have a list of gene symbols or enzyme names instead of EC numbers. In this case, a helper function can be used to find the corresponding EC numbers:
+
+```{r}
+ID2Enzyme(brenda = df, ids = c("ADH4", "CD38", "pyruvate dehydrogenase"))
+```
+
+The `EC` column can be then handpicked and used in `QueryBrenda()`.
+
+### BioCyc Pathways
+Often we are interested in the enzymes involved in a specific [BioCyc](https://biocyc.org) pathway. Functions `BioCycPathwayEnzymes()` and `BiocycPathwayGenes()` can be used in this case:
+
+```{r}
+BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")
+```
+
+```{r}
+BiocycPathwayGenes(org.id = "HUMAN", pathway = "PWY66-400")
+```
+
+Similarly, the EC numbers returned from `BiocycPathwayEnzymes` can be used in the function `QueryBrenda`, and the gene IDs can be used to find corresponding EC numbers with other packages such as [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html) and [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html).
+
+## Additional Information
+By default `QueryBrenda` uses all available cores, but often limiting `n.core` could give better performance as it reduces the overhead. The following are results produced on a machine with 40 cores (2 Intel Xeon CPU E5-2640 v4 @ 3.4GHz), and 256G of RAM:
+```{r, eval=FALSE}
+EC.numbers <- head(unique(df$ID), 100)
+system.time(QueryBrenda(df, EC = EC.numbers, n.core = 0))  # default
+#  user  system elapsed
+# 4.528   7.856  34.567
+system.time(QueryBrenda(df, EC = EC.numbers, n.core = 1))
+#  user  system elapsed 
+# 22.080   0.360  22.438
+system.time(QueryBrenda(df, EC = EC.numbers, n.core = 2))
+#  user  system elapsed 
+# 0.552   0.400  13.597 
+system.time(QueryBrenda(df, EC = EC.numbers, n.core = 4))
+#  user  system elapsed 
+# 0.688   0.832   9.517
+system.time(QueryBrenda(df, EC = EC.numbers, n.core = 8))
+#  user  system elapsed 
+# 1.112   1.476  10.000 
+```
