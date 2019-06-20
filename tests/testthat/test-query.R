@@ -31,31 +31,18 @@ test_that("Query single enzyme with certain organisms", {
 })
 
 test_that("ID to enzyme conversion", {
-  df <- bind_rows(df, tibble(
-    ID = c("3.2.2.5", "1.2.1.51", "2.7.11.2", "2.7.11.2"),
-    field = c("SYNONYMS", "RECOMMENDED_NAME", "RECOMMENDED_NAME", "SYSTEMATIC_NAME"),
-    description = c(
-      paste0(
-        "SY\t DPNase\nSY\t nicotinamide adenine dinucleotide nucleosidase\n",
-        "SY\t Acute lymphoblastic leukemia cells antigen CD38\n"
-      ),
-      "RN\tpyruvate dehydrogenase (NADP+)",
-      "RN\t[pyruvate dehydrogenase (acetyl-transferring)] kinase",
-      "SN\tATP:[pyruvate dehydrogenase (acetyl-transferring)] phosphotransferase"
-    )
-  ))
   x <- ID2Enzyme(df, c("CD38", "ADH4", "pyruvate dehydrogenase"))
   expect_equal(dim(x), c(4, 5))
   expect_equal(x$ID,c("ADH4", "CD38",
                       "pyruvate dehydrogenase", "pyruvate dehydrogenase"))
   # NA-filled rows
   expect_equal(length(x$RECOMMENDED_NAME[is.na(x$RECOMMENDED_NAME)]), 2)
-  expect_equal(length(x$SYNONYMS[is.na(x$SYNONYMS)]), 2)
+  expect_equal(length(x$SYNONYMS[is.na(x$SYNONYMS)]), 0)
   expect_equal(length(x$SYSTEMATIC_NAME[is.na(x$SYSTEMATIC_NAME)]), 3)
 
   # Correctly parsed values
   expect_equal(x$RECOMMENDED_NAME[3], "pyruvate dehydrogenase (NADP+)")
-  expect_equal(length(str_split(x$SYNONYMS[2], "\n")[[1]]), 3)
+  expect_equal(length(str_split(x$SYNONYMS[2], "\n")[[1]]), 6)
   expect_equal(
     x$SYSTEMATIC_NAME[4],
     "ATP:[pyruvate dehydrogenase (acetyl-transferring)] phosphotransferase"

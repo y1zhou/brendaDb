@@ -1,7 +1,7 @@
 Package: brendaDb
 Type: Package
 Title: The BRENDA Enzyme Database
-Version: 0.6.16
+Version: 0.6.17
 Author: Yi Zhou
 Maintainer: Yi Zhou <yi.zhou@uga.edu>
 Description: The aims of brendaDb include:
@@ -11,7 +11,10 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown,
+    devtools
 Imports: 
     dplyr,
     Rcpp,
@@ -30,3 +33,4 @@ LinkingTo:
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 SystemRequirements: C++11
+VignetteBuilder: knitr

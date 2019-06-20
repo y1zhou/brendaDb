@@ -8928,3 +8928,168 @@ SN
 
 
 ///
+ID	1.2.1.51
+********************************************************************************
+*                                                                              *
+* Copyrighted by Dietmar Schomburg, Techn. University Braunschweig, GERMANY    *
+* Distributed under the License as stated at http:/www.brenda-enzymes.org      *
+*                                                                              *
+********************************************************************************
+
+PROTEIN
+PR	#1# Euglena gracilis   <1,2,3,4,5,6,8,9>
+PR	#2# Cryptosporidium parvum   <10>
+PR	#3# Moniliella megachiliensis   <11>
+PR	#4# Euglena gracilis Q94IN5  <7>
+
+RECOMMENDED_NAME
+RN	pyruvate dehydrogenase (NADP+)
+
+
+SYSTEMATIC_NAME
+SN	pyruvate:NADP+ 2-oxidoreductase (CoA-acetylating)
+
+
+SYNONYMS
+SY	#1,2# pyruvate:NADP+ oxidoreductase <9,10>
+SY	#2# CpPNO <10>
+SY	#3# PDH <11>
+SY	#3# pyruvate dehydrogenase <11>
+
+///
+ID	2.7.11.2
+********************************************************************************
+*                                                                              *
+* Copyrighted by Dietmar Schomburg, Techn. University Braunschweig, GERMANY    *
+* Distributed under the License as stated at http:/www.brenda-enzymes.org      *
+*                                                                              *
+********************************************************************************
+
+PROTEIN
+PR	#1# Mammalia   <30,31,35>
+PR	#2# Mus musculus   <23,37,39,45,56,75,77,81>
+PR	#3# Homo sapiens
+	<28,30,31,35,37,39,41,42,43,44,46,47,48,49,50,51,52,55,58,59,60,63,64
+	65,66,67,68,71,77,81,82,92>
+PR	#3# Mus musculus
+	<28,30,31,35,37,39,41,42,43,44,46,47,48,49,50,51,52,55,58,59,60,63,64
+	65,66,67,68,71,77,81,82,92>
+PR	#4# Rattus norvegicus
+	<5,18,21,23,27,29,30,31,32,33,34,35,37,39,42,48,53,57,60,69,76,79,80,81
+	82>
+PR	#5# Sus scrofa   <3,17>
+PR	#6# Saccharomyces cerevisiae   <62>
+PR	#7# Bos taurus   <1,2,3,6,7,8,9,10,11,12,13,14,15,20,30>
+PR	#8# Oryctolagus cuniculus   <4>
+PR	#9# Pisum sativum   <16>
+PR	#10# Zea mays   <30>
+PR	#11# Arabidopsis thaliana   <30,78>
+PR	#12# Xenopus laevis   <40>
+PR	#13# Caenorhabditis elegans   <25>
+PR	#14# Homo sapiens Q16654 SwissProt <19,74,86,87,91>
+PR	#14# Homo sapiens Q16654 UniProt <19,74,86,87,91>
+PR	#15# Rattus norvegicus Q63065  <24,33,36>
+PR	#15# Rattus norvegicus Q63065 SwissProt <24,33,36>
+PR	#16# Ascaris suum O02623 SwissProt <22,25>
+PR	#17# Arabidopsis thaliana Q9SBJ1  <26,38,54>
+PR	#17# Arabidopsis thaliana Q9SBJ1 SwissProt <26,38,54>
+PR	#18# Rhinolophus ferrumequinum Q1KMR4 SwissProt <61>
+PR	#19# Sus scrofa C1IHT9 UniProt <73>
+PR	#20# Rattus norvegicus Q64536  <72>
+PR	#21# Homo sapiens Q15118  <70,84,87,89>
+PR	#21# Homo sapiens Q15118 UniProt <70,84,87,89>
+PR	#22# Xenopus tropicalis A9ULF7 UniProt <83>
+PR	#23# Xenopus tropicalis Q6DFQ9 UniProt <83>
+PR	#24# Brassica napus Q3LTL2 UniProt <85>
+PR	#25# Homo sapiens Q15120 UniProt <87>
+PR	#26# Mus musculus Q9JK42 UniProt <88>
+PR	#27# Fusarium graminearum I1RE83 UniProt <90>
+PR	#28# Mus musculus O70571 UniProt <88>
+PR	#29# Homo sapiens Q15119 UniProt <87>
+
+RECOMMENDED_NAME
+RN	[pyruvate dehydrogenase (acetyl-transferring)] kinase
+
+
+SYSTEMATIC_NAME
+SN	ATP:[pyruvate dehydrogenase (acetyl-transferring)] phosphotransferase
+
+
+SYNONYMS
+SY	 kinase (phosphorylating), pyruvate dehydrogenase
+SY	 pyruvate dehydrogenase kinase (phosphorylating)
+SY	 pyruvate dehydrogenase kinase activator protein
+SY	#1,3,4,12,15# More (#1,3,15# PDK isozymes and the related
+	branched-chain dehydrogenase kinase form a unique family of serine
+	kinases <30,36>; #4# enzyme possibly belongs to the ATPase/kinase
+	family <24>; #12# enzyme belongs to the PDK family <40>) <24,30,36,40>
+SY	#1,3,4,7,11,12,14,15,18,24# PDK
+	<19,28,29,30,31,32,33,34,35,38,40,49,50,51,55,58,59,61,65,66,67,69,70
+	78,85,92>
+SY	#11# pyruvate dehydrogenase-kinase <78>
+SY	#11# E1-kinase <78>
+SY	#14# PDK 4 <86>
+SY	#2# pyruvate dehydrogenase kinase isoenzyme 4 <56>
+SY	#2# PDHK4 <56>
+SY	#2,3,4,11,12,14,17,18,21,22,23,24,25,26,27,28,29# pyruvate
+	dehydrogenase kinase
+	<38,39,40,43,47,48,50,51,52,54,55,58,59,61,63,64,65,66,67,68,69,70,77
+	83,85,87,88,89,90,92>
+SY	#2,3,4,14,19# pyruvate dehydrogenase kinase 4
+	<37,45,53,73,74,75,79,86,91>
+SY	#2,3,4,14,19,23,28# PDK4 (#14,28# isoform <87,88>)
+	<37,39,45,47,48,53,60,73,74,75,79,82,83,87,88,91>
+SY	#2,3,4,21# pyruvate dehydrogenase kinase 1 <76,81,84>
+SY	#2,3,4,21,27# PDK1 (#21# isoform <87>; #21# UniProt <84>)
+	<37,47,48,55,81,84,87,90>
+SY	#2,3,4,26,29# PDK2 (#26,29# isoform <87,88>)
+	<37,43,47,48,52,60,71,77,87,88>
+SY	#21# PDKH1 <84>
+SY	#21# PDHK1 <89>
+SY	#27# PKP1 <90>
+SY	#3# pyruvate dehydrogenase kinase 3 <46>
+SY	#3# PDK-2 <50>
+SY	#3# PDK-4 <50>
+SY	#3,4# PDH kinase <27,42,51>
+SY	#3,4# pyruvate dehydrogenase kinase 2 <41,43,44,57,71,72,80>
+SY	#3,4# PDHK2 <41,44,57,72,80>
+SY	#3,4# pyruvate dehydrogenase kinase-4 <82>
+SY	#3,4,17# PDHK <27,42,54,63,64,68>
+SY	#3,4,22,25# PDK3 (#25# isoform <87>) <37,46,47,48,83,87>
+SY	#4# PDH kinase 1 <76>
+
+///
+ID	2.4.99.20 ()
+********************************************************************************
+*                                                                              *
+* Copyrighted by Dietmar Schomburg, Techn. University Braunschweig, GERMANY    *
+* Distributed under the License as stated at http:/www.brenda-enzymes.org      *
+*                                                                              *
+********************************************************************************
+
+PROTEIN
+PR	#1# Mus musculus   <1>
+PR	#2# Oryctolagus cuniculus   <4>
+PR	#3# Homo sapiens P28907 UniProt <2,3,5,6,7>
+PR	#4# Rattus norvegicus Q64244 SwissProt <1>
+PR	#5# Aplysia californica P29241 UniProt <2,3,6>
+PR	#6# Mus musculus P56528 UniProt <5,8>
+PR	#7# Axinella polypoides   <3>
+
+RECOMMENDED_NAME
+RN	2'-phospho-ADP-ribosyl cyclase/2'-phospho-cyclic-ADP-ribose transferase
+
+
+SYSTEMATIC_NAME
+SN	NADP+:nicotinate ADP-ribosyltransferase
+
+
+SYNONYMS
+SY	#1,3,4,6# CD38 (#1,4# gene name <1>) <1,2,5>
+SY	#1,4# diphosphopyridine nucleosidase (#1,4# ambiguous <1>) <1>
+SY	#1,4# BST1 (#1,4# gene name <1>) <1>
+SY	#3# ADPRC 1 <2>
+SY	#3,5# 2'-phospho-cyclic-ADP-ribose transferase <2>
+SY	#3,5# ADP-ribosyl cyclase 1 <2>
+
+///
