@@ -5,6 +5,8 @@
 #'
 #' @inheritParams QueryBrendaBase
 #' @inheritParams ConfigBPCores
+#' @param fields A character vector indicating fields to parse. Default is
+#' FALSE, which would be returning all fields.
 #' @param ... Other parameters passed to [QueryBrendaBase()].
 #'
 #' @return A list of `brenda.entry` objects.
@@ -19,11 +21,16 @@
 #'
 #' @import BiocParallel
 #' @importFrom purrr map_chr
-QueryBrenda <- function(brenda, EC, n.core = 0, ...) {
+QueryBrenda <- function(brenda, EC, n.core = 0, fields = F, ...) {
+  # Select certain fields
+  if (is.character(fields)) {
+    brenda <- brenda[brenda$field %in% c("PROTEIN", "REFERENCE", fields), ]
+  }
   EC.not.found <- EC[!EC %in% brenda$ID]
   if (length(EC.not.found) != 0) {
     message(str_glue(
-      "Invalid EC number(s) removed: {paste(EC.not.found, collapse = ', ')}"
+      "{length(EC.not.found)} invalid EC number(s) removed:\n",
+      "{paste(EC.not.found[1:min(length(EC.not.found), 50)], collapse = ', ')}"
     ))
   }
   EC <- EC[EC %in% brenda$ID]
@@ -87,8 +94,6 @@ ID2Enzyme <- function(brenda, ids) {
 #'
 #' @param brenda A `tibble` containing information from BRENDA.
 #' @param EC A string of the EC number.
-#' @param fields A character vector indicating fields to parse. Default is
-#' FALSE, which would be returning all fields.
 #' @param organisms A character vector indicating organisms to keep. Default is
 #' FALSE, which would keep all organisms.
 #'
@@ -99,12 +104,12 @@ ID2Enzyme <- function(brenda, ids) {
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
 #' brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1",
-#'                            fields = "PH_RANGE", organisms = "Homo sapiens")
+#'                            organisms = "Homo sapiens")
 #'
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
 #' @importFrom stringr str_glue
-QueryBrendaBase <- function(brenda, EC, fields = F, organisms = F) {
+QueryBrendaBase <- function(brenda, EC, organisms = F) {
   brenda <- brenda %>%
     filter(ID == EC) %>%
     select(field, description) %>%
@@ -114,10 +119,6 @@ QueryBrendaBase <- function(brenda, EC, fields = F, organisms = F) {
     message(str_glue("{EC} was transferred or deleted."))
     query <- InitBrendaDeprecatedEntry(EC, brenda[["TRANSFERRED_DELETED"]])
   } else {
-    # Select certain fields
-    if (is.character(fields)) {
-      brenda <- brenda[names(brenda) %in% c("PROTEIN", "REFERENCE", fields)]
-    }
     query <- InitBrendaEntry(
       EC,
       # Nomenclature -------------------------------------------------------------

@@ -4,7 +4,7 @@
 \alias{QueryBrenda}
 \title{Query for multiple enzymes.}
 \usage{
-QueryBrenda(brenda, EC, n.core = 0, ...)
+QueryBrenda(brenda, EC, n.core = 0, fields = F, ...)
 }
 \arguments{
 \item{brenda}{A \code{tibble} containing information from BRENDA.}
@@ -13,6 +13,9 @@ QueryBrenda(brenda, EC, n.core = 0, ...)
 
 \item{n.core}{Integer specifying the number of cores to use. Default is 0,
 which would result in using all available cores.}
+
+\item{fields}{A character vector indicating fields to parse. Default is
+FALSE, which would be returning all fields.}
 
 \item{...}{Other parameters passed to \code{\link[=QueryBrendaBase]{QueryBrendaBase()}}.}
 }

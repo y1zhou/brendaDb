@@ -4,15 +4,12 @@
 \alias{QueryBrendaBase}
 \title{Query for a specific enzyme.}
 \usage{
-QueryBrendaBase(brenda, EC, fields = F, organisms = F)
+QueryBrendaBase(brenda, EC, organisms = F)
 }
 \arguments{
 \item{brenda}{A \code{tibble} containing information from BRENDA.}
 
 \item{EC}{A string of the EC number.}
-
-\item{fields}{A character vector indicating fields to parse. Default is
-FALSE, which would be returning all fields.}
 
 \item{organisms}{A character vector indicating organisms to keep. Default is
 FALSE, which would keep all organisms.}
@@ -28,7 +25,7 @@ Use a EC number to retrieve information from the BRENDA
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
                           package = "brendaDb"))
 brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1",
-                           fields = "PH_RANGE", organisms = "Homo sapiens")
+                           organisms = "Homo sapiens")
 
 }
 \seealso{
