@@ -91,7 +91,7 @@ CleanECNumber <- function(df) {
 #' @return A text file downloaded to `path`.
 #' @export
 #'
-#' @examples DownloadBrenda("/path/to/textfile")
+#' @examples \dontrun{DownloadBrenda("/path/to/textfile")}
 #'
 #' @importFrom utils download.file unzip
 DownloadBrenda <- function(path = "./brenda_download.zip", ...) {

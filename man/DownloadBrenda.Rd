@@ -18,6 +18,6 @@ A text file downloaded to \code{path}.
 Download the BRENDA text file.
 }
 \examples{
-DownloadBrenda("/path/to/textfile")
+\dontrun{DownloadBrenda("/path/to/textfile")}
 
 }
