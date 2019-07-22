@@ -4,7 +4,7 @@
 \alias{ReadBrenda}
 \title{Read BRENDA text file into matrix.}
 \usage{
-ReadBrenda(filepath, clean = T)
+ReadBrenda(filepath, clean = TRUE)
 }
 \arguments{
 \item{filepath}{A string indicating the path to the text file.}

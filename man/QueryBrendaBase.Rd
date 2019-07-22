@@ -4,7 +4,7 @@
 \alias{QueryBrendaBase}
 \title{Query for a specific enzyme.}
 \usage{
-QueryBrendaBase(brenda, EC, organisms = F)
+QueryBrendaBase(brenda, EC, organisms = FALSE)
 }
 \arguments{
 \item{brenda}{A \code{tibble} containing information from BRENDA.}

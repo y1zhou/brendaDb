@@ -5,7 +5,7 @@
 \title{Show the number of regular and transferred/deleted brenda.entry objects
 in the brenda.entries list.}
 \usage{
-\method{print}{brenda.entries}(x, ..., verbose = F)
+\method{print}{brenda.entries}(x, ..., verbose = FALSE)
 }
 \arguments{
 \item{x}{A brenda.entries list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}.}
