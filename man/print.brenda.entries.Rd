@@ -14,6 +14,9 @@ in the brenda.entries list.}
 
 \item{verbose}{Boolean; if TRUE, print tree views of each brenda.query object.}
 }
+\value{
+Nothing; print summary information to the terminal.
+}
 \description{
 Show the number of regular and transferred/deleted brenda.entry objects
 in the brenda.entries list.

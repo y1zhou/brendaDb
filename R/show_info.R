@@ -7,6 +7,12 @@
 #' @importFrom dplyr filter distinct mutate select
 #' @import stringr
 #' @importFrom tibble as_tibble
+#'
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' ShowFields(df)
+#'
 #' @export
 ShowFields <- function(df) {
   if (missing(df)) {
@@ -14,7 +20,7 @@ ShowFields <- function(df) {
   } else {
     acronyms <- df %>%
       filter(field != "TRANSFERRED_DELETED") %>%
-      distinct(field, .keep_all = T) %>%
+      distinct(field, .keep_all = TRUE) %>%
       mutate(acronym = str_extract(description, "^[A-Z05]+")) %>%
       select(field, acronym) %>%
       as_tibble()
@@ -30,9 +36,11 @@ ShowFields <- function(df) {
 #' @param verbose Boolean; if TRUE, print tree views of each brenda.query object.
 #' @param ... Other arguments passed to the generic function.
 #'
+#' @return Nothing; print summary information to the terminal.
+#'
 #' @importFrom purrr map
 #' @export
-print.brenda.entries <- function(x, ..., verbose = F) {
+print.brenda.entries <- function(x, ..., verbose = FALSE) {
   cat(
     "A list of", length(x), "brenda.entry object(s) with:\n",
     "-", length(x[!is.brenda.deprecated.entry(x)]),
@@ -57,10 +65,13 @@ print.brenda.entries <- function(x, ..., verbose = F) {
 #' @param x A brenda.entry object (elements in the list returned by [QueryBrenda()]).
 #' @param ... Other arguments passed to the generic function.
 #'
+#' @return Nothing; print object information to the terminal.
+#'
 #' @import stringr
 #' @importFrom tibble is_tibble
 #' @importFrom purrr pmap
 #' @importFrom crayon make_style
+#'
 #' @export
 print.brenda.entry <- function(x, ...) {
   if (inherits(x, "brenda.deprecated.entry")) {
@@ -85,6 +96,8 @@ print.brenda.entry <- function(x, ...) {
 #' @param tail.idx A string showing the last element in the entry. This is for
 #' printing a different character in the tree.
 #' @param depth Int, showing the depth of the element.
+#'
+#' @return Nothing; prints object tree-view to the terminal.
 #'
 #' @importFrom crayon make_style red
 #' @importFrom grDevices rgb

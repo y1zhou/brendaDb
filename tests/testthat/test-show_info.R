@@ -16,7 +16,7 @@ test_that("Printing brenda.query objects", {
   x <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"),
                    n.core = 1, organisms = "Homo sapiens")
   expect_output(print(x), regexp = "list of 2.+1 regular.+1 transferred")
-  expect_output(print(x, verbose = T),
+  expect_output(print(x, verbose = TRUE),
                 regexp = "list of 2.+1 regular.+1 transferred.+\\|")
 
   # There should be NA and "0 rows" in the output; both are colored red

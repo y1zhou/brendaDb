@@ -13,7 +13,7 @@ test_that("Query enzymes", {
 
   # Extra test for is.brenda.entry
   expect_message(is.brenda.entry(x), ".+is.brenda.deprecated")
-  expect_equivalent(is.brenda.deprecated.entry(x), c(F, T))
+  expect_equivalent(is.brenda.deprecated.entry(x), c(FALSE, TRUE))
 })
 
 test_that("Query single enzyme output", {

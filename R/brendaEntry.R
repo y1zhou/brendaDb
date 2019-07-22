@@ -54,6 +54,9 @@
 #'
 #' @param bibliography The description string of a RF field.
 #'
+#' @return A `brenda.entry` object with all fields other than nomenclature$ec
+#' being NA.
+#'
 #' @examples
 #' brendaDb:::InitBrendaEntry("1.1.1.100")
 InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
@@ -178,6 +181,8 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
 #'
 #' @param EC A string indicating EC number of the enzyme.
 #' @param msg A string of the transferred / deleted message.
+#'
+#' @return A `brenda.deprecated.entry` obeject.
 #'
 #' @examples
 #' brendaDb:::InitBrendaDeprecatedEntry("6.3.5.8", "Transferred to EC 2.6.1.85")

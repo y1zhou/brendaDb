@@ -109,6 +109,10 @@ is.brenda.entry(x)
 
 \item{x}{Any object.}
 }
+\value{
+A \code{brenda.entry} object with all fields other than nomenclature$ec
+being NA.
+}
 \description{
 The list should contain 6 sublists: \code{nomenclature},
 \code{interactions}, \code{parameters}, \code{molecular}, \code{stability}, and \code{bibliography}.

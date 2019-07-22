@@ -1,15 +1,16 @@
 Package: brendaDb
 Type: Package
 Title: The BRENDA Enzyme Database
-Version: 0.6.18
-Author: Yi Zhou
-Maintainer: Yi Zhou <yi.zhou@uga.edu>
-Description: The aims of brendaDb include:
-    1. Make it easier to import and analyze enzyme information in R.
-    2. Generate enzyme activity profiles.
+Version: 0.99.0
+Authors@R: person("Yi", "Zhou", email = "yi.zhou@uga.edu",
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0969-3993"))
+Description: R interface for importing and analyzing enzyme information from the
+    BRENDA database.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+biocViews: ThirdPartyClient, Annotation
+URL: https://github.com/y1zhou/brendaDb
+BugReports: https://github.com/y1zhou/brendaDb/issues
 Suggests: 
     testthat,
     knitr,
@@ -27,7 +28,8 @@ Imports:
     utils,
     tidyr,
     curl,
-    xml2
+    xml2,
+    grDevices
 LinkingTo: 
     Rcpp
 RoxygenNote: 6.1.1

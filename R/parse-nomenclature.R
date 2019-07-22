@@ -23,7 +23,7 @@ ParseProtein <- function(description) {
     "([OPQ][0-9][A-Z0-9]{3}[0-9]|
     [A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})|  # official accession numbers
     \\w+\\s([uU]ni|[sS]wiss)[pP]rot  # non-canonical IDs",
-    comments = T)
+    comments = TRUE)
   res <- ParseGeneric(description, acronym = "PR")
   if (is_tibble(res)) {
     res <- res %>%

@@ -16,6 +16,9 @@ is.brenda.deprecated.entry(x)
 
 \item{x}{Any object.}
 }
+\value{
+A \code{brenda.deprecated.entry} obeject.
+}
 \description{
 Some EC numbers are transferred or deleted. For these entries,
 return a \code{brenda.deprecated.entry} object and the corresponding message.

@@ -16,6 +16,9 @@ printing a different character in the tree.}
 
 \item{depth}{Int, showing the depth of the element.}
 }
+\value{
+Nothing; prints object tree-view to the terminal.
+}
 \description{
 Print a brenda.entry in a tree view.
 }

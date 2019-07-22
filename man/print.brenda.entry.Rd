@@ -11,6 +11,9 @@
 
 \item{...}{Other arguments passed to the generic function.}
 }
+\value{
+Nothing; print object information to the terminal.
+}
 \description{
 For details, see \code{\link[=PrettyPrintBrendaEntry]{PrettyPrintBrendaEntry()}}.
 }

@@ -15,3 +15,9 @@ A data.frame with columns "field" and "acronym".
 \description{
 Show all unique BRENDA fields and their corresponding acronyms.
 }
+\examples{
+df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb"))
+ShowFields(df)
+
+}

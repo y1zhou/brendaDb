@@ -24,7 +24,7 @@ ParseProteinNum <- function(x, type) {
     stop("Missing parameter: type.")
   }
   if (type == "protein") {
-    if (str_detect(x, "^#[0-9, ]+#$", negate = T) |
+    if (str_detect(x, "^#[0-9, ]+#$", negate = TRUE) |
         str_detect(x, "(#,)|(,#)")) {
       stop(
         str_glue(
@@ -35,7 +35,7 @@ ParseProteinNum <- function(x, type) {
     }
     delim <- "#"
   } else if (type == "reference") {
-    if (str_detect(x, "<[0-9, ]+>$", negate = T) |
+    if (str_detect(x, "<[0-9, ]+>$", negate = TRUE) |
         str_detect(x, "(<,)|(,>)")) {
       stop(
         str_glue(
@@ -76,7 +76,7 @@ SeparateSubentries <- function(description, acronym = NA) {
   if (is.na(description) | str_trim(description) == acronym) {
     return (NA)
   }
-  if (str_detect(description, paste0("^", acronym, "\t"), negate = T)) {
+  if (str_detect(description, paste0("^", acronym, "\t"), negate = TRUE)) {
     warning(str_glue(
       "The description doesn't seem to match your provided acronym \"{acronym}\".")
     )
@@ -88,7 +88,7 @@ SeparateSubentries <- function(description, acronym = NA) {
     str_remove_all(paste0("^", acronym, "(\\s+)?")) %>%
     # The following line will result in some references delimited by " "
     # instead of ,
-    str_replace_all(regex("\n\t", fixed = T), " ")
+    str_replace_all(regex("\n\t", fixed = TRUE), " ")
   return(x)
 }
 
@@ -166,7 +166,7 @@ ParseGeneric <- function(description, acronym) {
     commentary = commentary,
     refID = ref.id
   ) %>%
-    distinct(description, fieldInfo, commentary, .keep_all = T)
+    distinct(description, fieldInfo, commentary, .keep_all = TRUE)
   # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.1&organism=Mus+musculus#pH%20OPTIMUM
   res$description[res$description %in% c("-999", "more", "More")] <- "additional information"
   return(res)
@@ -213,6 +213,6 @@ ParseNoDescription <- function(description, acronym) {
     description = description,
     refID = ref.id
   ) %>%
-    distinct(description, .keep_all = T)
+    distinct(description, .keep_all = TRUE)
   return(res)
 }

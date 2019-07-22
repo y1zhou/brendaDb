@@ -25,3 +25,9 @@ Values in the three columns are kept if the regex had a hit, otherwise NA is fil
 The function can take in IDs of multiple sources, e.g. \code{c("ADH4", "CD38", "pyruvate dehydrogenase")}. Note that using aliases instead of symbols could
 lead to false positives in the output table.
 }
+\examples{
+df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb"))
+ID2Enzyme(df, c("CD38", "ADH4", "pyruvate dehydrogenase"))
+
+}

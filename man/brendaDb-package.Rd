@@ -12,3 +12,15 @@ The main aims of brendaDb include:
 \item Generate enzyme activity profiles
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/y1zhou/brendaDb}
+  \item Report bugs at \url{https://github.com/y1zhou/brendaDb/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Yi Zhou \email{yi.zhou@uga.edu} (0000-0003-0969-3993)
+
+}

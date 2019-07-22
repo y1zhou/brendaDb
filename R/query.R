@@ -21,7 +21,7 @@
 #'
 #' @import BiocParallel
 #' @importFrom purrr map_chr
-QueryBrenda <- function(brenda, EC, n.core = 0, fields = F, ...) {
+QueryBrenda <- function(brenda, EC, n.core = 0, fields = FALSE, ...) {
   # Select certain fields
   if (is.character(fields)) {
     brenda <- brenda[brenda$field %in% c("PROTEIN", "REFERENCE", fields), ]
@@ -63,6 +63,11 @@ QueryBrenda <- function(brenda, EC, n.core = 0, fields = F, ...) {
 #' @importFrom purrr map_dfr
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr spread
+#'
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' ID2Enzyme(df, c("CD38", "ADH4", "pyruvate dehydrogenase"))
 #'
 #' @export
 ID2Enzyme <- function(brenda, ids) {
@@ -109,7 +114,7 @@ ID2Enzyme <- function(brenda, ids) {
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
 #' @importFrom stringr str_glue
-QueryBrendaBase <- function(brenda, EC, organisms = F) {
+QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
   brenda <- brenda %>%
     filter(ID == EC) %>%
     select(field, description) %>%

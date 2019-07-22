@@ -23,7 +23,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr distinct
 #' @export
-ReadBrenda <- function(filepath, clean = T) {
+ReadBrenda <- function(filepath, clean = TRUE) {
   # src/read_brenda
   message("Reading BRENDA text file...")
   filepath <- path.expand(filepath)
@@ -67,11 +67,11 @@ ReadBrenda <- function(filepath, clean = T) {
 #' @import stringr
 CleanECNumber <- function(df) {
   df <- df %>%
-    mutate(ID = str_remove(ID, regex(" \\(\\)", fixed = T)))
+    mutate(ID = str_remove(ID, regex(" \\(\\)", fixed = TRUE)))
   df.standard <- df %>%
-    filter(str_detect(ID, regex("\\(", fixed = T), negate = T))
+    filter(str_detect(ID, regex("\\(", fixed = TRUE), negate = TRUE))
   df.nonstd <- df %>%
-    filter(str_detect(ID, regex("\\(", fixed = T))) %>%
+    filter(str_detect(ID, regex("\\(", fixed = TRUE))) %>%
     distinct(ID) %>%
     mutate(
       field = "TRANSFERRED_DELETED",

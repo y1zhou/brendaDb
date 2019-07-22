@@ -50,7 +50,7 @@ ParseReaction <- function(description, acronym) {
     str_remove("\\(#.*>\\)") %>%
     str_remove("\\|#.*>\\|") %>%
     str_trim() %>%
-    str_split(regex(" = ", fixed = T))  # separate substrate and product
+    str_split(regex(" = ", fixed = TRUE))  # separate substrate and product
 
   res <- tibble(
     proteinID = protein.id,
@@ -62,6 +62,6 @@ ParseReaction <- function(description, acronym) {
     refID = ref.id
   ) %>%
     distinct(substrate, product, commentarySubstrate,
-             commentaryProduct, reversibility, .keep_all = T)
+             commentaryProduct, reversibility, .keep_all = TRUE)
   return(res)
 }
