@@ -201,8 +201,6 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
 #'
 #' @return The back-end of type `bpparamClass`.
 #'
-#' @seealso [BiocParallel::bpparam()]
-#'
 #' @examples
 #' brendaDb:::ConfigBPCores(2)
 #'
