@@ -1,5 +1,6 @@
 .Rproj.user
 *.Rproj
+README.Rmd
 .Rhistory
 .RData
 .Ruserdata
