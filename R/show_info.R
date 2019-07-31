@@ -50,7 +50,7 @@ print.brenda.entries <- function(x, ..., verbose = FALSE) {
     "transferred or deleted object(s)\n  ",
     paste(names(x[is.brenda.deprecated.entry((x))]), collapse = ", "),
     "\n"
-    )
+  )
 
   if (verbose) {
     invisible(map(x, print))
@@ -63,6 +63,8 @@ print.brenda.entries <- function(x, ..., verbose = FALSE) {
 #' @description For details, see [PrettyPrintBrendaEntry()].
 #'
 #' @param x A brenda.entry object (elements in the list returned by [QueryBrenda()]).
+#' @param full.output A boolean default to FALSE. If TRUE, include all entries
+#' even if they are empty (NA or 0 rows).
 #' @param ... Other arguments passed to the generic function.
 #'
 #' @return Nothing; print object information to the terminal.
@@ -73,7 +75,7 @@ print.brenda.entries <- function(x, ..., verbose = FALSE) {
 #' @importFrom crayon make_style
 #'
 #' @export
-print.brenda.entry <- function(x, ...) {
+print.brenda.entry <- function(x, full.output = FALSE, ...) {
   if (inherits(x, "brenda.deprecated.entry")) {
     print(str_glue(
       "Entry {x$nomenclature$ec}\n",
@@ -84,7 +86,7 @@ print.brenda.entry <- function(x, ...) {
   } else {
     cat("Entry", x$nomenclature$ec)
     invisible(pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
-         function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, 0)))
+                   function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, 0, full.output)))
     cat("\n")
   }
 }
@@ -96,34 +98,63 @@ print.brenda.entry <- function(x, ...) {
 #' @param tail.idx A string showing the last element in the entry. This is for
 #' printing a different character in the tree.
 #' @param depth Int, showing the depth of the element.
+#' @param full.output A boolean default to FALSE. If TRUE, print entry even if
+#' it's empty (NA or 0 rows).
 #'
 #' @return Nothing; prints object tree-view to the terminal.
 #'
 #' @importFrom crayon make_style red
 #' @importFrom grDevices rgb
 #' @importFrom utils tail
-PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth) {
+PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth, full.output) {
+  if(inherits(x, "brenda.sublist")) {
+    # Always print the top-level entry names
+    PrintTreeHelper(index, tail.idx, depth)
+
+    # Drop empty entries by default
+    if(!full.output) {
+      x <- x[!is.na(x)]
+      drop.zero.rows <- map(x, function(x) ifelse(is_tibble(x), nrow(x), 1))
+      x <- x[drop.zero.rows > 0]
+    }
+
+    if (length(x) > 0) {
+      pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
+           function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, depth+1, full.output))
+    } else {
+      cat(":", crayon::red("All NA"))
+    }
+  } else {
+    PrintTreeHelper(index, tail.idx, depth)
+    if(is_tibble(x)) {
+      if (nrow(x) != 0) {
+        cat(":", make_style(rgb(0.58, 0.58, 0.58))(
+          "A tibble with", nrow(x), "rows"))
+      } else {
+        cat(":", make_style(rgb(0.58, 0.58, 0.58))(
+          "A tibble with", crayon::red("0"), "rows"))
+      }
+    } else if (is.na(x)) {
+      cat(":", crayon::red("NA"))
+    } else {
+      cat(":", make_style(rgb(0.28, 0.28, 0.28))(x))
+    }
+  }
+}
+
+
+#' @title Helper function for printing the tree structure with correct whitespace.
+#'
+#' @param index A string of the name of the sublist.
+#' @param tail.idx A string showing the last element in the entry. This is for
+#' printing a different character in the tree.
+#' @param depth Int, showing the depth of the element.
+#'
+#' @return Nothing; prints tree structure to the terminal.
+PrintTreeHelper <- function(index, tail.idx, depth) {
   if(index == tail.idx) {
     cat("\n", rep("|    ", depth), "\U2514\U2500\U2500 ", index, sep = "")
   } else {
     cat("\n", rep("|    ", depth), "\U251C\U2500\U2500 ", index, sep = "")
   }
-
-  if(inherits(x, "brenda.sublist")) {
-    pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
-         function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, depth+1))
-  } else if(is_tibble(x)) {
-    if (nrow(x) == 0) {
-      cat(":", make_style(rgb(0.58, 0.58, 0.58))(
-        "A tibble with", crayon::red("0"), "rows"))
-    } else {
-      cat(":", make_style(rgb(0.58, 0.58, 0.58))(
-        "A tibble with", nrow(x), "rows"))
-    }
-  } else if (is.na(x)) {
-    cat(":", crayon::red("NA"))
-  } else {
-    cat(":", make_style(rgb(0.28, 0.28, 0.28))(x))
-  }
 }
-

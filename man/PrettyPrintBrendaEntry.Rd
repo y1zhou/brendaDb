@@ -4,7 +4,7 @@
 \alias{PrettyPrintBrendaEntry}
 \title{Print a brenda.entry in a tree view.}
 \usage{
-PrettyPrintBrendaEntry(x, index, tail.idx, depth)
+PrettyPrintBrendaEntry(x, index, tail.idx, depth, full.output)
 }
 \arguments{
 \item{x}{A \code{brenda.entry} object.}
@@ -15,6 +15,9 @@ PrettyPrintBrendaEntry(x, index, tail.idx, depth)
 printing a different character in the tree.}
 
 \item{depth}{Int, showing the depth of the element.}
+
+\item{full.output}{A boolean default to FALSE. If TRUE, print entry even if
+it's empty (NA or 0 rows).}
 }
 \value{
 Nothing; prints object tree-view to the terminal.

@@ -24,7 +24,7 @@
 QueryBrenda <- function(brenda, EC, n.core = 0, fields = FALSE, ...) {
   # Select certain fields
   if (is.character(fields)) {
-    brenda <- brenda[brenda$field %in% c("PROTEIN", "REFERENCE", fields), ]
+    brenda <- brenda[brenda$field %in% c("PROTEIN", "REFERENCE", "RECOMMENDED_NAME", fields), ]
   }
   EC.not.found <- EC[!EC %in% brenda$ID]
   if (length(EC.not.found) != 0) {
