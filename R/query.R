@@ -60,6 +60,7 @@ QueryBrenda <- function(brenda, EC, n.core = 0, fields = FALSE, ...) {
 #'
 #' @import stringr
 #' @importFrom dplyr filter mutate select
+#' @importFrom rlang .data
 #' @importFrom purrr map_dfr
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr spread
@@ -74,20 +75,20 @@ ID2Enzyme <- function(brenda, ids) {
   ids <- as.character(ids[!is.na(ids)])
 
   brenda <- brenda %>%
-    filter(field %in% c("RECOMMENDED_NAME", "SYSTEMATIC_NAME", "SYNONYMS")) %>%
+    filter(.data$field %in% c("RECOMMENDED_NAME", "SYSTEMATIC_NAME", "SYNONYMS")) %>%
     mutate(
-      description = str_remove(description, "^(RN|SN|SY)\\s+"),
-      description = str_replace_all(description, "\nSY\\s+", "\n"),
-      description = str_trim(description)
+      description = str_remove(.data$description, "^(RN|SN|SY)\\s+"),
+      description = str_replace_all(.data$description, "\nSY\\s+", "\n"),
+      description = str_trim(.data$description)
     )
 
   map_dfr(ids, function(x) {
     brenda %>%
-      filter(str_detect(description, str_glue("\\b({x})"))) %>%
+      filter(str_detect(.data$description, str_glue("\\b({x})"))) %>%
       mutate(fromID = x)
   }) %>%
     as_tibble() %>%
-    select(ID = fromID, EC = ID, field, description) %>%
+    select(ID = .data$fromID, EC = .data$ID, .data$field, .data$description) %>%
     spread(key = "field", value = "description")
 }
 
@@ -113,11 +114,12 @@ ID2Enzyme <- function(brenda, ids) {
 #'
 #' @importFrom tibble as_tibble deframe
 #' @importFrom dplyr filter select
+#' @importFrom rlang .data
 #' @importFrom stringr str_glue
 QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
   brenda <- brenda %>%
-    filter(ID == EC) %>%
-    select(field, description) %>%
+    filter(.data$ID == EC) %>%
+    select(.data$field, .data$description) %>%
     deframe()  # two columns to named vector
 
   if ("TRANSFERRED_DELETED" %in% names(brenda)) {
@@ -184,8 +186,8 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
 
     if (is.character(organisms)) {
       org.id <- query$organism$organism %>%
-        filter(description %in% organisms) %>%
-        select(description, proteinID) %>%
+        filter(.data$description %in% organisms) %>%
+        select(.data$description, .data$proteinID) %>%
         deframe()
       query <- SelectOrganism(query, org.id)
     }
@@ -233,6 +235,7 @@ ConfigBPCores <- function(n.core = 0){
 #' @seealso [QueryBrendaBase()]
 #'
 #' @importFrom dplyr filter
+#' @importFrom rlang .data
 #' @importFrom purrr map map_lgl
 #' @importFrom tibble is_tibble
 SelectOrganism <- function(query, org.id) {
@@ -244,7 +247,7 @@ SelectOrganism <- function(query, org.id) {
     # Rows should contain at least one of the organism IDs.
     res <- query %>%
       filter(
-        map_lgl(str_split(proteinID, ","),
+        map_lgl(str_split(.data$proteinID, ","),
                 function(x) any(x %in% org.id) | all(is.na(x)))
       )
   } else {

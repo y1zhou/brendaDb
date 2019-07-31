@@ -16,6 +16,7 @@
 #' @import stringr
 #' @importFrom tibble tibble
 #' @importFrom dplyr distinct
+#' @importFrom rlang .data
 #' @importFrom purrr map_chr
 ParseReaction <- function(description, acronym) {
   if (is.na(description)) {
@@ -61,7 +62,7 @@ ParseReaction <- function(description, acronym) {
     reversibility = reversibility,
     refID = ref.id
   ) %>%
-    distinct(substrate, product, commentarySubstrate,
-             commentaryProduct, reversibility, .keep_all = TRUE)
+    distinct(.data$substrate, .data$product, .data$commentarySubstrate,
+             .data$commentaryProduct, .data$reversibility, .keep_all = TRUE)
   return(res)
 }

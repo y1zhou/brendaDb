@@ -18,6 +18,7 @@
 #' @importFrom purrr map
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
+#' @importFrom rlang .data
 BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
   if (missing(pathway) | is.na(pathway)) {
     stop("Missing parameter \"pathway\"")
@@ -72,7 +73,7 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
     Reaction = reaction.ids,
     EC = res
   ) %>%
-    tidyr::unnest(EC)
+    tidyr::unnest(.data$EC)
 
   return(res)
 }

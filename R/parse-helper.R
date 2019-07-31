@@ -121,6 +121,7 @@ SeparateSubentries <- function(description, acronym = NA) {
 #' @importFrom magrittr %>%
 #' @importFrom purrr map_chr
 #' @importFrom tibble tibble
+#' @importFrom rlang .data
 ParseGeneric <- function(description, acronym) {
   if (is.na(description)) {
     return(NA)
@@ -166,7 +167,8 @@ ParseGeneric <- function(description, acronym) {
     commentary = commentary,
     refID = ref.id
   ) %>%
-    distinct(description, fieldInfo, commentary, .keep_all = TRUE)
+    distinct(.data$description, .data$fieldInfo, .data$commentary,
+             .keep_all = TRUE)
   # https://www.brenda-enzymes.org/enzyme.php?ecno=1.1.1.1&organism=Mus+musculus#pH%20OPTIMUM
   res$description[res$description %in% c("-999", "more", "More")] <- "additional information"
   return(res)

@@ -64,21 +64,22 @@ ReadBrenda <- function(filepath, clean = TRUE) {
 #' brendaDb:::CleanECNumber(df)
 #'
 #' @importFrom dplyr mutate filter bind_rows
+#' @importFrom rlang .data
 #' @import stringr
 CleanECNumber <- function(df) {
   df <- df %>%
-    mutate(ID = str_remove(ID, regex(" \\(\\)", fixed = TRUE)))
+    mutate(ID = str_remove(.data$ID, regex(" \\(\\)", fixed = TRUE)))
   df.standard <- df %>%
-    filter(str_detect(ID, regex("\\(", fixed = TRUE), negate = TRUE))
+    filter(str_detect(.data$ID, regex("\\(", fixed = TRUE), negate = TRUE))
   df.nonstd <- df %>%
-    filter(str_detect(ID, regex("\\(", fixed = TRUE))) %>%
-    distinct(ID) %>%
+    filter(str_detect(.data$ID, regex("\\(", fixed = TRUE))) %>%
+    distinct(.data$ID) %>%
     mutate(
       field = "TRANSFERRED_DELETED",
-      description = str_sub(str_extract(ID, "\\(.*$"), 2, -2),
-      ID = str_extract(ID, "^(\\d+\\.){3}\\d+")
+      description = str_sub(str_extract(.data$ID, "\\(.*$"), 2, -2),
+      ID = str_extract(.data$ID, "^(\\d+\\.){3}\\d+")
     ) %>%
-    filter(!is.na(ID))
+    filter(!is.na(.data$ID))
   return(bind_rows(df.standard, df.nonstd))
 }
 

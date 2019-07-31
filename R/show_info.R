@@ -5,6 +5,7 @@
 #' @return A data.frame with columns "field" and "acronym".
 #'
 #' @importFrom dplyr filter distinct mutate select
+#' @importFrom rlang .data
 #' @import stringr
 #' @importFrom tibble as_tibble
 #'
@@ -19,10 +20,10 @@ ShowFields <- function(df) {
     stop("Missing parameter df. If you want all the fields, please use data(acronyms).")
   } else {
     acronyms <- df %>%
-      filter(field != "TRANSFERRED_DELETED") %>%
-      distinct(field, .keep_all = TRUE) %>%
-      mutate(acronym = str_extract(description, "^[A-Z05]+")) %>%
-      select(field, acronym) %>%
+      filter(.data$field != "TRANSFERRED_DELETED") %>%
+      distinct(.data$field, .keep_all = TRUE) %>%
+      mutate(acronym = str_extract(.data$description, "^[A-Z05]+")) %>%
+      select(.data$field, .data$acronym) %>%
       as_tibble()
   }
   return(acronyms)
