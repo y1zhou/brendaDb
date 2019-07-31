@@ -14,6 +14,7 @@
 #' @import stringr
 #' @importFrom curl curl
 #' @importFrom xml2 read_xml xml_find_all xml_text xml_remove
+#' @importFrom dplyr progress_estimated
 #' @importFrom purrr map
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
@@ -46,11 +47,14 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
     "Found {length(reaction.ids)} reactions for {org.id} pathway {pathway}."
   ))
   # For each reaction, get the EC number(s) of the enzyme catalyzing it
+  pb <- progress_estimated(length(reaction.ids))
   res <- map(reaction.ids, function(rxn) {
+    pb$tick()$print()
     x <- read_xml(str_glue(
       "https://websvc.biocyc.org/getxml?{org.id}:{rxn}"
     )) %>%
       xml_find_all("//ec-number")
+
     # There's an "official" node inside "ec-number" that is useless in this case
     x %>%
       xml_find_all("//official") %>%
