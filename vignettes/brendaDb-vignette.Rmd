@@ -122,5 +122,9 @@ system.time(QueryBrenda(df, EC = EC.numbers, n.core = 4))
 # 0.688   0.832   9.517
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 8))
 #  user  system elapsed 
-# 1.112   1.476  10.000 
+# 1.112   1.476  10.000
+```
+
+```{r}
+sessionInfo()
 ```
