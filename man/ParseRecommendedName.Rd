@@ -17,6 +17,6 @@ A string to fill into the \code{recommended.name} field in
 Remove useless characters in the description.
 }
 \examples{
-x <- "RN	D-arabinose 1-dehydrogenase (NAD+)"
+x <- "RN\\tD-arabinose 1-dehydrogenase (NAD+)"
 brendaDb:::ParseRecommendedName(x)
 }

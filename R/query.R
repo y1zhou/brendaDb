@@ -1,7 +1,8 @@
 #' @title Query for multiple enzymes.
 #'
-#' @description Use a vector of EC numbers to retrieve information from the BRENDA
-#' `tibble` read in by [ReadBrenda()]. Invalid EC numbers will be removed.
+#' @description Use a vector of EC numbers to retrieve information from the
+#' BRENDA `tibble` read in by [ReadBrenda()]. Invalid EC numbers will be removed
+#' and a message will be generated.
 #'
 #' @inheritParams QueryBrendaBase
 #' @inheritParams ConfigBPCores
@@ -53,10 +54,10 @@ QueryBrenda <- function(brenda, EC, n.core = 0, fields = FALSE, ...) {
 #'
 #' @details The function goes through "RECOMMENDED_NAME", "SYSTEMATIC_NAME", and
 #' "SYNONYMS" in the BRENDA file, and uses regexes to look for the given IDs.
-#' Values in the three columns are kept if the regex had a hit, otherwise NA is filled.
-#' The function can take in IDs of multiple sources, e.g. `c("ADH4", "CD38",
-#' "pyruvate dehydrogenase")`. Note that using aliases instead of symbols could
-#' lead to false positives in the output table.
+#' Values in the three columns are kept if the regex had a hit, otherwise NA is
+#' filled. The function can take in IDs of multiple sources, e.g. `c("ADH4",
+#' "CD38", "pyruvate dehydrogenase")`. Note that using aliases instead of
+#' symbols could lead to false positives in the output table.
 #'
 #' @import stringr
 #' @importFrom dplyr filter mutate select
@@ -75,7 +76,9 @@ ID2Enzyme <- function(brenda, ids) {
   ids <- as.character(ids[!is.na(ids)])
 
   brenda <- brenda %>%
-    filter(.data$field %in% c("RECOMMENDED_NAME", "SYSTEMATIC_NAME", "SYNONYMS")) %>%
+    filter(
+      .data$field %in% c("RECOMMENDED_NAME","SYSTEMATIC_NAME", "SYNONYMS")
+    ) %>%
     mutate(
       description = str_remove(.data$description, "^(RN|SN|SY)\\s+"),
       description = str_replace_all(.data$description, "\nSY\\s+", "\n"),
@@ -128,7 +131,7 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
   } else {
     query <- InitBrendaEntry(
       EC,
-      # Nomenclature -------------------------------------------------------------
+      # Nomenclature -----------------------------------------------------------
       protein = ParseProtein(brenda["PROTEIN"]),
       systematic.name = ParseSystematicName(brenda["SYSTEMATIC_NAME"]),
       recommended.name = ParseRecommendedName(brenda["RECOMMENDED_NAME"]),
@@ -136,7 +139,7 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
       reaction = ParseGeneric(brenda["REACTION"], "RE"),
       reaction.type = ParseGeneric(brenda["REACTION_TYPE"], "RT"),
 
-      # Interactions -------------------------------------------------------------
+      # Interactions -----------------------------------------------------------
       substrate.product = ParseReaction(brenda["SUBSTRATE_PRODUCT"], "SP"),
       natural.substrate.product = ParseReaction(brenda["NATURAL_SUBSTRATE_PRODUCT"], "NSP"),
       cofactor = ParseGeneric(brenda["COFACTOR"], "CF"),
@@ -144,7 +147,7 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
       inhibitors = ParseGeneric(brenda["INHIBITORS"], "IN"),
       activating.compound = ParseGeneric(brenda["ACTIVATING_COMPOUND"], "AC"),
 
-      # Parameters ---------------------------------------------------------------
+      # Parameters -------------------------------------------------------------
       km.value = ParseGeneric(brenda["KM_VALUE"], "KM"),
       turnover.number = ParseGeneric(brenda["TURNOVER_NUMBER"], "TN"),
       ki.value = ParseGeneric(brenda["KI_VALUE"], "KI"),
@@ -156,17 +159,17 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
       specific.activity = ParseGeneric(brenda["SPECIFIC_ACTIVITY"], "SA"),
       ic50 = ParseGeneric(brenda["IC50_VALUE"], "IC50"),
 
-      # Organism information -----------------------------------------------------
+      # Organism information ---------------------------------------------------
       source.tissue = ParseGeneric(brenda["SOURCE_TISSUE"], "ST"),
       localization = ParseGeneric(brenda["LOCALIZATION"], "LO"),
 
-      # Structure ----------------------------------------------------------------
+      # Structure --------------------------------------------------------------
       molecular.weight = ParseGeneric(brenda["MOLECULAR_WEIGHT"], "MW"),
       subunits = ParseGeneric(brenda["SUBUNITS"], "SU"),
       posttranslational.modification = ParseGeneric(brenda["POSTTRANSLATIONAL_MODIFICATION"], "PM"),
       crystallization = ParseNoDescription(brenda["CRYSTALLIZATION"], "CR"),
 
-      # Molecular ----------------------------------------------------------------
+      # Molecular --------------------------------------------------------------
       general.stability = ParseNoDescription(brenda["GENERAL_STABILITY"], "GS"),
       storage.stability = ParseNoDescription(brenda["STORAGE_STABILITY"], "SS"),
       ph.stability = ParseGeneric(brenda["PH_STABILITY"], "PHS"),
@@ -180,7 +183,7 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
       renatured = ParseNoDescription(brenda["RENATURED"], "REN"),
       application = ParseGeneric(brenda["APPLICATION"], "AP"),
 
-      # Bibliography -------------------------------------------------------------
+      # Bibliography -----------------------------------------------------------
       bibliography = ParseReference(brenda["REFERENCE"])
     )
 

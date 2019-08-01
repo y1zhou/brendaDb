@@ -21,9 +21,9 @@ A helper function for converting names/synonyms to EC numbers.
 \details{
 The function goes through "RECOMMENDED_NAME", "SYSTEMATIC_NAME", and
 "SYNONYMS" in the BRENDA file, and uses regexes to look for the given IDs.
-Values in the three columns are kept if the regex had a hit, otherwise NA is filled.
-The function can take in IDs of multiple sources, e.g. \code{c("ADH4", "CD38", "pyruvate dehydrogenase")}. Note that using aliases instead of symbols could
-lead to false positives in the output table.
+Values in the three columns are kept if the regex had a hit, otherwise NA is
+filled. The function can take in IDs of multiple sources, e.g. \code{c("ADH4", "CD38", "pyruvate dehydrogenase")}. Note that using aliases instead of
+symbols could lead to false positives in the output table.
 }
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",

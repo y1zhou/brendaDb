@@ -33,8 +33,10 @@ ParseProtein <- function(description) {
       ) %>%
       mutate(
         description = str_remove(.data$description, uniprot.regex),
-        description = str_trim(str_remove(.data$description, "([uU]ni|[sS]wiss)[pP]rot")),
-        uniprot = toupper(str_remove(.data$uniprot, "\\s+([uU]ni|[sS]wiss)[pP]rot"))
+        description = str_trim(str_remove(.data$description,
+                                          "([uU]ni|[sS]wiss)[pP]rot")),
+        uniprot = toupper(str_remove(.data$uniprot,
+                                     "\\s+([uU]ni|[sS]wiss)[pP]rot"))
       ) %>%
       select(.data$proteinID, .data$description, .data$uniprot,
              .data$commentary, .data$refID) %>%
@@ -56,7 +58,7 @@ ParseProtein <- function(description) {
 #' `brenda.nomenclature`.
 #'
 #' @examples
-#' x <- "RN	D-arabinose 1-dehydrogenase (NAD+)"
+#' x <- "RN\tD-arabinose 1-dehydrogenase (NAD+)"
 #' brendaDb:::ParseRecommendedName(x)
 ParseRecommendedName <- function(description) {
   x <- SeparateSubentries(description, acronym = "RN")

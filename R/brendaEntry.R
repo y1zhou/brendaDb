@@ -66,16 +66,19 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
                             metals.ions = NA, inhibitors = NA,
                             activating.compound = NA, km.value = NA,
                             turnover.number = NA, ki.value = NA, pi.value = NA,
-                            ph.optimum = NA, ph.range = NA, temperature.optimum = NA,
-                            temperature.range = NA, specific.activity = NA,
-                            ic50 = NA, source.tissue = NA, localization = NA,
+                            ph.optimum = NA, ph.range = NA,
+                            temperature.optimum = NA, temperature.range = NA,
+                            specific.activity = NA, ic50 = NA,
+                            source.tissue = NA, localization = NA,
                             general.stability = NA, storage.stability = NA,
                             ph.stability = NA, organic.solvent.stability = NA,
-                            oxidation.stability = NA, temperature.stability = NA,
-                            purification = NA, cloned = NA, engineering = NA,
-                            renatured = NA, application = NA, molecular.weight = NA,
+                            oxidation.stability = NA,
+                            temperature.stability = NA, purification = NA,
+                            cloned = NA, engineering = NA, renatured = NA,
+                            application = NA, molecular.weight = NA,
                             subunits = NA, posttranslational.modification = NA,
                             crystallization = NA, bibliography = NA) {
+
   if (missing(EC)) {
     stop("Missing parameter: EC.")
   }

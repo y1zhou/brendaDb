@@ -17,7 +17,10 @@
 #' @export
 ShowFields <- function(df) {
   if (missing(df)) {
-    stop("Missing parameter df. If you want all the fields, please use data(acronyms).")
+    stop(
+      "Missing parameter df. If you want all the fields, please use \n",
+      "data(acronyms)."
+    )
   } else {
     acronyms <- df %>%
       filter(.data$field != "TRANSFERRED_DELETED") %>%
@@ -30,11 +33,11 @@ ShowFields <- function(df) {
 }
 
 
-#' @title Show the number of regular and transferred/deleted brenda.entry objects
-#' in the brenda.entries list.
+#' @title Show the number of regular and transferred/deleted brenda.entry
+#' objects in the brenda.entries list.
 #'
 #' @param x A brenda.entries list returned by [QueryBrenda()].
-#' @param verbose Boolean; if TRUE, print tree views of each brenda.query object.
+#' @param verbose Boolean; if TRUE, print tree views of brenda.query objects.
 #' @param ... Other arguments passed to the generic function.
 #'
 #' @return Nothing; print summary information to the terminal.
@@ -63,7 +66,8 @@ print.brenda.entries <- function(x, ..., verbose = FALSE) {
 #'
 #' @description For details, see [PrettyPrintBrendaEntry()].
 #'
-#' @param x A brenda.entry object (elements in the list returned by [QueryBrenda()]).
+#' @param x A brenda.entry object (elements in the list returned by the function
+#' [QueryBrenda()]).
 #' @param full.output A boolean default to FALSE. If TRUE, include all entries
 #' even if they are empty (NA or 0 rows).
 #' @param ... Other arguments passed to the generic function.
@@ -86,8 +90,13 @@ print.brenda.entry <- function(x, full.output = FALSE, ...) {
     ))
   } else {
     cat("Entry", x$nomenclature$ec)
-    invisible(pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
-                   function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, 0, full.output)))
+    invisible(
+      pmap(
+        list(x = x, i = names(x), tail.i = tail(names(x), 1)),
+        function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i,
+                                                      0, full.output)
+      )
+    )
     cat("\n")
   }
 }
@@ -120,8 +129,11 @@ PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth, full.output) {
     }
 
     if (length(x) > 0) {
-      pmap(list(x = x, i = names(x), tail.i = tail(names(x), 1)),
-           function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i, depth+1, full.output))
+      pmap(
+        list(x = x, i = names(x), tail.i = tail(names(x), 1)),
+        function(x, i, tail.i) PrettyPrintBrendaEntry(x, i, tail.i,
+                                                      depth+1, full.output)
+      )
     } else {
       cat(":", crayon::red("All NA"))
     }
@@ -144,7 +156,7 @@ PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth, full.output) {
 }
 
 
-#' @title Helper function for printing the tree structure with correct whitespace.
+#' @title Print the tree structure with correct whitespace.
 #'
 #' @param index A string of the name of the sublist.
 #' @param tail.idx A string showing the last element in the entry. This is for

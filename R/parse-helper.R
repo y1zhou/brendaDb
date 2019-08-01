@@ -78,7 +78,7 @@ SeparateSubentries <- function(description, acronym = NA) {
   }
   if (str_detect(description, paste0("^", acronym, "\t"), negate = TRUE)) {
     warning(str_glue(
-      "The description doesn't seem to match your provided acronym \"{acronym}\".")
+      "The description doesn't seem to match your provided acronym '{acronym}'")
     )
     return(NA)
   }
@@ -112,7 +112,7 @@ SeparateSubentries <- function(description, acronym = NA) {
 #' The `fieldInfo` column contains different information in different fields:
 #' - In a `SYNONYMS` entry, it is either the source of the identifier, or part
 #' of the description (a false positive).
-#' - In `KM_VALUE`, `TURNOVER_NUMBER` entries, it is the corresponding substrate.
+#' - In `KM_VALUE`, `TURNOVER_NUMBER` entries, it's the corresponding substrate.
 #'
 #' @return A `tibble` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
@@ -137,7 +137,7 @@ ParseGeneric <- function(description, acronym) {
 
   if (acronym %in% c("SY", "TN", "KM", "IN", "KI", "IC50")) {
     field.info <- des.list %>%
-      str_extract("\\{.*?(\\}$|\\}\\s+[(<])") %>%  # should have at most one match
+      str_extract("\\{.*?(\\}$|\\}\\s+[(<])") %>%  # should have <= 1 match
       # remove {}, and trailing < or (
       str_remove_all("([\\s{}])|[(<]$")
     description <- des.list %>%
@@ -153,7 +153,7 @@ ParseGeneric <- function(description, acronym) {
   }
 
   commentary <- description %>%
-    str_extract("\\(#.*>\\)") %>%  # greedy because there could be ) in commentary
+    str_extract("\\(#.*>\\)") %>%  # greedy; there could be ) in commentary
     str_sub(2, -2)
 
   description <- description %>%
@@ -177,8 +177,9 @@ ParseGeneric <- function(description, acronym) {
 
 #' @title Generic parser for a description string without extracted values.
 #'
-#' @description This parser works for fields `storage.stability`, `general.stability`,
-#' `oxidation.stability`, `cloned`, `purification`, `crystallization` and `renatured`.
+#' @description This parser works for fields `storage.stability`,
+#' `general.stability`, `oxidation.stability`, `cloned`, `purification`,
+#' `crystallization` and `renatured`.
 #'
 #' These fields in BRENDA don't have extracted values - the commentary itself is
 #' the extracted value.

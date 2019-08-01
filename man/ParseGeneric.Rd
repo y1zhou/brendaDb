@@ -33,6 +33,6 @@ The \code{fieldInfo} column contains different information in different fields:
 \itemize{
 \item In a \code{SYNONYMS} entry, it is either the source of the identifier, or part
 of the description (a false positive).
-\item In \code{KM_VALUE}, \code{TURNOVER_NUMBER} entries, it is the corresponding substrate.
+\item In \code{KM_VALUE}, \code{TURNOVER_NUMBER} entries, it's the corresponding substrate.
 }
 }

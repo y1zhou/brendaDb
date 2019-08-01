@@ -10,13 +10,14 @@ BiocycPathwayGenes(org.id = "HUMAN", pathway)
 \item{org.id}{The identifier for the organism database in BioCyc, e.g. ECOLI,
 HUMAN, META, AFER243159}
 
-\item{pathway}{A case-sensitive pathway object identifier, e.g. PWY66-400, LYSINE-DEG1-PWY}
+\item{pathway}{A case-sensitive pathway object identifier,
+e.g. PWY66-400, LYSINE-DEG1-PWY.}
 }
 \value{
 If the pathway is found, returns a tibble with columns \code{BiocycGene},
-\code{BiocycProtein}, \code{Symbol} and \code{Ensembl}, where \code{BiocycGene} and \code{BiocycProtein}
-are the gene and protein IDs in the BioCyc database, respectively. Returns NULL
-if the pathway ID is not found.
+\code{BiocycProtein}, \code{Symbol} and \code{Ensembl}, where \code{BiocycGene} and
+\code{BiocycProtein} are the gene and protein IDs in the BioCyc database,
+respectively. Returns NULL if the pathway ID is not found.
 }
 \description{
 Get all genes involved in a BioCyc pathway.

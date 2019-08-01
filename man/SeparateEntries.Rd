@@ -10,8 +10,8 @@ SeparateEntries(lines)
 \item{lines}{The output vector<string> from \code{read_brenda_file}.}
 }
 \value{
-A vector<vector<string>> containing information about the EC entries. In R
-this is a list of 3 lists.
+A vector<vector<string>> containing information about the EC
+entries. In R this is a list of 3 lists.
 }
 \description{
 For each EC entry, split the annotations into three columns:

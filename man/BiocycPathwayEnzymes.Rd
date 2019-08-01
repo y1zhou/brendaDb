@@ -10,7 +10,8 @@ BiocycPathwayEnzymes(org.id = "HUMAN", pathway)
 \item{org.id}{The identifier for the organism database in BioCyc, e.g. ECOLI,
 HUMAN, META, AFER243159}
 
-\item{pathway}{A case-sensitive pathway object identifier, e.g. PWY66-400, LYSINE-DEG1-PWY}
+\item{pathway}{A case-sensitive pathway object identifier,
+e.g. PWY66-400, LYSINE-DEG1-PWY.}
 }
 \value{
 If the pathway is found, returns a tibble with columns \code{Reaction} and

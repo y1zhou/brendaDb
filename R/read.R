@@ -11,13 +11,6 @@
 #' brenda_txt <- system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb")
 #' df <- ReadBrenda(brenda_txt)
-#' # Reading BRENDA text file...
-#' # Converting text into matrix...This might take a while...
-#' head(df)
-#' # ID         field             description
-#' # 1.1.1.10   PROTEIN           PR	PR  #1# Cavia porcellus   (#1# SULT1A2...
-#' # 1.1.1.10   RECOMMENDED_NAME  RN  L-xylulose reductase
-#' # 1.1.1.10   SYSTEMATIC_NAME   SN  xylitol:NADP+ 4-oxidoreductase (L-xyl...
 #'
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble

@@ -2,8 +2,8 @@
 % Please edit documentation in R/show_info.R
 \name{print.brenda.entries}
 \alias{print.brenda.entries}
-\title{Show the number of regular and transferred/deleted brenda.entry objects
-in the brenda.entries list.}
+\title{Show the number of regular and transferred/deleted brenda.entry
+objects in the brenda.entries list.}
 \usage{
 \method{print}{brenda.entries}(x, ..., verbose = FALSE)
 }
@@ -12,12 +12,12 @@ in the brenda.entries list.}
 
 \item{...}{Other arguments passed to the generic function.}
 
-\item{verbose}{Boolean; if TRUE, print tree views of each brenda.query object.}
+\item{verbose}{Boolean; if TRUE, print tree views of brenda.query objects.}
 }
 \value{
 Nothing; print summary information to the terminal.
 }
 \description{
-Show the number of regular and transferred/deleted brenda.entry objects
-in the brenda.entries list.
+Show the number of regular and transferred/deleted brenda.entry
+objects in the brenda.entries list.
 }

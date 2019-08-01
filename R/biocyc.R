@@ -2,7 +2,8 @@
 #'
 #' @param org.id The identifier for the organism database in BioCyc, e.g. ECOLI,
 #' HUMAN, META, AFER243159
-#' @param pathway A case-sensitive pathway object identifier, e.g. PWY66-400, LYSINE-DEG1-PWY
+#' @param pathway A case-sensitive pathway object identifier,
+#' e.g. PWY66-400, LYSINE-DEG1-PWY.
 #'
 #' @return If the pathway is found, returns a tibble with columns `Reaction` and
 #' `EC`, where `Reaction` is the reaction IDs found in the pathway. Returns NULL
@@ -83,9 +84,9 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
 #' @inheritParams BiocycPathwayEnzymes
 #'
 #' @return If the pathway is found, returns a tibble with columns `BiocycGene`,
-#' `BiocycProtein`, `Symbol` and `Ensembl`, where `BiocycGene` and `BiocycProtein`
-#' are the gene and protein IDs in the BioCyc database, respectively. Returns NULL
-#' if the pathway ID is not found.
+#' `BiocycProtein`, `Symbol` and `Ensembl`, where `BiocycGene` and
+#' `BiocycProtein` are the gene and protein IDs in the BioCyc database,
+#' respectively. Returns NULL if the pathway ID is not found.
 #' @export
 #'
 #' @examples BiocycPathwayGenes("HUMAN", "PWY66-400")
@@ -132,7 +133,9 @@ BiocycPathwayGenes <- function(org.id = "HUMAN", pathway) {
     xml_find_all("/ptools-xml/Gene/common-name") %>%
     xml_text()
   gene.ensembl <- gene.nodes %>%
-    xml_find_all("/ptools-xml/Gene/dblink[./dblink-db = 'ENSEMBL']/dblink-oid") %>%
+    xml_find_all(
+      "/ptools-xml/Gene/dblink[./dblink-db = 'ENSEMBL']/dblink-oid"
+    ) %>%
     xml_text()
 
   tibble(

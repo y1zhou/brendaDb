@@ -7,7 +7,8 @@
 \method{print}{brenda.entry}(x, full.output = FALSE, ...)
 }
 \arguments{
-\item{x}{A brenda.entry object (elements in the list returned by \code{\link[=QueryBrenda]{QueryBrenda()}}).}
+\item{x}{A brenda.entry object (elements in the list returned by the function
+\code{\link[=QueryBrenda]{QueryBrenda()}}).}
 
 \item{full.output}{A boolean default to FALSE. If TRUE, include all entries
 even if they are empty (NA or 0 rows).}

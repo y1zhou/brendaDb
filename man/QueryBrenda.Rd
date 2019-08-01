@@ -23,8 +23,9 @@ FALSE, which would be returning all fields.}
 A list of \code{brenda.entry} objects.
 }
 \description{
-Use a vector of EC numbers to retrieve information from the BRENDA
-\code{tibble} read in by \code{\link[=ReadBrenda]{ReadBrenda()}}. Invalid EC numbers will be removed.
+Use a vector of EC numbers to retrieve information from the
+BRENDA \code{tibble} read in by \code{\link[=ReadBrenda]{ReadBrenda()}}. Invalid EC numbers will be removed
+and a message will be generated.
 }
 \examples{
 df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",

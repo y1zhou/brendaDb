@@ -59,8 +59,8 @@ std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
 //'
 //' @param lines The output vector<string> from `read_brenda_file`.
 //'
-//' @return A vector<vector<string>> containing information about the EC entries. In R
-//' this is a list of 3 lists.
+//' @return A vector<vector<string>> containing information about the EC
+//' entries. In R this is a list of 3 lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
   std::regex field_regex("^[A-Z05_]{3,}$");  // IC50 field

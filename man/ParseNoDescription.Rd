@@ -15,8 +15,9 @@ ParseNoDescription(description, acronym)
 A \code{tibble} with columns: proteinID, description and refID.
 }
 \description{
-This parser works for fields \code{storage.stability}, \code{general.stability},
-\code{oxidation.stability}, \code{cloned}, \code{purification}, \code{crystallization} and \code{renatured}.
+This parser works for fields \code{storage.stability},
+\code{general.stability}, \code{oxidation.stability}, \code{cloned}, \code{purification},
+\code{crystallization} and \code{renatured}.
 
 These fields in BRENDA don't have extracted values - the commentary itself is
 the extracted value.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/show_info.R
 \name{PrintTreeHelper}
 \alias{PrintTreeHelper}
-\title{Helper function for printing the tree structure with correct whitespace.}
+\title{Print the tree structure with correct whitespace.}
 \usage{
 PrintTreeHelper(index, tail.idx, depth)
 }
@@ -18,5 +18,5 @@ printing a different character in the tree.}
 Nothing; prints tree structure to the terminal.
 }
 \description{
-Helper function for printing the tree structure with correct whitespace.
+Print the tree structure with correct whitespace.
 }
