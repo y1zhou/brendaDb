@@ -112,6 +112,7 @@ print.brenda.entry <- function(x, full.output = FALSE, ...) {
 #' it's empty (NA or 0 rows).
 #'
 #' @return Nothing; prints object tree-view to the terminal.
+#' @keywords internal
 #'
 #' @importFrom crayon make_style red
 #' @importFrom grDevices rgb
@@ -164,6 +165,7 @@ PrettyPrintBrendaEntry <- function(x, index, tail.idx, depth, full.output) {
 #' @param depth Int, showing the depth of the element.
 #'
 #' @return Nothing; prints tree structure to the terminal.
+#' @keywords internal
 PrintTreeHelper <- function(index, tail.idx, depth) {
   if(index == tail.idx) {
     cat("\n", rep("|    ", depth), "\U2514\U2500\U2500 ", index, sep = "")

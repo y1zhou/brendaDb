@@ -8,6 +8,7 @@
 #' @param type Either "protein" or "reference".
 #'
 #' @return A string, or a vector of strings of protein numbers.
+#' @keywords internal
 #'
 #' @examples
 #' brendaDb:::ParseProteinNum("#1,2,3#", "protein")
@@ -63,6 +64,7 @@ ParseProteinNum <- function(x, type) {
 #' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @return A list of strings with each subentry as an element.
+#' @keywords internal
 #'
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"
@@ -116,6 +118,7 @@ SeparateSubentries <- function(description, acronym = NA) {
 #'
 #' @return A `tibble` with columns: proteinID, description, fieldInfo,
 #' commentary, and refID
+#' @keywords internal
 #'
 #' @import stringr
 #' @importFrom magrittr %>%
@@ -188,6 +191,7 @@ ParseGeneric <- function(description, acronym) {
 #' @param acronym The acronym of the field. Can be found with [ShowFields()].
 #'
 #' @return A `tibble` with columns: proteinID, description and refID.
+#' @keywords internal
 #'
 #' @import stringr
 #' @importFrom purrr map_chr

@@ -57,6 +57,8 @@
 #' @return A `brenda.entry` object with all fields other than nomenclature$ec
 #' being NA.
 #'
+#' @keywords internal
+#'
 #' @examples
 #' brendaDb:::InitBrendaEntry("1.1.1.100")
 InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
@@ -186,6 +188,8 @@ InitBrendaEntry <- function(EC, protein = NA, systematic.name = NA,
 #' @param msg A string of the transferred / deleted message.
 #'
 #' @return A `brenda.deprecated.entry` obeject.
+#'
+#' @keywords internal
 #'
 #' @examples
 #' brendaDb:::InitBrendaDeprecatedEntry("6.3.5.8", "Transferred to EC 2.6.1.85")

@@ -107,6 +107,7 @@ ID2Enzyme <- function(brenda, ids) {
 #' FALSE, which would keep all organisms.
 #'
 #' @return A `brenda.entry` object.
+#' @keywords internal
 #'
 #' @seealso [ReadBrenda()] [InitBrendaEntry()]
 #' @examples
@@ -205,6 +206,7 @@ QueryBrendaBase <- function(brenda, EC, organisms = FALSE) {
 #' which would result in using all available cores.
 #'
 #' @return The back-end of type `bpparamClass`.
+#' @keywords internal
 #'
 #' @examples
 #' brendaDb:::ConfigBPCores(2)
@@ -234,6 +236,7 @@ ConfigBPCores <- function(n.core = 0){
 #'
 #' @return A subset of the given brenda.query object with the given organisms
 #' selected.
+#' @keywords internal
 #'
 #' @seealso [QueryBrendaBase()]
 #'

@@ -6,6 +6,7 @@
 #'
 #' @return A `tibble` with five columns: proteinID, description, uniprot,
 #' commentary and reference. The description column is the source organism.
+#' @keywords internal
 #'
 #' @examples
 #' x <- paste0(
@@ -56,6 +57,7 @@ ParseProtein <- function(description) {
 #'
 #' @return A string to fill into the `recommended.name` field in
 #' `brenda.nomenclature`.
+#' @keywords internal
 #'
 #' @examples
 #' x <- "RN\tD-arabinose 1-dehydrogenase (NAD+)"
@@ -74,6 +76,7 @@ ParseRecommendedName <- function(description) {
 #'
 #' @return A string to fill into the `systematic.name` field in
 #' `brenda.nomenclature`.
+#' @keywords internal
 #'
 #' @examples
 #' x <- "SN\talcohol:NAD+ oxidoreductase"

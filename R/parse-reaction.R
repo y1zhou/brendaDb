@@ -12,6 +12,7 @@
 #'
 #' @return A `tibble` with columns: proteinID, substrate, product,
 #' commentarySubstrate, commentaryProduct, fieldInfo and refID
+#' @keywords internal
 #'
 #' @import stringr
 #' @importFrom tibble tibble

@@ -21,3 +21,4 @@ Select a subset of organisms in the brenda.query object.
 \seealso{
 \code{\link[=QueryBrendaBase]{QueryBrendaBase()}}
 }
+\keyword{internal}

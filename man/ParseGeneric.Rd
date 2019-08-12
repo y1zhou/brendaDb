@@ -36,3 +36,4 @@ of the description (a false positive).
 \item In \code{KM_VALUE}, \code{TURNOVER_NUMBER} entries, it's the corresponding substrate.
 }
 }
+\keyword{internal}

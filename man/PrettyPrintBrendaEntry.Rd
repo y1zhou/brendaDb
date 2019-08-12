@@ -25,3 +25,4 @@ Nothing; prints object tree-view to the terminal.
 \description{
 Print a brenda.entry in a tree view.
 }
+\keyword{internal}

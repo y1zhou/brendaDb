@@ -31,3 +31,4 @@ brendaDb:::QueryBrendaBase(brenda = df, EC = "1.1.1.1",
 \seealso{
 \code{\link[=ReadBrenda]{ReadBrenda()}} \code{\link[=InitBrendaEntry]{InitBrendaEntry()}}
 }
+\keyword{internal}

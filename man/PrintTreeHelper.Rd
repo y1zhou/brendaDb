@@ -20,3 +20,4 @@ Nothing; prints tree structure to the terminal.
 \description{
 Print the tree structure with correct whitespace.
 }
+\keyword{internal}

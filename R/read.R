@@ -51,6 +51,8 @@ ReadBrenda <- function(filepath, clean = TRUE) {
 #' - field being "TRANSFERRED_DELETED", and
 #' - description being the information included in the original ID column.
 #'
+#' @keywords internal
+#'
 #' @examples
 #' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 #'                           package = "brendaDb"))
@@ -59,6 +61,8 @@ ReadBrenda <- function(filepath, clean = TRUE) {
 #' @importFrom dplyr mutate filter bind_rows
 #' @importFrom rlang .data
 #' @import stringr
+#'
+#' @keywords internal
 CleanECNumber <- function(df) {
   df <- df %>%
     mutate(ID = str_remove(.data$ID, regex(" \\(\\)", fixed = TRUE)))

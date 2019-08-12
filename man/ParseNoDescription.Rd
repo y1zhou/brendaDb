@@ -22,3 +22,4 @@ This parser works for fields \code{storage.stability},
 These fields in BRENDA don't have extracted values - the commentary itself is
 the extracted value.
 }
+\keyword{internal}

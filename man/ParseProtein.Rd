@@ -23,3 +23,4 @@ x <- paste0(
 brendaDb:::ParseProtein(x)
 
 }
+\keyword{internal}

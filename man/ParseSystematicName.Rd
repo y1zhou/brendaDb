@@ -20,3 +20,4 @@ Remove useless characters in the description.
 x <- "SN\\talcohol:NAD+ oxidoreductase"
 brendaDb:::ParseSystematicName(x)
 }
+\keyword{internal}

@@ -20,3 +20,4 @@ Remove useless characters in the description.
 x <- "RN\\tD-arabinose 1-dehydrogenase (NAD+)"
 brendaDb:::ParseRecommendedName(x)
 }
+\keyword{internal}

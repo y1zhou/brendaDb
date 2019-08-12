@@ -26,3 +26,4 @@ x <- paste0(
 brendaDb:::ParseReference(x)
 
 }
+\keyword{internal}

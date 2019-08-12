@@ -21,3 +21,4 @@ Separate subentries and strip unnecessary whitespace.
 x <- "SN\\talcohol:NAD+ oxidoreductase"
 brendaDb:::SeparateSubentries(x, "SN")
 }
+\keyword{internal}

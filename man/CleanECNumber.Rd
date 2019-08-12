@@ -29,3 +29,4 @@ df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
 brendaDb:::CleanECNumber(df)
 
 }
+\keyword{internal}

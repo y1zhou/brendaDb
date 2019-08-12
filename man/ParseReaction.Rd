@@ -24,3 +24,4 @@ The reversibility of the reactions are wrapped in {}; substrates
 and products are separated by "="; commentaries on substrates are wrapped in
 "()", and commentaries on products are wrapped in "||".
 }
+\keyword{internal}

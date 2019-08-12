@@ -26,3 +26,4 @@ brendaDb:::ParseProteinNum("<123>", "reference")
 # [1] "123"
 
 }
+\keyword{internal}

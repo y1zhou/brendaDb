@@ -5,6 +5,7 @@
 #' @param description The description string in a "REFERENCE" entry.
 #'
 #' @return A `tibble` with three columns: refID, title and pubmed.
+#' @keywords internal
 #'
 #' @examples
 #' x <- paste0(
