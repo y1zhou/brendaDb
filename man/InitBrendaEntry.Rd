@@ -112,12 +112,25 @@ is.brenda.entry(x)
 \value{
 A \code{brenda.entry} object with all fields other than nomenclature$ec
 being NA.
+
+A boolean vector of the same length as \code{x}.
 }
 \description{
 The list should contain 6 sublists: \code{nomenclature},
 \code{interactions}, \code{parameters}, \code{molecular}, \code{stability}, and \code{bibliography}.
 All sublists should be empty by default apart from \code{EC} under \code{nomenclature}.
 }
+\details{
+\code{is.brenda.entry} checks if an object is a \code{brenda.entry} object. If
+the input is a \code{brenda.entries} object, check all items in the list to see if
+they are \code{brenda.entry} objects and return a boolean vector of the same
+length.
+}
 \examples{
 brendaDb:::InitBrendaEntry("1.1.1.100")
+df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb"))
+is.brenda.entry(QueryBrenda(df, "6.3.5.8"))
+
 }
+\keyword{internal}

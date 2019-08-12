@@ -18,11 +18,24 @@ is.brenda.deprecated.entry(x)
 }
 \value{
 A \code{brenda.deprecated.entry} obeject.
+
+A boolean vector of the same length as \code{x}.
 }
 \description{
 Some EC numbers are transferred or deleted. For these entries,
 return a \code{brenda.deprecated.entry} object and the corresponding message.
 }
+\details{
+\code{is.brenda.deprecated.entry} checks if an object is a
+\code{brenda.deprecated.entry} object. If the input is a \code{brenda.entries} object,
+check all items in the list to see if they are \code{brenda.deprecated.entry}
+objects and return a boolean vector of the same length.
+}
 \examples{
 brendaDb:::InitBrendaDeprecatedEntry("6.3.5.8", "Transferred to EC 2.6.1.85")
+df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+                          package = "brendaDb"))
+is.brenda.entry(QueryBrenda(df, "6.3.5.8"))
+
 }
+\keyword{internal}

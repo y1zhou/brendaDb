@@ -207,7 +207,20 @@ InitBrendaDeprecatedEntry <- function(EC, msg) {
 
 
 #' @rdname InitBrendaEntry
+#'
+#' @details `is.brenda.entry` checks if an object is a `brenda.entry` object. If
+#' the input is a `brenda.entries` object, check all items in the list to see if
+#' they are `brenda.entry` objects and return a boolean vector of the same
+#' length.
+#'
 #' @param x Any object.
+#' @return A boolean vector of the same length as `x`.
+#'
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' is.brenda.entry(QueryBrenda(df, "6.3.5.8"))
+#'
 #' @importFrom purrr map_lgl
 #' @export
 is.brenda.entry <- function(x) {
@@ -225,7 +238,20 @@ is.brenda.entry <- function(x) {
 
 
 #' @rdname InitBrendaDeprecatedEntry
+#'
+#' @details `is.brenda.deprecated.entry` checks if an object is a
+#' `brenda.deprecated.entry` object. If the input is a `brenda.entries` object,
+#' check all items in the list to see if they are `brenda.deprecated.entry`
+#' objects and return a boolean vector of the same length.
+#'
 #' @param x Any object.
+#' @return A boolean vector of the same length as `x`.
+#'
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' is.brenda.entry(QueryBrenda(df, "6.3.5.8"))
+#'
 #' @importFrom purrr map_lgl
 #' @export
 is.brenda.deprecated.entry <- function(x) {
