@@ -1,0 +1,10 @@
+The `brenda_download_test.txt` file in `inst/scripts` consists of:
+
+- The entire 1.1.1.1 enzyme entry for test purposes;
+- The 6.3.5.8 entry for testing deleted / transferred entries;
+- Parts of the 1.2.1.51, 2.7.11.2, and 2.4.99.20 entries for testing the
+`ID2Enzyme` function.
+
+The entries are manually extracted from the text file downloaded from
+https://www.brenda-enzymes.org/download_brenda_without_registration.php. The
+file is used for test and demonstration purposes only.
