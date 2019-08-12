@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include <fstream>
 #include <sstream>
-#include <regex>
+#include <unordered_set>
 
 using namespace Rcpp;
 
@@ -63,7 +63,18 @@ std::vector<std::string> ReadBrendaFile(const std::string &filepath) {
 //' entries. In R this is a list of 3 lists.
 // [[Rcpp::export]]
 std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::string> &lines) {
-  std::regex field_regex("^[A-Z05_]{3,}$");  // IC50 field
+  std::unordered_set<std::string> field_set = {
+    "PROTEIN", "RECOMMENDED_NAME", "SYSTEMATIC_NAME", "SYNONYMS", "REACTION",
+    "REACTION_TYPE", "SOURCE_TISSUE", "LOCALIZATION",
+    "NATURAL_SUBSTRATE_PRODUCT", "SUBSTRATE_PRODUCT", "TURNOVER_NUMBER",
+    "KM_VALUE", "PH_OPTIMUM", "PH_RANGE", "SPECIFIC_ACTIVITY",
+    "TEMPERATURE_OPTIMUM", "TEMPERATURE_RANGE", "COFACTOR",
+    "ACTIVATING_COMPOUND", "INHIBITORS", "KI_VALUE", "METALS_IONS",
+    "MOLECULAR_WEIGHT", "POSTTRANSLATIONAL_MODIFICATION", "SUBUNITS",
+    "PI_VALUE", "APPLICATION", "ENGINEERING", "CLONED", "CRYSTALLIZATION",
+    "PURIFICATION", "RENATURED", "GENERAL_STABILITY",
+    "ORGANIC_SOLVENT_STABILITY", "OXIDATION_STABILITY", "PH_STABILITY",
+    "STORAGE_STABILITY", "TEMPERATURE_STABILITY", "REFERENCE", "IC50_VALUE"};
   std::vector<std::string> colID, colField, colDescription;
   std::string current_ID = lines[0].substr(3),  // ID\tx.x.x.x, remove ID\t
               current_field = lines[1],  // PROTEIN, PH_OPTIMUM, etc.
@@ -82,7 +93,7 @@ std::vector<std::vector<std::string>> SeparateEntries(const std::vector<std::str
       current_field = lines[++i];
       ec_info = "";
     } else {
-      if (std::regex_match(lines[i].begin(), lines[i].end(), field_regex)) {
+      if (field_set.count(lines[i])) {
         // Insert previous entry, update field and clear ec_info
         colID.emplace_back(current_ID);
         colField.emplace_back(current_field);
