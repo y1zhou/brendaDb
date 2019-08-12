@@ -34,9 +34,27 @@ include:
 
 ## Installation
 
+`brendaDb` is a *Bioconductor* package and can be installed through
+`BiocManager::install()`.
+
 ``` r
-# install.packages("devtools")
-devtools::install_github("y1zhou/brendaDb")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("brendaDb", dependencies=TRUE)
+```
+
+Alternatively, install the development version from GitHub.
+
+``` r
+if(!requireNamespace("brendaDb")) {
+  devtools::install_github("y1zhou/brendaDb")
+}
+```
+
+After the package is installed, it can be loaded into the *R* workspace
+by
+
+``` r
 library(brendaDb)
 ```
 

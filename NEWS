@@ -1,2 +1,6 @@
+Changes in version 0.99.10 (2019-08-12)
++ Doc: updated the vignette, readme and package help page
++ Doc: added documentation for data file acronyms.RData
+
 Changes in version 0.99.0 (2019-07-22)
 + Submitted to Bioconductor

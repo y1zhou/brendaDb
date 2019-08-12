@@ -4,13 +4,22 @@
 \name{brendaDb-package}
 \alias{brendaDb}
 \alias{brendaDb-package}
-\title{brendaDb: the BRENDA enzyme database}
+\title{brendaDb: the BRENDA enzyme database.}
 \description{
+brendaDb provides an R interface to download, clean and extract enzyme
+information from the BRENDA database.
+}
+\details{
 The main aims of brendaDb include:
 \itemize{
-\item Make it easier to import and analyze enzyme information in R
-\item Generate enzyme activity profiles
+\item Read text file downloaded from BRENDA into an R \code{tibble}
+\item Retrieve information for specific enzymes
+\item Query enzymes using their synonyms, gene symbols, etc.
+\item Query enzyme information for specific \href{https://biocyc.org}{BioCyc} pathways
 }
+
+To learn more about brendaDb, please refer to the vignette.
+\code{browseVignettes(package = "brendaDb")}
 }
 \seealso{
 Useful links:
