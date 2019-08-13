@@ -2,22 +2,22 @@
 % Please edit documentation in R/read.R
 \name{DownloadBrenda}
 \alias{DownloadBrenda}
-\title{Download the BRENDA text file.}
+\title{Download and unzip the BRENDA text file.}
 \usage{
-DownloadBrenda(path = "./brenda_download.zip", ...)
+DownloadBrenda(force.download = FALSE)
 }
 \arguments{
-\item{path}{The path to store the downloaded text file.}
-
-\item{...}{Parameters to be passed to \code{unzip}.}
+\item{force.download}{Boolean value. If TRUE, ignore the cache and force
+re-download of the BRENDA text file. Default is FALSE.}
 }
 \value{
-A text file downloaded to \code{path}.
+A string of the path to the downloaded BRENDA text file.
 }
 \description{
-Download the BRENDA text file.
+By default, the function downloads a zipped BRENDA text file to
+a local cache directory, and extracts a \code{brenda_download.txt} file.
 }
 \examples{
-\dontrun{DownloadBrenda("/path/to/textfile")}
+\dontrun{DownloadBrenda()}
 
 }

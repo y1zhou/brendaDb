@@ -17,9 +17,10 @@
 #' @importFrom dplyr distinct
 #' @export
 ReadBrenda <- function(filepath, clean = TRUE) {
-  # src/read_brenda
   message("Reading BRENDA text file...")
   filepath <- path.expand(filepath)
+
+  # src/read_brenda
   df <- ReadBrendaFile(filepath)
 
   message("Converting text into a list. This might take a while...")
@@ -33,6 +34,8 @@ ReadBrenda <- function(filepath, clean = TRUE) {
   if (clean) {
     df <- CleanECNumber(df)
   }
+  message("If you're going to use this data again, consider saving this table ",
+          "using data.table::fread().\n")
   return(df)
 }
 
@@ -81,21 +84,48 @@ CleanECNumber <- function(df) {
 }
 
 
-#' @title Download the BRENDA text file.
+#' @title Download and unzip the BRENDA text file.
 #'
-#' @param path The path to store the downloaded text file.
-#' @param ... Parameters to be passed to `unzip`.
+#' @description By default, the function downloads a zipped BRENDA text file to
+#' a local cache directory, and extracts a `brenda_download.txt` file.
 #'
-#' @return A text file downloaded to `path`.
+#' @param force.download Boolean value. If TRUE, ignore the cache and force
+#' re-download of the BRENDA text file. Default is FALSE.
+#'
+#' @return A string of the path to the downloaded BRENDA text file.
 #' @export
 #'
-#' @examples \dontrun{DownloadBrenda("/path/to/textfile")}
+#' @examples \dontrun{DownloadBrenda()}
 #'
-#' @importFrom utils download.file unzip
-DownloadBrenda <- function(path = "./brenda_download.zip", ...) {
-  download.file(
-    url = "https://s3.us-east-2.amazonaws.com/brendadb-r-package/brenda_download.zip",
-    destfile = path
-    )
-  unzip(path, ...)
+#' @importFrom utils unzip
+#' @importFrom rappdirs user_cache_dir
+#' @import BiocFileCache
+DownloadBrenda <- function(force.download = FALSE) {
+  message(
+    "Please read the license agreement in the link below.\n\n",
+    "https://www.brenda-enzymes.org/download_brenda_without_registration.php\n"
+  )
+  cache.dir <- rappdirs::user_cache_dir(appname="brendaDb")
+  bfc <- BiocFileCache(cache.dir)
+
+  # Check for brenda zip file
+  rid <- bfcquery(bfc, "brenda_zip", "rname")$rid
+  if (!length(rid)) {
+    # Download the file if it's not in the cache
+    message("File not found in cache. Downloading now...")
+    brenda.zip.url <- paste0("https://s3.us-east-2.amazonaws.com/",
+                             "brendadb-r-package/brenda_download.zip")
+    rid <- names(bfcadd(bfc, "brenda_zip", brenda.zip.url, download = FALSE))
+  }
+
+  if (bfcneedsupdate(bfc, rid) || force.download) {
+    bfcdownload(bfc, rid, ask = FALSE)
+  } else {
+    message("Found zip file in cache.")
+  }
+
+  message("Extracting zip file...")
+  unzip(bfcpath(bfc, rids = rid), exdir = cache.dir)
+
+  paste(cache.dir, "brenda_download.txt", sep = "/")
 }
