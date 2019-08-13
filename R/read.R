@@ -35,7 +35,7 @@ ReadBrenda <- function(filepath, clean = TRUE) {
     df <- CleanECNumber(df)
   }
   message("If you're going to use this data again, consider saving this table ",
-          "using data.table::fread().\n")
+          "using data.table::fwrite().\n")
   return(df)
 }
 

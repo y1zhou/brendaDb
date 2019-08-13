@@ -49,16 +49,25 @@ library(brendaDb)
 ### Downloading the BRENDA Text File
 Download the BRENDA database as [a text file](https://www.brenda-enzymes.org/download_brenda_without_registration.php) here. Alternatively, download the file in R (file updated 2019-04-24):
 ```{r, eval=FALSE}
-DownloadBrenda(file="/path/to/textfile.txt")
+brenda.filepath <- DownloadBrenda()
+#> Please read the license agreement in the link below.
+#> 
+#> https://www.brenda-enzymes.org/download_brenda_without_registration.php
+#> 
+#> Found zip file in cache.
+#> Extracting zip file...
 ```
 
-The function downloads the file to your specified location. Now the text file can be loaded into R as a `tibble`:
+The function downloads the file to a local cache directory. Now the text file can be loaded into R as a `tibble`:
 ```{r, eval=FALSE}
-df <- ReadBrenda("/path/to/textfile.txt")
+df <- ReadBrenda(brenda.filepath)
 #> Reading BRENDA text file...
 #> Converting text into a list. This might take a while...
 #> Converting list to tibble and removing duplicated entries...
+#> If you're going to use this data again, consider saving this table using data.table::fwrite().
 ```
+
+As suggested in the function output, you may save the `df` object to a text file using `data.table::fwrite()` or to an R object using `save(df)`, and load the table using `data.table::fread()` or `load()`. Both methods should be much faster than reading the raw text file again using `ReadBrenda()`.
 
 ## Making Queries
 Since BRENDA is a database for enzymes, all final queries are based on EC numbers.
