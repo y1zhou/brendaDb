@@ -12,8 +12,21 @@ test_that("Query enzymes", {
   expect_true(all(unlist(lapply(x, function(x) !is.na(x)))))
 
   # Extra test for is.brenda.entry
-  expect_message(is.brenda.entry(x), ".+is.brenda.deprecated")
+  expect_message(is.brenda.entry(x, verbose = TRUE), ".+is.brenda.deprecated")
   expect_equivalent(is.brenda.deprecated.entry(x), c(FALSE, TRUE))
+
+  # Test for extracting field out of query result
+  expect_message(y <- ExtractField(x, field = "parameters$ph.optimum"))
+  expect_equal(dim(y), c(158, 9))
+  expect_equal(dim(
+    ExtractField(x, field = "molecular$stability$general.stability",
+                 entries = "1.1.1.1")
+  ), c(15, 7))
+  expect_error(ExtractField(c(1, 2, 3)))
+  expect_error(ExtractField(x))
+  expect_error(ExtractField(x, field = "parameters.ph.optimum"))
+  expect_error(ExtractField(x, field = "parameters$ph.optima"))
+  expect_error(ExtractField(x, field = "molecular$stability$random"))
 })
 
 test_that("Query single enzyme output", {
