@@ -1,5 +1,5 @@
 ---
-title: "brendaDb Vignette"
+title: "brendaDb"
 author: "Yi Zhou"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -82,7 +82,7 @@ res <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
 
 res
 
-res[[1]]
+res[["1.1.1.1"]]
 ```
 
 ### Query Specific Fields
@@ -91,8 +91,10 @@ You can also query for certain fields to reduce the size of the returned object.
 ShowFields(df)
 
 res <- QueryBrenda(df, EC = "1.1.1.1", fields = c("PROTEIN", "SUBSTRATE_PRODUCT"))
-res$`1.1.1.1`$interactions$substrate.product
+res[["1.1.1.1"]][["interactions"]][["substrate.product"]]
 ```
+
+It should be noted that most fields contain a `fieldInfo` column and a `commentary` column. The `fieldInfo` column is what's extracted by BRENDA from the literature, and the `commentary` column is usually some context from the original paper. `#` symbols in the commentary correspond to the `proteinID`s, and `<>` enclose the corresponding `refID`s. For further information, please see [the README file from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php).
 
 ### Query Specific Organisms
 Note the difference in row numbers in the following example and in the one where we queried for [all organisms](#query-for-multiple-enzymes).
@@ -101,6 +103,15 @@ Note the difference in row numbers in the following example and in the one where
 res <- QueryBrenda(df, EC = "1.1.1.1", organisms = "Homo sapiens")
 res$`1.1.1.1`
 ```
+
+### Extract Information in Query Results
+To transform the `brenda.entries` structure into a table, use the helper function `ExtractField()`.
+```{r}
+res <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
+ExtractField(res, field = "parameters$ph.optimum")
+```
+
+As shown above, the returned table consists of three parts: the EC number, organism-related information (organism, protein ID, uniprot ID, and commentary on the organism), and extracted field information (description, commentary, etc.).
 
 ## Foreign ID Retrieval
 ### Querying Synonyms

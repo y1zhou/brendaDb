@@ -1,3 +1,8 @@
+Changes in version 0.99.20 (2019-08-16)
++ Feature: function to extract field information from brenda.entries objects
++ Feature: DownloadBrenda now utilizes BiocFileCache
++ Performance: ReadBrenda is now 50% faster
+
 Changes in version 0.99.10 (2019-08-12)
 + Doc: updated the vignette, readme and package help page
 + Doc: added documentation for data file acronyms.RData
