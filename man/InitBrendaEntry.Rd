@@ -22,7 +22,7 @@ InitBrendaEntry(EC, protein = NA, systematic.name = NA,
   posttranslational.modification = NA, crystallization = NA,
   bibliography = NA)
 
-is.brenda.entry(x)
+is.brenda.entry(x, verbose = FALSE)
 }
 \arguments{
 \item{EC}{A string indicating EC number of the enzyme.}
@@ -108,6 +108,9 @@ is.brenda.entry(x)
 \item{bibliography}{The description string of a RF field.}
 
 \item{x}{Any object.}
+
+\item{verbose}{Boolean value default to FALSE. If TRUE, prints message when
+all elements are brenda.entries.}
 }
 \value{
 A \code{brenda.entry} object with all fields other than nomenclature$ec

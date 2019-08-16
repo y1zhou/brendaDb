@@ -261,3 +261,97 @@ SelectOrganism <- function(query, org.id) {
   }
   return(res)
 }
+
+
+#' @title Extract a specific field from a brenda.entries object.
+#'
+#' @description Retrieve one field from all the brenda.entry objects. A column
+#' of EC numbers will be added to distinguish different enzymes.
+#'
+#' @param res A brenda.entries object from [QueryBrenda()].
+#' @param field A string indicating the field to extract. Nested fields should
+#' be separated by `$`, e.g. `parameters$ph.optimum`.
+#' @param entries A character vector with values of EC numbers. This should be a
+#' subset of `names(res)`.
+#'
+#' @return A tibble with all columns from the tibble in the given field, and
+#' extra columns containing the EC numbers and organisms.
+#' @export
+#'
+#' @import stringr
+#' @importFrom purrr map_dfr
+#'
+#' @examples
+#' df <- ReadBrenda(system.file("extdata", "brenda_download_test.txt",
+#'                           package = "brendaDb"))
+#' res <- QueryBrenda(brenda = df, EC = c("1.1.1.1", "6.3.5.8"),
+#'                    n.core = 2)
+#' ExtractField(res, field = "molecular$stability$general.stability")
+#' ExtractField(res, field = "structure$subunits")
+ExtractField <- function(res, field, entries = NULL) {
+  # Sanity checks
+  if (missing(field)) {
+    stop("Please specify the field you want to extract.")
+  }
+  if (!str_detect(field, "\\$")) {
+    stop("Please check the format of argument 'field'.")
+  }
+  if (!all(is.brenda.entry(res))) {
+    stop("Please check your input res object. It should be from QueryBrenda().")
+  }
+  # Clean and check the res argument
+  if (!is.null(entries)) {
+    res <- res[names(res) %in% entries]
+  }
+  if (any(is.brenda.deprecated.entry(res))) {
+    message("Deprecated entries in the res object will be removed.")
+    res[is.brenda.deprecated.entry(res)] <- NULL
+  }
+  field <- str_split(field, "\\$")[[1]]
+
+  map_dfr(res, function(x) {ExtractFieldHelper(x, field)})
+}
+
+
+#' @keywords internal
+#'
+#' @importFrom dplyr mutate left_join select everything arrange
+#' @importFrom tidyr unnest
+#' @import stringr
+#' @importFrom rlang .data
+#' @importFrom purrr map_dfr
+ExtractFieldHelper <- function(x, field) {
+  # The only case length(field) == 3 is molecular$stability$...
+  if (length(field) == 3) {
+    if (!field[3] %in% names(x[["molecular"]][["stability"]])) {
+      stop("Argument 'field' is invalid.")
+    }
+    tmp <- x[["molecular"]][["stability"]][[field[3]]]
+  } else {
+    if ((!field[1] %in% names(x)) | (!field[2] %in% names(x[[field[1]]]))) {
+      stop("Argument 'field' is invalid.")
+    }
+    tmp <- x[[field[1]]][[field[2]]]
+  }
+  if (is_tibble(tmp) && "proteinID" %in% colnames(tmp)) {
+    tmp %>%
+      mutate(
+        ec = x$nomenclature$ec,
+        proteinID = str_split(.data$proteinID, ",")
+      ) %>%
+      unnest(.data$proteinID) %>%
+      left_join(
+        x$organism$organism %>%
+          select(.data$proteinID, organism = .data$description,
+                 .data$uniprot, org.commentary = .data$commentary),
+        by = "proteinID"
+      ) %>%
+      select(.data$ec, .data$organism, .data$proteinID, .data$uniprot,
+             .data$org.commentary, everything()) %>%
+      arrange(.data$ec, .data$organism,
+              as.numeric(.data$proteinID), .data$description)
+  } else {
+    NULL
+  }
+}
+

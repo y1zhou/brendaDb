@@ -214,6 +214,8 @@ InitBrendaDeprecatedEntry <- function(EC, msg) {
 #' length.
 #'
 #' @param x Any object.
+#' @param verbose Boolean value default to FALSE. If TRUE, prints message when
+#' all elements are brenda.entries.
 #' @return A boolean vector of the same length as `x`.
 #'
 #' @examples
@@ -223,10 +225,10 @@ InitBrendaDeprecatedEntry <- function(EC, msg) {
 #'
 #' @importFrom purrr map_lgl
 #' @export
-is.brenda.entry <- function(x) {
+is.brenda.entry <- function(x, verbose = FALSE) {
   if (inherits(x, "brenda.entries")) {
     res <- map_lgl(x, function(x) inherits(x, "brenda.entry"))
-    if (all(res)) {
+    if (all(res) && verbose) {
       message("You might need \"is.brenda.deprecated.entry()\" ",
               "to check for transferred or deleted entries.")
     }
