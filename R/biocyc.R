@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @examples BiocycPathwayEnzymes("HUMAN", "PWY66-400")
+#' BiocycPathwayEnzymes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
 #'
 #' @import stringr
 #' @importFrom curl curl
@@ -94,6 +95,7 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
 #' @import stringr
 #' @importFrom curl curl
 #' @importFrom xml2 read_xml xml_find_all xml_text
+#' @importFrom purrr map
 #' @importFrom tibble tibble
 BiocycPathwayGenes <- function(org.id = "HUMAN", pathway) {
   if (missing(pathway) | is.na(pathway)) {
@@ -132,12 +134,14 @@ BiocycPathwayGenes <- function(org.id = "HUMAN", pathway) {
   gene.common.name <- gene.nodes %>%
     xml_find_all("/ptools-xml/Gene/common-name") %>%
     xml_text()
-  gene.ensembl <- gene.nodes %>%
-    xml_find_all(
-      "/ptools-xml/Gene/dblink[./dblink-db = 'ENSEMBL']/dblink-oid"
-    ) %>%
-    xml_text()
-
+  gene.ensembl <- map(gene.common.name, function(x)
+    gene.nodes %>%
+      xml_find_all(str_glue("/ptools-xml/Gene[./common-name = '{x}']",
+                            "/dblink[./dblink-db = 'ENSEMBL']/dblink-oid")) %>%
+      xml_text() %>%
+      str_flatten(",")
+  ) %>%
+    as.character()
   tibble(
     BiocycGene = biocyc.gene,
     BiocycProtein = biocyc.protein,

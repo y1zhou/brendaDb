@@ -23,5 +23,6 @@ Get all EC numbers involved in a BioCyc pathway.
 }
 \examples{
 BiocycPathwayEnzymes("HUMAN", "PWY66-400")
+BiocycPathwayEnzymes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
 
 }

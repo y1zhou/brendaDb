@@ -1,3 +1,6 @@
+Changes in version 0.99.21 (2019-10-17)
++ Fix: BiocycPathwayGenes now deals with finding multiple Ensembl IDs
+
 Changes in version 0.99.20 (2019-08-16)
 + Feature: function to extract field information from brenda.entries objects
 + Feature: DownloadBrenda now utilizes BiocFileCache
