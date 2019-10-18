@@ -27,8 +27,6 @@ include:
   - \[x\] Query enzymes using their synonyms, gene symbols, etc.
   - \[x\] Query enzyme information for specific
     [BioCyc](https://biocyc.org) pathways
-  - \[ \] Generate enzyme activity profiles based on temperature, pH,
-    etc.
 
 <img src='man/figures/brendaDb.png' align="center" />
 
@@ -60,7 +58,8 @@ library(brendaDb)
 
 ## Usage
 
-To learn more about brendaDb, please refer to the vignette.
+To learn more about brendaDb, please refer to the
+[vignette](https://bioconductor.org/packages/devel/bioc/vignettes/brendaDb/inst/doc/brendaDb.html).
 
 ``` r
 browseVignettes(package = "brendaDb")

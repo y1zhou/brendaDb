@@ -1,8 +1,11 @@
 ---
 title: "brendaDb"
-author: "Yi Zhou"
+author: 
+- name: Yi Zhou
+  affiliation: Institute of Bioinformatics, University of Georgia
+  email: Yi.Zhou@uga.edu
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{brendaDb}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,17 +19,16 @@ comment = "#>"
 )
 ```
 
-## Overview
-`brendaDb` aims to make importing and analyzing data from the [BRENDA database](https://www.brenda-enzymes.org) easier. The main functions include:
+# Overview
+`r Biocpkg("brendaDb")` aims to make importing and analyzing data from the [BRENDA database](https://www.brenda-enzymes.org) easier. The main functions include:
 
 - Read [text file downloaded from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php) into an R `tibble`
 - Retrieve information for specific enzymes
 - Query enzymes using their synonyms, gene symbols, etc.
 - Query enzyme information for specific [BioCyc](https://biocyc.org) pathways
-- TODO: Generate enzyme activity profiles based on temperature, pH, etc.
 
-## Installation
-`brendaDb` is a *Bioconductor* package and can be installed through `BiocManager::install()`.
+# Installation
+`r Biocpkg("brendaDb")` is a *Bioconductor* package and can be installed through `BiocManager::install()`.
 ```{r, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -45,8 +47,8 @@ After the package is installed, it can be loaded into the *R* workspace by
 library(brendaDb)
 ```
 
-## Getting Started
-### Downloading the BRENDA Text File
+# Getting Started
+## Downloading the BRENDA Text File
 Download the BRENDA database as [a text file](https://www.brenda-enzymes.org/download_brenda_without_registration.php) here. Alternatively, download the file in R (file updated 2019-04-24):
 ```{r, eval=FALSE}
 brenda.filepath <- DownloadBrenda()
@@ -67,12 +69,12 @@ df <- ReadBrenda(brenda.filepath)
 #> If you're going to use this data again, consider saving this table using data.table::fwrite().
 ```
 
-As suggested in the function output, you may save the `df` object to a text file using `data.table::fwrite()` or to an R object using `save(df)`, and load the table using `data.table::fread()` or `load()`. Both methods should be much faster than reading the raw text file again using `ReadBrenda()`.
+As suggested in the function output, you may save the `df` object to a text file using `data.table::fwrite()` or to an R object using `save(df)`, and load the table using `data.table::fread()` or `load()`^[This requires the R package `r CRANpkg("data.table")` to be installed.]. Both methods should be much faster than reading the raw text file again using `ReadBrenda()`.
 
-## Making Queries
+# Making Queries
 Since BRENDA is a database for enzymes, all final queries are based on EC numbers.
 
-### Query for Multiple Enzymes
+## Query for Multiple Enzymes
 If you already have a list of EC numbers in mind, you may call `QueryBrenda` directly:
 ```{r}
 brenda_txt <- system.file("extdata", "brenda_download_test.txt",
@@ -85,7 +87,7 @@ res
 res[["1.1.1.1"]]
 ```
 
-### Query Specific Fields
+## Query Specific Fields
 You can also query for certain fields to reduce the size of the returned object.
 ```{r}
 ShowFields(df)
@@ -96,7 +98,7 @@ res[["1.1.1.1"]][["interactions"]][["substrate.product"]]
 
 It should be noted that most fields contain a `fieldInfo` column and a `commentary` column. The `fieldInfo` column is what's extracted by BRENDA from the literature, and the `commentary` column is usually some context from the original paper. `#` symbols in the commentary correspond to the `proteinID`s, and `<>` enclose the corresponding `refID`s. For further information, please see [the README file from BRENDA](https://www.brenda-enzymes.org/download_brenda_without_registration.php).
 
-### Query Specific Organisms
+## Query Specific Organisms
 Note the difference in row numbers in the following example and in the one where we queried for [all organisms](#query-for-multiple-enzymes).
 
 ```{r}
@@ -104,7 +106,7 @@ res <- QueryBrenda(df, EC = "1.1.1.1", organisms = "Homo sapiens")
 res$`1.1.1.1`
 ```
 
-### Extract Information in Query Results
+## Extract Information in Query Results
 To transform the `brenda.entries` structure into a table, use the helper function `ExtractField()`.
 ```{r}
 res <- QueryBrenda(df, EC = c("1.1.1.1", "6.3.5.8"), n.core = 2)
@@ -113,8 +115,8 @@ ExtractField(res, field = "parameters$ph.optimum")
 
 As shown above, the returned table consists of three parts: the EC number, organism-related information (organism, protein ID, uniprot ID, and commentary on the organism), and extracted field information (description, commentary, etc.).
 
-## Foreign ID Retrieval
-### Querying Synonyms
+# Foreign ID Retrieval
+## Querying Synonyms
 A lot of the times we have a list of gene symbols or enzyme names instead of EC numbers. In this case, a helper function can be used to find the corresponding EC numbers:
 
 ```{r}
@@ -123,7 +125,7 @@ ID2Enzyme(brenda = df, ids = c("ADH4", "CD38", "pyruvate dehydrogenase"))
 
 The `EC` column can be then handpicked and used in `QueryBrenda()`.
 
-### BioCyc Pathways
+## BioCyc Pathways
 Often we are interested in the enzymes involved in a specific [BioCyc](https://biocyc.org) pathway. Functions `BioCycPathwayEnzymes()` and `BiocycPathwayGenes()` can be used in this case:
 
 ```{r}
@@ -131,12 +133,12 @@ BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")
 ```
 
 ```{r}
-BiocycPathwayGenes(org.id = "HUMAN", pathway = "PWY66-400")
+BiocycPathwayGenes(org.id = "HUMAN", pathway = "TRYPTOPHAN-DEGRADATION-1")
 ```
 
-Similarly, the EC numbers returned from `BiocycPathwayEnzymes` can be used in the function `QueryBrenda`, and the gene IDs can be used to find corresponding EC numbers with other packages such as [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html) and [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html).
+Similarly, the EC numbers returned from `BiocycPathwayEnzymes` can be used in the function `QueryBrenda`, and the gene IDs^[Note that sometimes there are multiple Ensembl IDs in one entry.] can be used to find corresponding EC numbers with other packages such as `r Biocpkg("biomaRt")` and `r Biocpkg("clusterProfiler")`.
 
-## Additional Information
+# Additional Information {.unnumbered}
 By default `QueryBrenda` uses all available cores, but often limiting `n.core` could give better performance as it reduces the overhead. The following are results produced on a machine with 40 cores (2 Intel Xeon CPU E5-2640 v4 @ 3.4GHz), and 256G of RAM:
 ```{r, eval=FALSE}
 EC.numbers <- head(unique(df$ID), 100)
