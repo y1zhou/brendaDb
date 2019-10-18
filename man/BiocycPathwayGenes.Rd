@@ -24,5 +24,6 @@ Get all genes involved in a BioCyc pathway.
 }
 \examples{
 BiocycPathwayGenes("HUMAN", "PWY66-400")
+BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
 
 }

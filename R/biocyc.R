@@ -11,7 +11,6 @@
 #' @export
 #'
 #' @examples BiocycPathwayEnzymes("HUMAN", "PWY66-400")
-#' BiocycPathwayEnzymes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
 #'
 #' @import stringr
 #' @importFrom curl curl
@@ -91,6 +90,7 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
 #' @export
 #'
 #' @examples BiocycPathwayGenes("HUMAN", "PWY66-400")
+#' BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
 #'
 #' @import stringr
 #' @importFrom curl curl
