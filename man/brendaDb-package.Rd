@@ -30,6 +30,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Yi Zhou \email{yi.zhou@uga.edu} (0000-0003-0969-3993)
+\strong{Maintainer}: Yi Zhou \email{yi.zhou@uga.edu} (\href{https://orcid.org/0000-0003-0969-3993}{ORCID})
 
 }

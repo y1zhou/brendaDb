@@ -5,7 +5,9 @@ author:
   affiliation: Institute of Bioinformatics, University of Georgia
   email: Yi.Zhou@uga.edu
 date: "`r Sys.Date()`"
-output: BiocStyle::html_document
+output:
+  BiocStyle::html_document:
+    toc_float: true
 vignette: >
   %\VignetteIndexEntry{brendaDb}
   %\VignetteEngine{knitr::rmarkdown}
@@ -26,6 +28,8 @@ comment = "#>"
 - Retrieve information for specific enzymes
 - Query enzymes using their synonyms, gene symbols, etc.
 - Query enzyme information for specific [BioCyc](https://biocyc.org) pathways
+
+For bug reports or feature requests, please go to the [GitHub repository](https://github.com/y1zhou/brendaDb/issues).
 
 # Installation
 `r Biocpkg("brendaDb")` is a *Bioconductor* package and can be installed through `BiocManager::install()`.

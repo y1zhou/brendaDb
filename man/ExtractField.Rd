@@ -10,7 +10,7 @@ ExtractField(res, field, entries = NULL)
 \item{res}{A brenda.entries object from \code{\link[=QueryBrenda]{QueryBrenda()}}.}
 
 \item{field}{A string indicating the field to extract. Nested fields should
-be separated by \code{$}, e.g. \code{parameters$ph.optimum}.}
+be separated by \verb{$}, e.g. \code{parameters$ph.optimum}.}
 
 \item{entries}{A character vector with values of EC numbers. This should be a
 subset of \code{names(res)}.}
