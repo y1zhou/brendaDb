@@ -8,7 +8,7 @@ test_that("Get enzymes in BioCyc pathway ", {
     {x <- BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")},
     regexp = "Found 10.+HUMAN.+PWY66-400"
   )
-  expect_equal(dim(x), c(11, 2))
+  expect_equal(dim(x), c(11, 5))
   expect_match(x$EC, "^(\\d+\\.){3}\\d+$")
 })
 

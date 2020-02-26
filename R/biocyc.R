@@ -4,10 +4,18 @@
 #' HUMAN, META, AFER243159
 #' @param pathway A case-sensitive pathway object identifier,
 #' e.g. PWY66-400, LYSINE-DEG1-PWY.
+#' @param sleep Optional, default is 0. If set to a non-zero value, pause for
+#' the specified seconds after retrieving each reaction. Increase this if the
+#' default fails (probably limited on the BioCyc API side).
 #'
-#' @return If the pathway is found, returns a tibble with columns `Reaction` and
-#' `EC`, where `Reaction` is the reaction IDs found in the pathway. Returns NULL
-#' if the pathway ID is not found.
+#' @return If the pathway is found, returns a tibble with columns
+#'     - `RxnID`: reaction IDs found in the pathway.
+#'     - `EC`: EC number of the enzyme catalyzing the reaction.
+#'     - `ReactionDirection`: direction of the reaction.
+#'     - `LHS`: left-hand-side of the reaction.
+#'     - `RHS`: right-hand-side of the reaction.
+#' Different compounds in the reactions are separated by " + " in columns `LHS`
+#' and `RHS`. The function returns NULL if the pathway ID is not found.
 #' @export
 #'
 #' @examples BiocycPathwayEnzymes("HUMAN", "PWY66-400")
@@ -20,7 +28,7 @@
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @importFrom rlang .data
-BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
+BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway, sleep = 0) {
   if (missing(pathway) | is.na(pathway)) {
     stop("Missing parameter \"pathway\"")
   }
@@ -73,11 +81,15 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
 
     lhs <- x %>%
       xml_find_all("//Reaction/left/Compound/@frameid") %>%
-      xml_text()
-    # //reaction/left/coefficient
+      xml_text() %>%
+      paste(collapse = " + ")
+    # TODO: //reaction/left/coefficient
     rhs <- x %>%
       xml_find_all("//Reaction/right/Compound/@frameid") %>%
-      xml_text()
+      xml_text() %>%
+      paste(collapse = " + ")
+
+    Sys.sleep(sleep)
 
     tibble(
       RxnID = rxn,
@@ -88,16 +100,7 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
     )
   })
 
-  # Convert character(0) to NA so that it can be recognized by `unnest`
-  res[lengths(res) == 0] <- NA_character_
-
-  res <- tibble(
-    Reaction = reaction.ids,
-    EC = res
-  ) %>%
-    tidyr::unnest(.data$EC)
-
-  return(res)
+  res
 }
 
 #' @title Get all genes involved in a BioCyc pathway.
