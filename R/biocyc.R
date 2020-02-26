@@ -50,21 +50,42 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway) {
   ))
   # For each reaction, get the EC number(s) of the enzyme catalyzing it
   pb <- progress_estimated(length(reaction.ids))
-  res <- map(reaction.ids, function(rxn) {
+  res <- map_dfr(reaction.ids, function(rxn) {
     pb$tick()$print()
-    x <- read_xml(str_glue(
-      "https://websvc.biocyc.org/getxml?{org.id}:{rxn}"
-    )) %>%
+    # Get EC number of the enzyme, and metabolites in the reaction
+    x <- read_xml(str_glue("https://websvc.biocyc.org/getxml?{org.id}:{rxn}"))
+
+    ec.number <- x %>%
       xml_find_all("//ec-number")
 
     # There's an "official" node inside "ec-number" that is useless in this case
-    x %>%
+    ec.number %>%
       xml_find_all("//official") %>%
       xml_remove()
-    x %>%
+    ec.number <- ec.number %>%
       xml_text() %>%
       str_trim() %>%
       str_remove("^EC-")
+
+    rxn.direction <- x %>%
+      xml_find_all("//Reaction/reaction-direction") %>%
+      xml_text()
+
+    lhs <- x %>%
+      xml_find_all("//Reaction/left/Compound/@frameid") %>%
+      xml_text()
+    # //reaction/left/coefficient
+    rhs <- x %>%
+      xml_find_all("//Reaction/right/Compound/@frameid") %>%
+      xml_text()
+
+    tibble(
+      RxnID = rxn,
+      EC = ec.number,
+      ReactionDirection = rxn.direction,
+      LHS = lhs,
+      RHS = rhs
+    )
   })
 
   # Convert character(0) to NA so that it can be recognized by `unnest`
