@@ -17,7 +17,7 @@ A string to fill into the \code{systematic.name} field in
 Remove useless characters in the description.
 }
 \examples{
-x <- "SN\\talcohol:NAD+ oxidoreductase"
+x <- "SN\talcohol:NAD+ oxidoreductase"
 brendaDb:::ParseSystematicName(x)
 }
 \keyword{internal}

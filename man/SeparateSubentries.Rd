@@ -18,7 +18,7 @@ A list of strings with each subentry as an element.
 Separate subentries and strip unnecessary whitespace.
 }
 \examples{
-x <- "SN\\talcohol:NAD+ oxidoreductase"
+x <- "SN\talcohol:NAD+ oxidoreductase"
 brendaDb:::SeparateSubentries(x, "SN")
 }
 \keyword{internal}

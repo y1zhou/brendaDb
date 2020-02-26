@@ -18,8 +18,8 @@ Expand the string into a \code{tibble}.
 }
 \examples{
 x <- paste0(
-"PR\\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\\n",
-"PR\\t#2# Mus musculus <11,18,19>\\n")
+"PR\t#1# Cavia porcellus  (#1# SULT1A2 <1,2,6,7>) <1,2,6,7>\n",
+"PR\t#2# Mus musculus <11,18,19>\n")
 brendaDb:::ParseProtein(x)
 
 }

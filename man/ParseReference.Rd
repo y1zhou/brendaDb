@@ -17,12 +17,12 @@ Expand the string into a \code{tibble}.
 }
 \examples{
 x <- paste0(
-"RF\\t<1> Talbot, B.G.; Thirion, J.P.: Purification\\n\\t",
-"and properties of two distinct groups of ADH isozymes from Chinese\\n\\t",
-"hamster liver. Biochem. Genet. (1981) 19, 813-829. {Pubmed:6794566}\\n",
-"RF\\t<12> Woronick, C.L.: Alcohol dehydrogenase from human liver. Methods\\n\\t",
-"Enzymol. (1975) 41B, 369-374. {Pubmed:236461} (c,review)\\n",
-"RF\\t<10> Herrera, E.; Zorzano, A... {Pubmed:} (c,review)\\n")
+"RF\t<1> Talbot, B.G.; Thirion, J.P.: Purification\n\t",
+"and properties of two distinct groups of ADH isozymes from Chinese\n\t",
+"hamster liver. Biochem. Genet. (1981) 19, 813-829. {Pubmed:6794566}\n",
+"RF\t<12> Woronick, C.L.: Alcohol dehydrogenase from human liver. Methods\n\t",
+"Enzymol. (1975) 41B, 369-374. {Pubmed:236461} (c,review)\n",
+"RF\t<10> Herrera, E.; Zorzano, A... {Pubmed:} (c,review)\n")
 brendaDb:::ParseReference(x)
 
 }

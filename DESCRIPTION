@@ -1,7 +1,7 @@
 Package: brendaDb
 Type: Package
 Title: The BRENDA Enzyme Database
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: person("Yi", "Zhou", email = "yi.zhou@uga.edu",
     role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0969-3993"))
 Description: R interface for importing and analyzing enzyme information from the
@@ -36,7 +36,7 @@ Imports:
     rappdirs
 LinkingTo: 
     Rcpp
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 SystemRequirements: C++11
 VignetteBuilder: knitr
