@@ -90,7 +90,7 @@ SeparateSubentries <- function(description, acronym = NA) {
     str_remove_all(paste0("^", acronym, "(\\s+)?")) %>%
     # The following line will result in some references delimited by " "
     # instead of ,
-    str_replace_all(regex("\n\t", fixed = TRUE), " ")
+    str_replace_all(fixed("\n\t"), " ")
   return(x)
 }
 

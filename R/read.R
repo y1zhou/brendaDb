@@ -68,11 +68,11 @@ ReadBrenda <- function(filepath, clean = TRUE) {
 #' @keywords internal
 CleanECNumber <- function(df) {
   df <- df %>%
-    mutate(ID = str_remove(.data$ID, regex(" \\(\\)", fixed = TRUE)))
+    mutate(ID = str_remove(.data$ID, fixed(" ()")))
   df.standard <- df %>%
-    filter(str_detect(.data$ID, regex("\\(", fixed = TRUE), negate = TRUE))
+    filter(str_detect(.data$ID, fixed("("), negate = TRUE))
   df.nonstd <- df %>%
-    filter(str_detect(.data$ID, regex("\\(", fixed = TRUE))) %>%
+    filter(str_detect(.data$ID, fixed("("))) %>%
     distinct(.data$ID) %>%
     mutate(
       field = "TRANSFERRED_DELETED",
