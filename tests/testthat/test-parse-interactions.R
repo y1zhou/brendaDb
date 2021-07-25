@@ -26,3 +26,15 @@ test_that("Parse COFACTOR", {
   x <- ParseGeneric("CF\t#36# FMN (#36# covalently bound <73>) <73>\n", "CF")
   expect_equal(dim(x), c(1, 5))
 })
+
+test_that("Parse INHIBITORS", {
+  x <- ParseGeneric(paste0(
+    "IN\t#1#\n\t2-Butyl-4-[(2\n\t",
+    "2-dimethyl-1-methylcarbamoyl-propylamino)-hydroxy-methyl]-6-{4'-[(N\n\t",
+    "methyl-aminooxy)-methyl]-biphenyl-4-yl}-hexanoic acid <24>\n"
+  ), acronym = "IN")
+  expect_equal(x$description, paste0(
+    "2-Butyl-4-[(2 2-dimethyl-1-methylcarbamoyl-propylamino)-hydroxy-methyl]",
+    "-6-{4'-[(N methyl-aminooxy)-methyl]-biphenyl-4-yl}-hexanoic acid"
+  ))
+})

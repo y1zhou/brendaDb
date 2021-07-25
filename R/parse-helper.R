@@ -147,7 +147,7 @@ ParseGeneric <- function(description, acronym) {
       str_remove("^#[0-9, ]+#") %>%
       str_remove("<[0-9, ]+>$") %>%
       # remove field-specific information, but keep markers for commentaries
-      str_replace("\\{.*?\\}(\\s+\\()?", "\\1")
+      str_replace("\\s\\{.*?\\}(\\s+\\()?", "\\1")
   } else {
     field.info <- NA
     description <- des.list %>%
