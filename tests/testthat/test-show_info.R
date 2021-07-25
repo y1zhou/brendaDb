@@ -21,9 +21,11 @@ test_that("Printing brenda.query objects", {
 
   # There should be NA and "0 rows" in the output; both are colored red
   x$`1.1.1.1`$nomenclature$reaction <- NA
-  expect_output(print(x$`1.1.1.1`, full.output = TRUE),
-                regexp = ".+\\b(NA).+0 rows")
+  x_full_output <- capture_output(print(x$`1.1.1.1`, full.output = TRUE))
+
+  expect_match(x_full_output, regexp = "\x1b\\[31mNA\x1b\\[[0-9m;]+")
+  expect_match(x_full_output, regexp = "\x1b\\[31m0\x1b\\[[0-9m;]+ rows")
 
   # Deprecated entries have different outputs
-  expect_output(print(x$`6.3.5.8`), regexp = "^Entry.+msg: transferred")
+  expect_output(print(x$`6.3.5.8`), regexp = "^Entry.+msg: .+transferred")
 })
