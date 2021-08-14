@@ -18,7 +18,7 @@
 #' and `RHS`. The function returns NULL if the pathway ID is not found.
 #' @export
 #'
-#' @examples BiocycPathwayEnzymes("HUMAN", "PWY66-400")
+#' @examples \dontrun{BiocycPathwayEnzymes("HUMAN", "PWY66-400")}
 #'
 #' @import stringr
 #' @importFrom curl curl
@@ -113,8 +113,8 @@ BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway, sleep = 0) {
 #' respectively. Returns NULL if the pathway ID is not found.
 #' @export
 #'
-#' @examples BiocycPathwayGenes("HUMAN", "PWY66-400")
-#' BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
+#' @examples \dontrun{BiocycPathwayGenes("HUMAN", "PWY66-400")}
+#' \dontrun{BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")}
 #'
 #' @import stringr
 #' @importFrom curl curl

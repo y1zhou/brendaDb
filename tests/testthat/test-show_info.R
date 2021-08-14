@@ -27,5 +27,5 @@ test_that("Printing brenda.query objects", {
   expect_match(x_full_output, regexp = "\x1b\\[31m0\x1b\\[[0-9m;]+ rows")
 
   # Deprecated entries have different outputs
-  expect_output(print(x$`6.3.5.8`), regexp = "^Entry.+msg: .+transferred")
+  expect_output(print(x$`6.3.5.8`), regexp = "^Entry.+msg:.+transferred")
 })
