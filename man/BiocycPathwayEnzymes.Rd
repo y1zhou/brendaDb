@@ -31,6 +31,6 @@ and \code{RHS}. The function returns NULL if the pathway ID is not found.
 Get all EC numbers involved in a BioCyc pathway.
 }
 \examples{
-BiocycPathwayEnzymes("HUMAN", "PWY66-400")
+\donttest{BiocycPathwayEnzymes("HUMAN", "PWY66-400")}
 
 }

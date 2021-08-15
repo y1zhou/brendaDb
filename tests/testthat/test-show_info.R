@@ -6,10 +6,10 @@ df <- ReadBrenda(brenda_txt)
 
 test_that("Show BRENDA fields and acronyms", {
   expect_error(ShowFields())
-  df <- ShowFields(df)
+  df_fields <- ShowFields(df)
 
-  expect_match(unique(df$field), "^[A-Z_05]+$")
-  expect_match(unique(df$acronym), "^[A-Z05]+$")
+  expect_match(unique(df_fields$field), "^[A-Z_05]+$")
+  expect_match(unique(df_fields$acronym), "^[A-Z05]+$")
 })
 
 test_that("Printing brenda.query objects", {
@@ -21,10 +21,13 @@ test_that("Printing brenda.query objects", {
 
   # There should be NA and "0 rows" in the output; both are colored red
   x$`1.1.1.1`$nomenclature$reaction <- NA
-  x_full_output <- capture_output(print(x$`1.1.1.1`, full.output = TRUE))
 
-  expect_match(x_full_output, regexp = "\x1b\\[31mNA\x1b\\[[0-9m;]+")
-  expect_match(x_full_output, regexp = "\x1b\\[31m0\x1b\\[[0-9m;]+ rows")
+  expect_output(print(x$`1.1.1.1`, full.output = TRUE),
+                #regexp = "\x1b\\[31mNA\x1b\\[[0-9;]+m")
+                regexp = "reaction: NA")
+  expect_output(print(x$`1.1.1.1`, full.output = TRUE),
+                #regexp = "\x1b\\[31m0\x1b\\[[0-9;]+m rows")
+                regexp = "0 rows")
 
   # Deprecated entries have different outputs
   expect_output(print(x$`6.3.5.8`), regexp = "^Entry.+msg:.+transferred")

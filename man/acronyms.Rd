@@ -4,13 +4,15 @@
 \name{acronyms}
 \alias{acronyms}
 \title{Information fields and their corresponding acronyms.}
-\format{A data.frame with 40 rows and 2 columns.
+\format{
+A data.frame with 40 rows and 2 columns.
 \itemize{
 \item field: field names in the BRENDA text file (all uppercase letters separated
 by underscores). This could be used in the \code{fields} argument of the
 \code{QueryBrenda()} function.
 \item acronym: acronyms used by the BRENDA file to indicate the fields.
-}}
+}
+}
 \usage{
 data(acronyms)
 }

@@ -23,7 +23,7 @@ respectively. Returns NULL if the pathway ID is not found.
 Get all genes involved in a BioCyc pathway.
 }
 \examples{
-BiocycPathwayGenes("HUMAN", "PWY66-400")
-BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")
+\donttest{BiocycPathwayGenes("HUMAN", "PWY66-400")}
+\donttest{BiocycPathwayGenes("HUMAN", "TRYPTOPHAN-DEGRADATION-1")}
 
 }
