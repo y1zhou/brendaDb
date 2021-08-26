@@ -5,7 +5,7 @@ test_that("Get enzymes in BioCyc pathway ", {
   expect_error(BiocycPathwayEnzymes(org.id = "HUMAN", pathway = NA))
   expect_message(BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66666"))
   expect_message(
-    {x <- BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")},
+    {x <- BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400", sleep = 1)},
     regexp = "Found 10.+HUMAN.+PWY66-400"
   )
   expect_equal(dim(x), c(11, 5))
