@@ -3,7 +3,7 @@
 
 <!-- Badges: start -->
 
-[![Build Status](https://travis-ci.com/y1zhou/brendaDb.svg?branch=master)](https://travis-ci.com/y1zhou/brendaDb)
+[![Build Status](https://app.travis-ci.com/y1zhou/brendaDb.svg?branch=master)](https://app.travis-ci.com/y1zhou/brendaDb)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/y1zhou/brendaDb?branch=master&svg=true)](https://ci.appveyor.com/project/y1zhou/brendaDb)
 [![codecov](https://codecov.io/gh/y1zhou/brendaDb/branch/master/graph/badge.svg)](https://codecov.io/gh/y1zhou/brendaDb)
