@@ -1,5 +1,5 @@
 language: r
-sudo: false
+os: linux
 dist: xenial
 cache: packages
 
@@ -14,11 +14,9 @@ bioc_packages:
 
 jobs:
   include:
-    - r: bioc-devel
-    - r: devel
+    - r: release
       after_success:
       - Rscript -e 'covr::codecov()'
-    - r: release
 env:
   global:
   - MAKEFLAGS="-j 2"
