@@ -29,7 +29,6 @@ Imports:
     utils,
     tidyr,
     curl,
-    xml2,
     grDevices,
     rlang,
     BiocFileCache,

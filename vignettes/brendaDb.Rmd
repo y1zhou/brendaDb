@@ -1,6 +1,6 @@
 ---
 title: "brendaDb"
-author: 
+author:
 - name: Yi Zhou
   affiliation: Institute of Bioinformatics, University of Georgia
   email: Yi.Zhou@uga.edu
@@ -57,9 +57,9 @@ Download the BRENDA database as [a text file](https://www.brenda-enzymes.org/dow
 ```{r, eval=FALSE}
 brenda.filepath <- DownloadBrenda()
 #> Please read the license agreement in the link below.
-#> 
+#>
 #> https://www.brenda-enzymes.org/download_brenda_without_registration.php
-#> 
+#>
 #> Found zip file in cache.
 #> Extracting zip file...
 ```
@@ -130,17 +130,8 @@ ID2Enzyme(brenda = df, ids = c("ADH4", "CD38", "pyruvate dehydrogenase"))
 The `EC` column can be then handpicked and used in `QueryBrenda()`.
 
 ## BioCyc Pathways
-Often we are interested in the enzymes involved in a specific [BioCyc](https://biocyc.org) pathway. Functions `BioCycPathwayEnzymes()` and `BiocycPathwayGenes()` can be used in this case:
-
-```{r}
-BiocycPathwayEnzymes(org.id = "HUMAN", pathway = "PWY66-400")
-```
-
-```{r}
-BiocycPathwayGenes(org.id = "HUMAN", pathway = "TRYPTOPHAN-DEGRADATION-1")
-```
-
-Similarly, the EC numbers returned from `BiocycPathwayEnzymes` can be used in the function `QueryBrenda`, and the gene IDs^[Note that sometimes there are multiple Ensembl IDs in one entry.] can be used to find corresponding EC numbers with other packages such as `r Biocpkg("biomaRt")` and `r Biocpkg("clusterProfiler")`.
+Often we are interested in the enzymes involved in a specific [BioCyc](https://biocyc.org) pathway. As BioCyc now requires login credentials
+for using their web service, users are recommended to use the [metabolike](https://github.com/y1zhou/metabolike) package for more advanced queries.
 
 # Additional Information {.unnumbered}
 By default `QueryBrenda` uses all available cores, but often limiting `n.core` could give better performance as it reduces the overhead. The following are results produced on a machine with 40 cores (2 Intel Xeon CPU E5-2640 v4 @ 3.4GHz), and 256G of RAM:
@@ -150,16 +141,16 @@ system.time(QueryBrenda(df, EC = EC.numbers, n.core = 0))  # default
 #  user  system elapsed
 # 4.528   7.856  34.567
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 1))
-#  user  system elapsed 
+#  user  system elapsed
 # 22.080   0.360  22.438
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 2))
-#  user  system elapsed 
-# 0.552   0.400  13.597 
+#  user  system elapsed
+# 0.552   0.400  13.597
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 4))
-#  user  system elapsed 
+#  user  system elapsed
 # 0.688   0.832   9.517
 system.time(QueryBrenda(df, EC = EC.numbers, n.core = 8))
-#  user  system elapsed 
+#  user  system elapsed
 # 1.112   1.476  10.000
 ```
 
