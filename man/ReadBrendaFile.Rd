@@ -10,7 +10,7 @@ ReadBrendaFile(filepath)
 \item{filepath}{A string indicating the path to the text file.}
 }
 \value{
-A vector<string> with each element being a line in the file.
+A vector\if{html}{\out{<string>}} with each element being a line in the file.
 }
 \description{
 Read file into buffer, and load all non-empty lines. Comment lines

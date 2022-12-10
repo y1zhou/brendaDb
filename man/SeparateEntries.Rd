@@ -7,10 +7,10 @@
 SeparateEntries(lines)
 }
 \arguments{
-\item{lines}{The output vector<string> from \code{read_brenda_file}.}
+\item{lines}{The output vector\if{html}{\out{<string>}} from \code{read_brenda_file}.}
 }
 \value{
-A vector<vector<string>> containing information about the EC
+A vector<vector\if{html}{\out{<string>}}> containing information about the EC
 entries. In R this is a list of 3 lists.
 }
 \description{
