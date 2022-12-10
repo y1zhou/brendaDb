@@ -28,7 +28,7 @@
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @importFrom rlang .data
-BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway, sleep = 0) {
+BiocycPathwayEnzymes <- function(org.id = "HUMAN", pathway, sleep = 1) {
   if (missing(pathway) | is.na(pathway)) {
     stop("Missing parameter \"pathway\"")
   }
